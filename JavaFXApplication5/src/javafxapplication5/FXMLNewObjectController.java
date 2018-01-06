@@ -146,7 +146,8 @@ public class FXMLNewObjectController implements Initializable {
                     if(fieldtype.equals("boolean"))  
                                     o=Boolean.parseBoolean(attrField.get(i).getText().trim());
                        // case "char": 
-                                    //o=Character.valueOf(fieldtype);
+
+                       //o=Character.valueOf(fieldtype);
                                     //o=Character.highSurrogate(Character.)
                         if(fieldtype.equals("double"))
                                     o=Double.parseDouble(attrField.get(i).getText().trim());
