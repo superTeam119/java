@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 
 public class FXMLDocumentController implements Initializable {
     ///asdsadasds
+    //sasa
     @FXML
     //private Label label;
     public void close(ActionEvent event) throws IOException {
