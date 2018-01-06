@@ -6,9 +6,12 @@ and open the template in the editor.
 /* 
     Created on : Dec 25, 2017, 4:50:38 PM
     Author     : user
+
+
 */
 
-.button {
+.button 
+{
     
     
     -fx-background-color: yellow;
