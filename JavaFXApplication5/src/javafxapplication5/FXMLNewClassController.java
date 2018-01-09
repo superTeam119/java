@@ -129,8 +129,8 @@ public class FXMLNewClassController implements Initializable {
         for (int i = 0; i < typeField.size(); i++) {
             classInfo.addAttribute(nameField.get(i).getText(), typeField.get(i).getValue().toString().trim(), methods.get(i).isSelected());
         }
-        classText = classText + Generator.getClassText(typeField, nameField, className.getText().trim(), methods, sub, superClass);
-        Generator.compileClass(typeField, nameField, className.getText().trim(), methods, sub, superClass);
+        //classText = classText + Generator.getClassText(typeField, nameField, className.getText().trim(), methods, sub, superClass);
+        ClassGenerator.compileClass(classInfo);
 
         //System.out.println(classText); 
     }
