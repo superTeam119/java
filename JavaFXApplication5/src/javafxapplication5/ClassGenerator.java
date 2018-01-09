@@ -53,6 +53,7 @@ public class ClassGenerator {
             s=s+" extends superDictionary";
         s = s + "{\n";
         //attributes declaration
+        
         for (int i = 0; i < classDetails.getAttributes().size(); i++) {
             if (attributes.contains(classDetails.getAttributes().get(i).getName())) {
                 System.out.println("error: cannot use same name for 2 attributes");//pop up aw shi
@@ -282,6 +283,7 @@ public class ClassGenerator {
 
      private static String compareToText(ClassDetails classDetails,List<String> primitives) throws ClassNotFoundException {
        Map<String, String> builtInMap = new HashMap<String, String>();
+      
         builtInMap.put("int", "Integer");
         builtInMap.put("long", "Long");
         builtInMap.put("double", "Double");
@@ -292,22 +294,11 @@ public class ClassGenerator {
         builtInMap.put("byte", "Byte");
         // builtInMap.put("void", Void.TYPE );
         builtInMap.put("short", "Short");
-        String s = "@Override\n"
-                + "public int compareTo(superDictionary other){\n if(!(other.getClass()==getClass()))\nSystem.out.println(\"\");\n"
+        String s = "@Override\n" +
+                 "public int compareTo(superDictionary other){\n if(!(other.getClass()==getClass()))\nSystem.out.println(\"\");\n"
                 + String.format("%s others=(%s)other;\n", classDetails.getClassName(), classDetails.getClassName()) + "if(super.compareTo(other)==0 && ";
-//           if (sub.isSelected()==false)
-//               s = s + classDetails.classDetails.getClassName() + "))\nthrow InvalidComparisonTypeException;\n";
-//           else{
-//               String path="projects." + superClass;
-//        Class c=Class.forName(path);
-//        List<String> superClassesName=new ArrayList<String>();
-//            Object o=new Object();
-//           while(c != o.getClass()){
-//               c=c.getSuperclass();             
-//              superClassesName.add(c.getSimpleName());
-//              s = s + superClassesName.get(superClassesName.size()-2) + "))\nthrow new InvalidComparisonTypeException();\n";
-//           }
-//           }
+       // int ii;
+       
         String ss = "\nreturn (int)(super.compareTo(other) + ";
         for (int i = 0; i < classDetails.getAttributes().size(); i++) {
             if (classDetails.getAttributes().get(i).isChecked() == true) {
