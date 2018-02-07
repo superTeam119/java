@@ -30,7 +30,7 @@ import javax.tools.ToolProvider;
  *
  * @author user
  */
-public class Generator {
+public class Generator {//done
      public static List<String> getClassObject(String selectedClass,Map<String,UserClasses.superDictionary> pool){
 //        selectedClass=selectedClass.substring(0,selectedClass.indexOf("."));
         List<String> a=new ArrayList<String>();
