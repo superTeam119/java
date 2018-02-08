@@ -157,8 +157,8 @@ if (i >= 0) {
             classSuper = "";
         }
         Pair<String, Integer> hashPair = hashCodeText(typeField, nameField, sub, classSuper, method);
-        saveAttributes("./attributes/" + className + ".txt", superType, typeField, hashPair.getSecond());//+ compareToText(typeField,nameField,method,primitives) ta7et
-        return s + equalText(typeField, nameField, method, className, primitives) + stringText(typeField, nameField, primitives) + hashPair.getFirst() + compareToText(typeField, nameField, method, primitives, className) + "}";}
+        saveAttributes("./attributes/" + className + ".txt", superType, typeField, hashPair.getEnemy());//+ compareToText(typeField,nameField,method,primitives) ta7et
+        return s + equalText(typeField, nameField, method, className, primitives) + stringText(typeField, nameField, primitives) + hashPair.getFriend() + compareToText(typeField, nameField, method, primitives, className) + "}";}
     private static String equalText(List<ComboBox> typeField, List<TextField> nameField, List<CheckBox> method, String className, List<String> primitives) {
 
 //        List<String> primitives=new ArrayList<String>();

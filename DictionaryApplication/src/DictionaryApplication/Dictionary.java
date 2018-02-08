@@ -7,6 +7,7 @@ package DictionaryApplication;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,15 +26,19 @@ import static javafx.scene.input.KeyCode.T;
  * @author Aya
  */
 public class Dictionary<T> implements Collection<T> {
-     public Map<T,Pair<Set<T>,Set<T>>> dico;
-
+     private Map<T,Pair<Set<T>,Set<T>>> dico;
+     private Set<String> keys;
+    public Map<T, Pair<Set<T>, Set<T>>> getDico() {
+        return dico;
+    }
+     
     public Dictionary()
-    {
+    {   //keys=new HashSet<String>();
         dico=new TreeMap<> ();
-        dico.put((T)"aya",new Pair() );
-        dico.put((T)"alaa", new Pair());
-        dico.put((T)"Tala", new Pair());
-       
+//        dico.put((T)"aya",new Pair());
+//        dico.put((T)"alaa", new Pair());
+//        dico.put((T)"Tala", new Pair());
+//       
     }
      
     @Override
@@ -78,7 +83,7 @@ public class Dictionary<T> implements Collection<T> {
     @Override
     public boolean add(T key) 
     {
-       Pair s=new Pair();
+       Pair s=new Pair<Set<T>,Set<T>>();
        dico.putIfAbsent(key, s);
        
        

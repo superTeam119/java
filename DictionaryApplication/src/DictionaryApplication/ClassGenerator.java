@@ -126,8 +126,8 @@ public class ClassGenerator {
             classSuper = "";
         }
         Pair<String, Integer> hashPair = hashCodeText(classDetails);
-        saveAttributes(classDetails, superType, hashPair.getSecond());//+ compareToText(typeField,nameField,method,primitives) ta7et
-        return s + equalText(classDetails, primitives) + stringText(classDetails, primitives) + hashPair.getFirst() + compareToText(classDetails, primitives) + "}";}
+        saveAttributes(classDetails, superType, hashPair.getEnemy());//+ compareToText(typeField,nameField,method,primitives) ta7et
+        return s + equalText(classDetails, primitives) + stringText(classDetails, primitives) + hashPair.getFriend() + compareToText(classDetails, primitives) + "}";}
     private static String equalText(ClassDetails classDetails, List<String> primitives) {
 
 //        List<String> primitives=new ArrayList<String>();

@@ -11,17 +11,19 @@ package DictionaryApplication;
  */
 public class Pair<T,V> {
    
-    private T first;
-    private V second;
-    public Pair(T s1,V s2){
-    first =s1;
-    second=s2;
+    private T friend;
+    private V enemy;
+    public Pair(T friend, V enemy) {
+        this.friend = friend;
+        this.enemy = enemy;
     }
-    public Pair(){}
-    public T getFirst(){
-        return first;
+public Pair(){}
+    public T getFriend() {
+        return friend;
     }
-    public V getSecond(){
-        return second;
+
+    public V getEnemy() {
+        return enemy;
     }
+    
 }

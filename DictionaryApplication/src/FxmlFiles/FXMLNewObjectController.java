@@ -63,10 +63,12 @@ public class FXMLNewObjectController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        List<String> fnameNew = Generator.getClassNames();
-        fnameNew = Generator.getClassNames();
-
-        chooseClass.getItems().addAll(fnameNew);
+        
+        List<String> classNames = Generator.getClassNames();
+        classNames = Generator.getClassNames();
+        for(String className:classNames)
+            dictionaries.put(className,new Dictionary<superDictionary>());
+        chooseClass.getItems().addAll(classNames);
     }
 
     public void Back(ActionEvent event) throws IOException {
