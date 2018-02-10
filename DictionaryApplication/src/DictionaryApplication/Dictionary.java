@@ -83,12 +83,12 @@ public class Dictionary<T> implements Collection<T> {
     @Override
     public boolean add(T key) 
     {
-       Pair s=new Pair<Set<T>,Set<T>>();
-       dico.putIfAbsent(key, s);
+       Pair pair=new Pair<Set<T>,Set<T>>(new HashSet<T>(),new HashSet<T>());
+       dico.put(key, pair);
        
        
        
-        return (dico.putIfAbsent(key, s).equals(s));
+        return (dico.putIfAbsent(key,pair).equals(pair));
 
     }
 

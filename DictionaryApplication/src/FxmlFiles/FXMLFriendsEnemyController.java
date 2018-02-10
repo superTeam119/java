@@ -13,6 +13,7 @@ import static FxmlFiles.FXMLNewObjectController.pool;
 import UserClasses.superDictionary;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -25,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
 
@@ -48,6 +50,10 @@ private ComboBox toAddObjectNames;
 private Button Back;
 @FXML
 private Button add;
+@FXML
+private ListView friendList;
+@FXML
+private ListView enemyList;
 
 @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -57,6 +63,8 @@ private Button add;
         Set<superDictionary> keys=dictionaries.get(classNames.getValue().toString()).getDico().keySet();
         if(keys==null)
             System.out.println("empty");
+        if(keys.size()==0)
+            System.out.println("0");
         System.out.println(keys.size());
         System.out.println(keys.toArray()[0].toString());
         List<String> poolKeys= Generator.getClassObject(classNames.getValue().toString(), pool);
@@ -69,16 +77,29 @@ private Button add;
         }
 //objectNames.getItems().addAll(dictionaries.get(classNames.getValue().toString()).getDico().keySet());
     }
-    public void generateObjects(ActionEvent event){System.out.println("ss");
-        Dictionary<superDictionary> objDictionary=dictionaries.get(classNames.getValue().toString());
+    public void generateObjects(ActionEvent event){
+        System.out.println("ss");
+        String className=classNames.getValue().toString();
+        Dictionary<superDictionary> objDictionary=dictionaries.get(className);
         toAddObjectNames.getItems().clear();
-        Set<superDictionary> related=objDictionary.getDico().get(objectNames.getValue().toString()).getFriend();
-        related.addAll(objDictionary.getDico().get(objectNames.getValue().toString()).getEnemy());
-        related.add(pool.get(classNames.getValue().toString() + "." + objectNames.getValue().toString()));//i cannot be friend or enemy to me
-        List<String> keys=Generator.getClassObject(classNames.getValue().toString(), pool);
-        for(String key:keys){
-            if(related.contains(pool.get(classNames.getValue().toString() + "." + key))==false)
+        String fromKey=className + "." + objectNames.getValue().toString();
+        superDictionary from=pool.get(fromKey);
+        Set<superDictionary> friends=objDictionary.getDico().get(from).getFriend();
+//        friendList.getItems().addAll(friends);
+        Set<superDictionary> enemies=objDictionary.getDico().get(from).getEnemy();
+        Set<superDictionary> related=new HashSet<superDictionary>();
+        related.addAll(objDictionary.getDico().get(from).getFriend());
+        related.addAll(objDictionary.getDico().get(from).getEnemy());
+        related.add(from);//i cannot be friend or enemy to me
+        List<String> keys=Generator.getClassObject(className, pool);
+        for(String key:keys){System.out.println(key);System.out.println(friends.size()+"." +enemies.size());
+//            System.out.println(friends.toArray()[0].toString());
+            if(related.contains(pool.get(className + "." + key))==false)
                 toAddObjectNames.getItems().add(key);
+            if(friends.contains(pool.get(className + "." + key))==true )
+                friendList.getItems().add(key);
+            if(enemies.contains(pool.get(className + "." + key))==true)
+                enemyList.getItems().add(key);
         }
         //Set<String>
       //  objectNames.getItems().addAll(objDictionary.getDico().keySet());
@@ -90,12 +111,38 @@ private Button add;
     public void add(ActionEvent event){
         Dictionary<superDictionary> objDictionary=dictionaries.get(classNames.getValue().toString());
         superDictionary obj=pool.get(classNames.getValue().toString() + "." + objectNames.getValue().toString());
-        superDictionary objToAdd=pool.get(classNames.getValue().toString() + "." + objectNames.getValue().toString());
+        superDictionary objToAdd=pool.get(classNames.getValue().toString() + "." + toAddObjectNames.getValue().toString());
+        Set<superDictionary> friends,enemies,friendsTo,enemiesTo;
+        friends= objDictionary.getDico().get(obj).getFriend();
+         enemies=objDictionary.getDico().get(obj).getEnemy();
+         friendsTo= objDictionary.getDico().get(objToAdd).getFriend();
+         enemiesTo=objDictionary.getDico().get(objToAdd).getEnemy();
         if(friend.isSelected()==true)
-        objDictionary.getDico().get(obj).getFriend().add(objToAdd);
-        else
-        objDictionary.getDico().get(obj).getEnemy().add(objToAdd);    
+        {
+         friends.add(objToAdd);
+         friendsTo.add(obj);
+         friends.addAll(friendsTo);
+         friendsTo.addAll(friends);
+         friends.remove(obj);
+         friendsTo.remove(objToAdd);
+         enemies.addAll(enemiesTo);
+         enemiesTo.addAll(enemies);//recursivee  pluss 3nd kil l ref2a :P
+         //objDictionary.getDico().get(obj).getFriend().add(objToAdd);
         }
+        if(enemy.isSelected()==true)
+        { enemies.add(objToAdd);
+         enemiesTo.add(obj);
+         friends.addAll(friendsTo);
+         friendsTo.addAll(friends);
+         friends.remove(obj);
+         friendsTo.remove(objToAdd);
+         enemies.addAll(enemiesTo);
+         enemiesTo.addAll(enemies);
+            
+            
+            
+            }
+    }
     public void addEnemy(){}
     public void addFriend(){}
     public void methodView(ActionEvent event) throws IOException{

@@ -166,13 +166,17 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
        }
         if(c.getDeclaredFields().length==0)
             keyValue="singleton";
-        
+        String key = chooseClass.getValue().toString().trim() + "." + keyValue;System.out.println(key);
+        if(pool.get(key)==null){
         Object[] bArr = b.toArray(new Object[b.size()]);
         superDictionary bobject = (superDictionary) cons.newInstance(bArr);
-        String tmp = chooseClass.getValue().toString().trim() + "." + keyValue;System.out.println(tmp);
+        
         //System.out.println(tmp);
        // System.out.println(bobject);
-        pool.put(tmp, bobject);
+        pool.put(key, bobject);}else
+        {
+            System.out.println(pool.get(key).toString());
+        }
         // System.out.println(pool.keySet().toString());
         //               pool.put(chooseClass.getValue().toString().trim() + "." + key.getText().trim(),bobject);
         //System.out.println(pool.keySet().toString());
