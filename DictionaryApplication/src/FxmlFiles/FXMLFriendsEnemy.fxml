@@ -37,7 +37,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <ListView fx:id="friendsList" layoutX="25.0" layoutY="276.0" prefHeight="261.0" prefWidth="209.0" />
+      <ListView fx:id="friendList" layoutX="25.0" layoutY="276.0" prefHeight="261.0" prefWidth="209.0" />
       <ListView fx:id="enemyList" layoutX="287.0" layoutY="276.0" prefHeight="261.0" prefWidth="209.0" />
       <Label layoutX="364.0" layoutY="231.0" text="Enemies">
          <font>

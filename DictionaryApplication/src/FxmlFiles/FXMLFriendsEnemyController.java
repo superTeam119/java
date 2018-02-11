@@ -77,7 +77,8 @@ private ListView enemyList;
         }
 //objectNames.getItems().addAll(dictionaries.get(classNames.getValue().toString()).getDico().keySet());
     }
-    public void generateObjects(ActionEvent event){
+    public void generateObjects(ActionEvent event){friendList.getItems().clear();
+        enemyList.getItems().clear();
         System.out.println("ss");
         String className=classNames.getValue().toString();
         Dictionary<superDictionary> objDictionary=dictionaries.get(className);
@@ -94,11 +95,12 @@ private ListView enemyList;
         List<String> keys=Generator.getClassObject(className, pool);
         for(String key:keys){System.out.println(key);System.out.println(friends.size()+"." +enemies.size());
 //            System.out.println(friends.toArray()[0].toString());
-            if(related.contains(pool.get(className + "." + key))==false)
+        superDictionary obj=pool.get(className + "." + key);
+            if(related.contains(obj)==false)
                 toAddObjectNames.getItems().add(key);
-            if(friends.contains(pool.get(className + "." + key))==true )
+            if(friends.contains(obj)==true )
                 friendList.getItems().add(key);
-            if(enemies.contains(pool.get(className + "." + key))==true)
+            if(enemies.contains(obj)==true)
                 enemyList.getItems().add(key);
         }
         //Set<String>
@@ -112,35 +114,74 @@ private ListView enemyList;
         Dictionary<superDictionary> objDictionary=dictionaries.get(classNames.getValue().toString());
         superDictionary obj=pool.get(classNames.getValue().toString() + "." + objectNames.getValue().toString());
         superDictionary objToAdd=pool.get(classNames.getValue().toString() + "." + toAddObjectNames.getValue().toString());
-        Set<superDictionary> friends,enemies,friendsTo,enemiesTo;
+        Set<superDictionary> friends,enemies,friendsTo,enemiesTo,tmpFriends,tmpEnemies,iter,toAdd;
         friends= objDictionary.getDico().get(obj).getFriend();
          enemies=objDictionary.getDico().get(obj).getEnemy();
          friendsTo= objDictionary.getDico().get(objToAdd).getFriend();
          enemiesTo=objDictionary.getDico().get(objToAdd).getEnemy();
+         iter=new HashSet<superDictionary>();
+         toAdd=new HashSet<superDictionary>();
         if(friend.isSelected()==true)
         {
          friends.add(objToAdd);
          friendsTo.add(obj);
          friends.addAll(friendsTo);
-         friendsTo.addAll(friends);
-         friends.remove(obj);
-         friendsTo.remove(objToAdd);
+         //friendsTo.addAll(friends);
          enemies.addAll(enemiesTo);
-         enemiesTo.addAll(enemies);//recursivee  pluss 3nd kil l ref2a :P
+         iter.addAll(friends);
+         toAdd.addAll(friends);//krml bs a3ml remove la 7ale dal zedo 3nd l be2yen
+         //enemiesTo.addAll(enemies);
+         for(superDictionary f:iter){
+             //if(f.equals(obj)==false && f.equals(objToAdd))//krml eza ma7et 7ale mn l friends bbatel zedo krml 2 r7 ysero nfs l pointer friends aw b3ml clone
+             tmpFriends=objDictionary.getDico().get(f).getFriend();
+             tmpEnemies=objDictionary.getDico().get(f).getEnemy();
+             tmpFriends.addAll(toAdd);
+             tmpEnemies.addAll(enemies);
+             tmpFriends.remove(f);
+         }//for loop a3de2
+         iter.clear();
+         iter.addAll(enemies);
+         toAdd.clear();
+         toAdd.addAll(enemies);
+         for(superDictionary e:iter){
+             tmpFriends=objDictionary.getDico().get(e).getFriend();
+             tmpEnemies=objDictionary.getDico().get(e).getEnemy();
+             tmpEnemies.addAll(friends);
+             tmpFriends.addAll(enemies);
+             tmpFriends.remove(e);
+         }
+         //friends.remove(obj);
+         //friendsTo.remove(objToAdd);
+         //recursivee  pluss 3nd kil l ref2a :P
          //objDictionary.getDico().get(obj).getFriend().add(objToAdd);
         }
         if(enemy.isSelected()==true)
         { enemies.add(objToAdd);
          enemiesTo.add(obj);
-         friends.addAll(friendsTo);
-         friendsTo.addAll(friends);
-         friends.remove(obj);
-         friendsTo.remove(objToAdd);
-         enemies.addAll(enemiesTo);
-         enemiesTo.addAll(enemies);
-            
-            
-            
+         friends.addAll(enemiesTo);
+         enemies.addAll(friendsTo);
+         iter.addAll(enemies);
+         toAdd.addAll(enemies);//krml bs a3ml remove la 7ale dal zedo 3nd l be2yen
+         
+         for(superDictionary e:iter){
+             tmpFriends=objDictionary.getDico().get(e).getFriend();
+             tmpEnemies=objDictionary.getDico().get(e).getEnemy();
+             tmpFriends.addAll(toAdd);
+             tmpEnemies.addAll(friends);
+             tmpFriends.remove(e);
+         }
+         iter.clear();
+         iter.addAll(friends);
+         toAdd.clear();
+         toAdd.addAll(friends);
+         
+         for(superDictionary f:iter){
+             tmpFriends=objDictionary.getDico().get(f).getFriend();
+             tmpEnemies=objDictionary.getDico().get(f).getEnemy();
+             tmpFriends.addAll(toAdd);
+             tmpEnemies.addAll(enemies);
+             tmpFriends.remove(f);
+         }            
             }
     }
     public void addEnemy(){}
