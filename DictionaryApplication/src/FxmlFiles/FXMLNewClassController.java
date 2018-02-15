@@ -9,7 +9,7 @@ import DictionaryApplication.ClassDetails;
 import DictionaryApplication.ClassGenerator;
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
-import static FxmlFiles.FXMLNewObjectController.dictionaries;
+import static FxmlFiles.DictionaryStart.dictionaries;
 import UserClasses.superDictionary;
 import java.io.FileNotFoundException;
 import java.io.IOException;

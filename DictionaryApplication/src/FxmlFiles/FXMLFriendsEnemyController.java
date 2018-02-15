@@ -8,8 +8,8 @@ package FxmlFiles;
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import DictionaryApplication.Pair;
-import static FxmlFiles.FXMLNewObjectController.dictionaries;
-import static FxmlFiles.FXMLNewObjectController.pool;
+import static FxmlFiles.DictionaryStart.dictionaries;
+import static FxmlFiles.DictionaryStart.pool;
 import UserClasses.superDictionary;
 import java.io.IOException;
 import java.net.URL;
@@ -96,7 +96,7 @@ private ListView enemyList;
         for(String key:keys){System.out.println(key);System.out.println(friends.size()+"." +enemies.size());
 //            System.out.println(friends.toArray()[0].toString());
         superDictionary obj=pool.get(className + "." + key);
-            if(related.contains(obj)==false)
+            if(related.contains(obj)==false && objDictionary.getDico().keySet().contains(obj))
                 toAddObjectNames.getItems().add(key);
             if(friends.contains(obj)==true )
                 friendList.getItems().add(key);
@@ -156,7 +156,8 @@ private ListView enemyList;
          //objDictionary.getDico().get(obj).getFriend().add(objToAdd);
         }
         if(enemy.isSelected()==true)
-        { enemies.add(objToAdd);
+        {
+            enemies.add(objToAdd);
          enemiesTo.add(obj);
          friends.addAll(enemiesTo);
          enemies.addAll(friendsTo);

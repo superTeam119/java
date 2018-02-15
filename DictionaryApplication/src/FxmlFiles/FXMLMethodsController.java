@@ -6,7 +6,7 @@
 package FxmlFiles;
 
 import DictionaryApplication.Generator;
-import static FxmlFiles.FXMLNewObjectController.pool;
+import static FxmlFiles.DictionaryStart.pool;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -69,12 +69,12 @@ public class FXMLMethodsController implements Initializable {
     public void firstClassComboBox1(ActionEvent event) {
         firstObjectComboBox.getItems().clear();
        // System.out.println(FXMLNewObjectController.pool.keySet().toString());
-        firstObjectComboBox.getItems().addAll(Generator.getClassObject(firstClassComboBox.getValue().toString().trim(), FXMLNewObjectController.pool));
+        firstObjectComboBox.getItems().addAll(Generator.getClassObject(firstClassComboBox.getValue().toString().trim(), pool));//package plus
     }
 
     public void secondClassComboBox2(ActionEvent event) {
         secondObjectComboBox.getItems().clear();
-        secondObjectComboBox.getItems().addAll(Generator.getClassObject(secondClassComboBox.getValue().toString().trim(), FXMLNewObjectController.pool));
+        secondObjectComboBox.getItems().addAll(Generator.getClassObject(secondClassComboBox.getValue().toString().trim(), pool));//package plus
 
     }
 

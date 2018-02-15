@@ -9,6 +9,8 @@ import DictionaryApplication.ClassGenerator;
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Fields;
 import DictionaryApplication.Generator;
+import static FxmlFiles.DictionaryStart.dictionaries;
+import static FxmlFiles.DictionaryStart.pool;
 import java.io.IOException;
 import UserClasses.superDictionary;
 import java.io.File;
@@ -47,8 +49,6 @@ public class FXMLNewObjectController implements Initializable {
      */
     List<TextField> attrField = new ArrayList<TextField>();
     List<Fields> objectFields = new ArrayList<Fields>();
-   public static HashMap<String, superDictionary> pool = new HashMap<String, superDictionary>();
-   public static HashMap<String,Dictionary> dictionaries=new HashMap<String,Dictionary>();
     @FXML
     private ComboBox chooseClass;
     @FXML
@@ -66,8 +66,6 @@ public class FXMLNewObjectController implements Initializable {
         
         List<String> classNames = Generator.getClassNames();
         classNames = Generator.getClassNames();
-        for(String className:classNames)
-            dictionaries.put(className,new Dictionary<superDictionary>());
         chooseClass.getItems().addAll(classNames);
     }
 

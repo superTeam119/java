@@ -7,8 +7,8 @@ package FxmlFiles;
 
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
-import static FxmlFiles.FXMLNewObjectController.dictionaries;
-import static FxmlFiles.FXMLNewObjectController.pool;
+import static FxmlFiles.DictionaryStart.dictionaries;
+import static FxmlFiles.DictionaryStart.pool;
 import UserClasses.superDictionary;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
