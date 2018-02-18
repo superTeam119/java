@@ -26,37 +26,37 @@ import static javafx.scene.input.KeyCode.T;
  * @author Aya
  */
 public class Dictionary<T> implements Collection<T> {
-     private Map<T,Pair<Set<T>,Set<T>>> dico;
+     private Map<T,Pair<Set<T>,Set<T>>> elements;
      private Set<String> keys;
-    public Map<T, Pair<Set<T>, Set<T>>> getDico() {
-        return dico;
+    public Map<T, Pair<Set<T>, Set<T>>> getElements() {
+        return elements;
     }
      
     public Dictionary()
     {   //keys=new HashSet<String>();
-        dico=new TreeMap<T,Pair<Set<T>,Set<T>>> ();
-//        dico.put((T)"aya",new Pair());
-//        dico.put((T)"alaa", new Pair());
-//        dico.put((T)"Tala", new Pair());
+        elements=new TreeMap<T,Pair<Set<T>,Set<T>>> ();
+//        elements.put((T)"aya",new Pair());
+//        elements.put((T)"alaa", new Pair());
+//        elements.put((T)"Tala", new Pair());
 //       
     }
      
     @Override
     public int size() 
     {
-        return dico.size();
+        return elements.size();
     }
 
     @Override
     public boolean isEmpty() 
     {
-        return dico.isEmpty();
+        return elements.isEmpty();
         }
 
     @Override
     public boolean contains(Object o) 
     {
-        List<T> key = new ArrayList<>(dico.keySet());
+        List<T> key = new ArrayList<>(elements.keySet());
         
            for(T k:key)
                if(k.equals(o)) return true;
@@ -68,8 +68,8 @@ public class Dictionary<T> implements Collection<T> {
     @Override
     public Object[] toArray() 
     {
-        Object[] array=new Object[dico.size()];
-        array=dico.entrySet().toArray();
+        Object[] array=new Object[elements.size()];
+        array=elements.entrySet().toArray();
       
         return array;
      }
@@ -86,13 +86,13 @@ public class Dictionary<T> implements Collection<T> {
        Pair pair=new Pair<Set<T>,Set<T>>(new HashSet<T>(),new HashSet<T>());
         System.out.println(key.toString()+".......");
        try{
-        dico.put(key, pair);
+        elements.put(key, pair);
        }catch(Exception e){
            System.out.println(e.getMessage());
        }
        
        
-        //return (dico.putIfAbsent(key,pair).equals(pair));
+        //return (elements.putIfAbsent(key,pair).equals(pair));
        return true;
     }
 
@@ -100,13 +100,13 @@ public class Dictionary<T> implements Collection<T> {
     public boolean remove(Object key) 
     {
      
-         Pair s=dico.get(key);
-         dico.remove(key);
-         return !(dico.remove(key)==s);
-         //dico.get(o);
-         //return dico.remove(key).equals(s);
+         Pair s=elements.get(key);
+         elements.remove(key);
+         return !(elements.remove(key)==s);
+         //elements.get(o);
+         //return elements.remove(key).equals(s);
        
-       // return (dico.remove(o).equals(dico.get(o)));  
+       // return (elements.remove(o).equals(elements.get(o)));  
     }
 
     @Override
@@ -141,7 +141,7 @@ public class Dictionary<T> implements Collection<T> {
     public boolean retainAll(Collection<?> c) 
     {
        List<Object> retain=new ArrayList<>();
-        for(Object o:dico.keySet())
+        for(Object o:elements.keySet())
             if(!c.contains(o)) 
                 retain.add(o);
         
@@ -152,7 +152,7 @@ public class Dictionary<T> implements Collection<T> {
     @Override
     public void clear() 
     {
-        dico.clear();
+        elements.clear();
     }
 
     @Override
@@ -160,9 +160,9 @@ public class Dictionary<T> implements Collection<T> {
     {
         int hash=1;
         
-     for(T k:dico.keySet())
+     for(T k:elements.keySet())
      {
-        hash=hash*dico.get(k).hashCode();
+        hash=hash*elements.get(k).hashCode();
      }
      return hash;
                 
@@ -180,7 +180,7 @@ public class Dictionary<T> implements Collection<T> {
             return false;
         }
         final Dictionary<?> other = (Dictionary<?>) obj;
-        if (!this.dico.equals(other.dico)) {
+        if (!this.elements.equals(other.elements)) {
             return false;
         }
         return true;
@@ -193,7 +193,7 @@ public class Dictionary<T> implements Collection<T> {
 
  
  private class DictionaryIterator<T> implements Iterator<T> {
-  int size = dico.size();
+  int size = elements.size();
   
   int currentPointer = 0;
 
@@ -207,7 +207,7 @@ public class Dictionary<T> implements Collection<T> {
    }
 
    
-   T val = (T) dico.get(currentPointer);
+   T val = (T) elements.get(currentPointer);
    currentPointer += 2;
 
    return val;

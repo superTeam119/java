@@ -76,7 +76,7 @@ private ListView oListView;
                             Dictionary<SuperType> dictionary=dictionaries.get(classNames.getValue().toString());
                             SuperType element=pool.get(classNames.getValue().toString()).get(oListView.getSelectionModel().getSelectedItem().toString());
                             System.out.println(element.toString());
-                            for(SuperType s : dictionaries.get(classNames.getValue().toString()).getDico().keySet())
+                            for(SuperType s : dictionaries.get(classNames.getValue().toString()).getElements().keySet())
                                 System.out.println("." + s + ".");
                             
                             dictionary.add(element);
