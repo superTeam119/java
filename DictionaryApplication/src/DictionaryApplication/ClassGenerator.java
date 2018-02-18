@@ -7,6 +7,7 @@ package DictionaryApplication;
 
 //import UserClasses.finalTestt;
 import static DictionaryApplication.Generator.getClassNames;
+import UserClasses.SuperType;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -58,7 +59,7 @@ public class ClassGenerator {
             s = s + " extends " + classDetails.getSuperClass();
         }
         else
-            s=s+" extends superDictionary";
+            s=s+" extends SuperType";
         s = s + "{\n";
         //attributes declaration
         for (int i = 0; i < classDetails.getAttributes().size(); i++) {
@@ -195,7 +196,7 @@ public class ClassGenerator {
         File f = new File(path);
         PrintWriter p = new PrintWriter(f);
         p.println(prime);
-        p.println(classDetails.getKey());
+        //p.println(classDetails.getKey());
         for (int i = 0; i < superType.size(); i++) {
             p.println(superType.get(i));
         }
@@ -303,7 +304,7 @@ public class ClassGenerator {
         // builtInMap.put("void", Void.TYPE );
         builtInMap.put("short", "Short");
         String s = "@Override\n"
-                + "public int compareTo(superDictionary other){\n if(!(other.getClass()==getClass()))\nSystem.out.println(\"\");\n"
+                + "public int compareTo(SuperType other){\n if(!(other.getClass()==getClass()))\nSystem.out.println(\"\");\n"
                 + String.format("%s others=(%s)other;\n", classDetails.getClassName(), classDetails.getClassName()) + "if(super.compareTo(other)==0 && ";
 //           }
         String ss = "\nreturn (int)(super.compareTo(other) + ";
@@ -384,7 +385,7 @@ public class ClassGenerator {
 
                     Constructor<?> cons;
                     cons = loadedClass.getConstructors()[0];
-                   // UserClasses.superDictionary o = (UserClasses.superDictionary) cons.newInstance(5);
+                   // UserClasses.SuperType o = (UserClasses.SuperType) cons.newInstance(5);
                     //System.out.println("teeessttt objeeccttt");
                    // System.out.println(o.toString()); 
 //   
@@ -427,7 +428,7 @@ public class ClassGenerator {
     public static void fillDictionary(Map<String,Dictionary> map){
         List<String> a=getClassNames();
         for(int i=0;i<a.size();i++){
-            map.put(a.get(i), new Dictionary<superDictionary>());
+            map.put(a.get(i), new Dictionary<SuperType>());
         }
     }
 }

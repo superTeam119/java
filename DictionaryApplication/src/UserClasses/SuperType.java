@@ -11,8 +11,8 @@ package UserClasses;
  */
 
     
-    public  class superDictionary implements Comparable<superDictionary>{
-    public superDictionary(){
+    public  class SuperType implements Comparable<SuperType>{
+    public SuperType(){
     }
     
     @Override
@@ -39,7 +39,7 @@ package UserClasses;
         return 0;
     }
     @Override 
-    public int compareTo(superDictionary obj){
+    public int compareTo(SuperType obj){
         //throw new InvalidComparisonTypeException();
         return 0;
     }

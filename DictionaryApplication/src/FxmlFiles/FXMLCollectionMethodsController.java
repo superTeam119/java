@@ -9,7 +9,7 @@ import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
-import UserClasses.superDictionary;
+import UserClasses.SuperType;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -67,11 +67,21 @@ private ListView oListView;
 
     }
      public void fillList(ActionEvent event){oListView.getItems().clear();
-         oListView.getItems().addAll( Generator.getClassObject(classNames.getValue().toString(), pool)); 
+         oListView.getItems().addAll( Generator.getClassObject(classNames.getValue().toString())); 
      }
  public void resultMethod(ActionEvent event) throws IOException {System.out.println("sss");
                         if(methods.getValue().toString().equals("add")){
-                            dictionaries.get(classNames.getValue().toString()).add(pool.get(classNames.getValue().toString() + "." + oListView.getSelectionModel().getSelectedItem().toString()));
+                            for(String s : pool.get(classNames.getValue().toString()).keySet())
+                                System.out.println("." + s + ".");
+                            Dictionary<SuperType> dictionary=dictionaries.get(classNames.getValue().toString());
+                            SuperType element=pool.get(classNames.getValue().toString()).get(oListView.getSelectionModel().getSelectedItem().toString());
+                            System.out.println(element.toString());
+                            for(SuperType s : dictionaries.get(classNames.getValue().toString()).getDico().keySet())
+                                System.out.println("." + s + ".");
+                            
+                            dictionary.add(element);
+                            
+                            //dictionaries.get(classNames.getValue().toString()).add(pool.get(classNames.getValue().toString()).get(oListView.getSelectionModel().getSelectedItem().toString()));
                         }
 //       ObservableList<String> selectedItems =  oListView.getSelectionModel().getSelectedItems();
 //                        List<superDictionary> oArrayList=new ArrayList<superDictionary>();

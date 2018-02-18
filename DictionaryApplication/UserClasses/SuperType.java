@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DictionaryApplication;
+package UserClasses;
 
 /**
  *
  * @author user
  */
-public abstract class superDictionary implements Comparable<superDictionary>{
-    public superDictionary(){
+
+    
+    public  class SuperType implements Comparable<SuperType>{
+    public SuperType(){
     }
     
     @Override
@@ -33,9 +35,12 @@ public abstract class superDictionary implements Comparable<superDictionary>{
     public int hashCode(){
         return 0;
     }
-    
+    public int rank(){
+        return 0;
+    }
     @Override 
-    public int compareTo(superDictionary obj){
+    public int compareTo(SuperType obj){
+        //throw new InvalidComparisonTypeException();
         return 0;
     }
 }

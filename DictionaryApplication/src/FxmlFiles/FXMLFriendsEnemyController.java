@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FxmlFiles;
+package FxmlFiles;//done
 
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import DictionaryApplication.Pair;
 import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
-import UserClasses.superDictionary;
+import UserClasses.SuperType;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
@@ -60,19 +60,19 @@ private ListView enemyList;
         classNames.getItems().addAll(Generator.getClassNames());
     }    
     public void classObjects(ActionEvent event){
-        Set<superDictionary> keys=dictionaries.get(classNames.getValue().toString()).getDico().keySet();
+        Set<SuperType> keys=dictionaries.get(classNames.getValue().toString()).getDico().keySet();
         if(keys==null)
             System.out.println("empty");
         if(keys.size()==0)
             System.out.println("0");
         System.out.println(keys.size());
         System.out.println(keys.toArray()[0].toString());
-        List<String> poolKeys= Generator.getClassObject(classNames.getValue().toString(), pool);
-        for(superDictionary key:keys)
+        List<String> poolKeys= Generator.getClassObject(classNames.getValue().toString());
+        for(SuperType key:keys)
             System.out.println(key.toString());
         for(String key:poolKeys){System.out.println(key);
             System.out.println(keys.size());
-            if(keys.contains(pool.get(classNames.getValue().toString() + "." + key)))
+            if(keys.contains(pool.get(classNames.getValue().toString()).get(key)))
                 objectNames.getItems().add(key);
         }
 //objectNames.getItems().addAll(dictionaries.get(classNames.getValue().toString()).getDico().keySet());
@@ -81,21 +81,21 @@ private ListView enemyList;
         enemyList.getItems().clear();
         System.out.println("ss");
         String className=classNames.getValue().toString();
-        Dictionary<superDictionary> objDictionary=dictionaries.get(className);
+        Dictionary<SuperType> objDictionary=dictionaries.get(className);
         toAddObjectNames.getItems().clear();
         String fromKey=className + "." + objectNames.getValue().toString();
-        superDictionary from=pool.get(fromKey);
-        Set<superDictionary> friends=objDictionary.getDico().get(from).getFriend();
+        SuperType from=pool.get(className).get(fromKey);
+        Set<SuperType> friends=objDictionary.getDico().get(from).getFriend();
 //        friendList.getItems().addAll(friends);
-        Set<superDictionary> enemies=objDictionary.getDico().get(from).getEnemy();
-        Set<superDictionary> related=new HashSet<superDictionary>();
+        Set<SuperType> enemies=objDictionary.getDico().get(from).getEnemy();
+        Set<SuperType> related=new HashSet<SuperType>();
         related.addAll(objDictionary.getDico().get(from).getFriend());
         related.addAll(objDictionary.getDico().get(from).getEnemy());
         related.add(from);//i cannot be friend or enemy to me
-        List<String> keys=Generator.getClassObject(className, pool);
+        List<String> keys=Generator.getClassObject(className);
         for(String key:keys){System.out.println(key);System.out.println(friends.size()+"." +enemies.size());
 //            System.out.println(friends.toArray()[0].toString());
-        superDictionary obj=pool.get(className + "." + key);
+        SuperType obj=pool.get(className).get(key);
             if(related.contains(obj)==false && objDictionary.getDico().keySet().contains(obj))
                 toAddObjectNames.getItems().add(key);
             if(friends.contains(obj)==true )
@@ -111,16 +111,16 @@ private ListView enemyList;
         
     }
     public void add(ActionEvent event){
-        Dictionary<superDictionary> objDictionary=dictionaries.get(classNames.getValue().toString());
-        superDictionary obj=pool.get(classNames.getValue().toString() + "." + objectNames.getValue().toString());
-        superDictionary objToAdd=pool.get(classNames.getValue().toString() + "." + toAddObjectNames.getValue().toString());
-        Set<superDictionary> friends,enemies,friendsTo,enemiesTo,tmpFriends,tmpEnemies,iter,toAdd;
+        Dictionary<SuperType> objDictionary=dictionaries.get(classNames.getValue().toString());
+        SuperType obj=pool.get(classNames.getValue().toString()).get(objectNames.getValue().toString());
+        SuperType objToAdd=pool.get(classNames.getValue().toString()).get(toAddObjectNames.getValue().toString());
+        Set<SuperType> friends,enemies,friendsTo,enemiesTo,tmpFriends,tmpEnemies,iter,toAdd;
         friends= objDictionary.getDico().get(obj).getFriend();
          enemies=objDictionary.getDico().get(obj).getEnemy();
          friendsTo= objDictionary.getDico().get(objToAdd).getFriend();
          enemiesTo=objDictionary.getDico().get(objToAdd).getEnemy();
-         iter=new HashSet<superDictionary>();
-         toAdd=new HashSet<superDictionary>();
+         iter=new HashSet<SuperType>();
+         toAdd=new HashSet<SuperType>();
         if(friend.isSelected()==true)
         {
          friends.add(objToAdd);
@@ -131,7 +131,7 @@ private ListView enemyList;
          iter.addAll(friends);
          toAdd.addAll(friends);//krml bs a3ml remove la 7ale dal zedo 3nd l be2yen
          //enemiesTo.addAll(enemies);
-         for(superDictionary f:iter){
+         for(SuperType f:iter){
              //if(f.equals(obj)==false && f.equals(objToAdd))//krml eza ma7et 7ale mn l friends bbatel zedo krml 2 r7 ysero nfs l pointer friends aw b3ml clone
              tmpFriends=objDictionary.getDico().get(f).getFriend();
              tmpEnemies=objDictionary.getDico().get(f).getEnemy();
@@ -143,7 +143,7 @@ private ListView enemyList;
          iter.addAll(enemies);
          toAdd.clear();
          toAdd.addAll(enemies);
-         for(superDictionary e:iter){
+         for(SuperType e:iter){
              tmpFriends=objDictionary.getDico().get(e).getFriend();
              tmpEnemies=objDictionary.getDico().get(e).getEnemy();
              tmpEnemies.addAll(friends);
@@ -164,7 +164,7 @@ private ListView enemyList;
          iter.addAll(enemies);
          toAdd.addAll(enemies);//krml bs a3ml remove la 7ale dal zedo 3nd l be2yen
          
-         for(superDictionary e:iter){
+         for(SuperType e:iter){
              tmpFriends=objDictionary.getDico().get(e).getFriend();
              tmpEnemies=objDictionary.getDico().get(e).getEnemy();
              tmpFriends.addAll(toAdd);
@@ -176,7 +176,7 @@ private ListView enemyList;
          toAdd.clear();
          toAdd.addAll(friends);
          
-         for(superDictionary f:iter){
+         for(SuperType f:iter){
              tmpFriends=objDictionary.getDico().get(f).getFriend();
              tmpEnemies=objDictionary.getDico().get(f).getEnemy();
              tmpFriends.addAll(toAdd);

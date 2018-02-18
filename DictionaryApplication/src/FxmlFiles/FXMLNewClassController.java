@@ -10,12 +10,14 @@ import DictionaryApplication.ClassGenerator;
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import static FxmlFiles.DictionaryStart.dictionaries;
-import UserClasses.superDictionary;
+import static FxmlFiles.DictionaryStart.pool;
+import UserClasses.SuperType;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -119,11 +121,11 @@ public class FXMLNewClassController implements Initializable {
             gridPane.add(checkBox, 3, (i + 1));
 
         }
-        if(sub.isSelected())
-        {Class ccc=Class.forName("UserClasses." + superClass.getValue());
-            classKey.getItems().addAll(ClassGenerator.getFieldsString(ccc));}
-        gridPane.add(new Text("Key"), 1, n+1);
-        gridPane.add(classKey, 1, n+1);
+//        if(sub.isSelected())
+//        {Class ccc=Class.forName("UserClasses." + superClass.getValue());
+//            classKey.getItems().addAll(ClassGenerator.getFieldsString(ccc));}
+//        gridPane.add(new Text("Key"), 1, n+1);
+//        gridPane.add(classKey, 1, n+1);
 
     }
 
@@ -146,26 +148,27 @@ public class FXMLNewClassController implements Initializable {
     public void generateYourClass(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
         //String classText="";
-        int keyIndex = -1;
-        if (classKey.getItems().size() > 0 && classKey.getValue().toString().contains(" ")) {
-            keyIndex = Integer.parseInt(classKey.getValue().toString().trim().substring(10)) - 1;
-        }
+//        int keyIndex = -1;
+//        if (classKey.getItems().size() > 0 && classKey.getValue().toString().contains(" ")) {
+//            keyIndex = Integer.parseInt(classKey.getValue().toString().trim().substring(10)) - 1;
+//        }
         ClassDetails classInfo = new ClassDetails();
         if (sub.isSelected() == true) {
             classInfo.setSuperClass(superClass.getValue().toString().trim());
             classInfo.setSubClass(sub.isSelected());
         }
         classInfo.setClassName(className.getText());
-        if(keyIndex!=-1)
-        classInfo.setKey(nameField.get(keyIndex).getText());
-        else
-        classInfo.setKey(classKey.getValue().toString());    
+//        if(keyIndex!=-1)
+//        classInfo.setKey(nameField.get(keyIndex).getText());
+//        else
+        //classInfo.setKey(classKey.getValue().toString());    
         for (int i = 0; i < typeField.size(); i++) {
             classInfo.addAttribute(nameField.get(i).getText(), typeField.get(i).getValue().toString().trim(), methods.get(i).isSelected());
         }
         //classText = classText + ClassGenerator.getClassText(classInfo);
         ClassGenerator.compileClass(classInfo);
-        dictionaries.put(classInfo.getClassName(), new Dictionary<superDictionary>());
+        pool.put(classInfo.getClassName(),new HashMap<String,SuperType>());
+        dictionaries.put(classInfo.getClassName(), new Dictionary<SuperType>());
         //System.out.println(classText); 
     }
 

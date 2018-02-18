@@ -1,5 +1,5 @@
 package UserClasses;
-public class Point extends superDictionary{
+public class Point extends SuperType{
     private final int x;
     private final int y;
 public Point(int S0,int S1){
@@ -20,7 +20,7 @@ public String toString(){return super.toString() + "[" + "x=" + x + "," + "y=" +
 public int hashCode(){
 return super.hashCode() + 2*Integer.valueOf(y).hashCode();}
 @Override
-public int compareTo(superDictionary other){
+public int compareTo(SuperType other){
  if(!(other.getClass()==getClass()))
 System.out.println("");
 Point others=(Point)other;

@@ -1,5 +1,5 @@
 package UserClasses;
-public class Polygon extends superDictionary{
+public class Polygon extends SuperType{
     private final Point a;
     private final Point b;
     private final Point c;
@@ -22,7 +22,7 @@ public String toString(){return super.toString() + "[" + "a=" + a.toString() + "
 public int hashCode(){
 return super.hashCode() + 2*a.hashCode() + 3*b.hashCode() + 5*c.hashCode();}
 @Override
-public int compareTo(superDictionary other){
+public int compareTo(SuperType other){
  if(!(other.getClass()==getClass()))
 System.out.println("");
 Polygon others=(Polygon)other;

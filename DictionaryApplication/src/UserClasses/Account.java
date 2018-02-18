@@ -1,5 +1,5 @@
 package UserClasses;
-public class Account extends superDictionary{
+public class Account extends SuperType{
     private final Employee owner;
     private final int balance;
 public Account(Employee S0,int S1){
@@ -20,7 +20,7 @@ public String toString(){return super.toString() + "[" + "owner=" + owner.toStri
 public int hashCode(){
 return super.hashCode() + 2*owner.hashCode() + 3*Integer.valueOf(balance).hashCode();}
 @Override
-public int compareTo(superDictionary other){
+public int compareTo(SuperType other){
  if(!(other.getClass()==getClass()))
 System.out.println("");
 Account others=(Account)other;

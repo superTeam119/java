@@ -1,5 +1,5 @@
 package UserClasses;
-public class Person extends superDictionary{
+public class Person extends SuperType{
     private final String name;
     private final int age;
 public Person(String S0,int S1){
@@ -20,7 +20,7 @@ public String toString(){return super.toString() + "[" + "name=" + name.toString
 public int hashCode(){
 return super.hashCode() + 2*name.hashCode() + 3*Integer.valueOf(age).hashCode();}
 @Override
-public int compareTo(superDictionary other){
+public int compareTo(SuperType other){
  if(!(other.getClass()==getClass()))
 System.out.println("");
 Person others=(Person)other;

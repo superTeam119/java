@@ -19,7 +19,7 @@ import static java.util.Spliterators.iterator;
 import java.util.TreeSet;
 import static javafx.scene.input.KeyCode.E;
 import static javafx.scene.input.KeyCode.T;
-
+//import UserClasses.*;
 
 /**
  *
@@ -34,7 +34,7 @@ public class Dictionary<T> implements Collection<T> {
      
     public Dictionary()
     {   //keys=new HashSet<String>();
-        dico=new TreeMap<> ();
+        dico=new TreeMap<T,Pair<Set<T>,Set<T>>> ();
 //        dico.put((T)"aya",new Pair());
 //        dico.put((T)"alaa", new Pair());
 //        dico.put((T)"Tala", new Pair());
@@ -84,12 +84,16 @@ public class Dictionary<T> implements Collection<T> {
     public boolean add(T key) 
     {
        Pair pair=new Pair<Set<T>,Set<T>>(new HashSet<T>(),new HashSet<T>());
-       dico.put(key, pair);
+        System.out.println(key.toString()+".......");
+       try{
+        dico.put(key, pair);
+       }catch(Exception e){
+           System.out.println(e.getMessage());
+       }
        
        
-       
-        return (dico.putIfAbsent(key,pair).equals(pair));
-
+        //return (dico.putIfAbsent(key,pair).equals(pair));
+       return true;
     }
 
     @Override

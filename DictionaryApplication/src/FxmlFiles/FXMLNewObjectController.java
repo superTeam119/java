@@ -11,8 +11,8 @@ import DictionaryApplication.Fields;
 import DictionaryApplication.Generator;
 import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
+import UserClasses.SuperType;
 import java.io.IOException;
-import UserClasses.superDictionary;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -123,7 +123,7 @@ public class FXMLNewObjectController implements Initializable {
 //                Object[] bArr= b.toArray(new Object[b.size()]);
 //                    System.out.println(bArr[0].toString());
 //                    System.out.println(bArr.toString());
-//               superDictionary bobject = (superDictionary) cons.newInstance(bArr);
+//               SuperType bobject = (SuperType) cons.newInstance(bArr);
 //               pool.put(chooseClass.getValue().toString().trim() + "." + key.getText().trim(),bobject);
 //                
 //                    System.out.println(bobject.toString());
@@ -142,7 +142,7 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
         //Field[] field = c.getDeclaredFields();
         List<Field> field=ClassGenerator.getFields(c);
         ArrayList<Class> params = new ArrayList<>();
-        String classKey=ClassGenerator.classKey("./attributes/" + chooseClass.getValue().toString().trim() + ".txt");
+        //String classKey=ClassGenerator.classKey("./attributes/" + chooseClass.getValue().toString().trim() + ".txt");
         String keyValue="";//System.out.println(classKey);
         for (Field f : field) {
             params.add(f.getType());
@@ -156,24 +156,28 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
         for (int i = 0; i < field.size(); i++) {//System.out.println(field.get(i).getName().toString().trim());
         String value=   field.get(i).getName(); 
             //System.out.println(classKey + "  " + value);
-        if(classKey.equals(value)){//System.out.println("hello");
-                keyValue=objectFields.get(i).getKeyValue();
-            }
+//        if(classKey.equals(value)){//System.out.println("hello");
+//                keyValue=objectFields.get(i).getKeyValue();
+//            }
             Object o = objectFields.get(i).getObject(field.get(i));
             b.add(o);
        }
-        if(c.getDeclaredFields().length==0)
-            keyValue="singleton";
-        String key = chooseClass.getValue().toString().trim() + "." + keyValue;System.out.println(key);
-        if(pool.get(key)==null){
+//        if(c.getDeclaredFields().length==0)
+//            keyValue="singleton";
+        //String key = chooseClass.getValue().toString().trim() + "." + keyValue;System.out.println(key);
+        String keys=key.getText();
         Object[] bArr = b.toArray(new Object[b.size()]);
-        superDictionary bobject = (superDictionary) cons.newInstance(bArr);
+        SuperType bobject = (SuperType) cons.newInstance(bArr);
         
+        if(pool.get(chooseClass.getValue().toString().trim()).values().contains(bobject)==false)
+            if( pool.get(chooseClass.getValue().toString().trim()).get(keys)==null){        
         //System.out.println(tmp);
        // System.out.println(bobject);
-        pool.put(key, bobject);}else
-        {
-            System.out.println(pool.get(key).toString());
+        //pool.put(key, bobject);
+        pool.get(chooseClass.getValue().toString().trim()).put(keys,bobject);
+        }else
+        {System.out.println("before");
+            System.out.println(pool.get(chooseClass.getValue().toString()).get(keys).toString());
         }
         // System.out.println(pool.keySet().toString());
         //               pool.put(chooseClass.getValue().toString().trim() + "." + key.getText().trim(),bobject);
@@ -203,29 +207,29 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
             // Logger.getLogger(Projects.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("error");
         }
-//        attributesPlace.add(key, 1, 0);
-//        attributesPlace.add(new Text("key"), 0, 0);
+        attributesPlace.add(key, 1, 0);
+        attributesPlace.add(new Text("key"), 0, 0);
         //Field[] field = c.getDeclaredFields();
         System.out.println(c.getSimpleName());
         List<Field> field=ClassGenerator.getFields(c);
         int i;
-        attributesPlace.add(new Text("AttributeType"), 0, 0);
-        attributesPlace.add(new Text("AttributeName"), 1, 0);
-        attributesPlace.add(new Text("AttributeValue"), 2, 0);
+        attributesPlace.add(new Text("AttributeType"), 0, 1);
+        attributesPlace.add(new Text("AttributeName"), 1, 1);
+        attributesPlace.add(new Text("AttributeValue"), 2, 1);
         List<String> classNames = Generator.getClassNames();
         for (i = 0; i < field.size(); i++) {
-            attributesPlace.add(new Text(field.get(i).getName()), 1, i + 1);
-            if (classNames.contains(field.get(i).getType().getSimpleName())) {
+            attributesPlace.add(new Text(field.get(i).getName()), 1, i + 2);
+            if (classNames.contains(field.get(i).getType().getSimpleName())){
                 ComboBox cc = new ComboBox();
-                cc.getItems().addAll(Generator.getClassObject(field.get(i).getType().getSimpleName(), pool));
+                cc.getItems().addAll(Generator.getClassObject(field.get(i).getType().getSimpleName()));
                 objectFields.add(new Fields(cc));
-                attributesPlace.add(cc, 2, i + 1);
+                attributesPlace.add(cc, 2, i + 2);
             } else {
                 TextField ccc = new TextField();
                 objectFields.add(new Fields(ccc));
-                attributesPlace.add(ccc, 2, i + 1);
+                attributesPlace.add(ccc, 2, i + 2);
             }
-            attributesPlace.add(new Text(field.get(i).getType().getSimpleName()), 0, i + 1);
+            attributesPlace.add(new Text(field.get(i).getType().getSimpleName()), 0, i + 2);
         }
         // z.add(method,1,i+1);
 //            superClassMethod.getItems().clear();

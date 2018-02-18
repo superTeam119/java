@@ -69,12 +69,12 @@ public class FXMLMethodsController implements Initializable {
     public void firstClassComboBox1(ActionEvent event) {
         firstObjectComboBox.getItems().clear();
        // System.out.println(FXMLNewObjectController.pool.keySet().toString());
-        firstObjectComboBox.getItems().addAll(Generator.getClassObject(firstClassComboBox.getValue().toString().trim(), pool));//package plus
+        firstObjectComboBox.getItems().addAll(Generator.getClassObject(firstClassComboBox.getValue().toString().trim()));//package plus
     }
 
     public void secondClassComboBox2(ActionEvent event) {
         secondObjectComboBox.getItems().clear();
-        secondObjectComboBox.getItems().addAll(Generator.getClassObject(secondClassComboBox.getValue().toString().trim(), pool));//package plus
+        secondObjectComboBox.getItems().addAll(Generator.getClassObject(secondClassComboBox.getValue().toString().trim()));//package plus
 
     }
 
@@ -87,11 +87,12 @@ public class FXMLMethodsController implements Initializable {
     }
 
     public void result(ActionEvent event) {
-        UserClasses.superDictionary a;
-        UserClasses.superDictionary b;
+        UserClasses.SuperType a;
+        UserClasses.SuperType b;
         String result;
         String Methodname = MethodComboBox.getValue().toString().trim();
-        a = pool.get(firstClassComboBox.getValue().toString().trim() + "." + firstObjectComboBox.getValue().toString().trim());
+        //a = pool.get(firstClassComboBox.getValue().toString().trim() + "." + firstObjectComboBox.getValue().toString().trim());
+        a=pool.get(firstClassComboBox.getValue().toString().trim()).get(firstObjectComboBox.getValue().toString().trim());
         result = firstObjectComboBox.getValue().toString().trim();
         if (Methodname.equals("toString()")) {
             result = result + ".toString():" + a.toString();
@@ -101,7 +102,8 @@ public class FXMLMethodsController implements Initializable {
         }
         b = null;
         if (secondClassComboBox.getValue() != null) {
-            b = pool.get(secondClassComboBox.getValue().toString().trim() + "." + secondObjectComboBox.getValue().toString().trim());
+            //b = pool.get(secondClassComboBox.getValue().toString().trim() + "." + secondObjectComboBox.getValue().toString().trim());
+            b=pool.get(secondClassComboBox.getValue().toString().trim()).get(secondObjectComboBox.getValue().toString().trim());
         }
         if (Methodname.equals("equals()")) {
             result = result + String.format(".equals(%s):%s", secondObjectComboBox.getValue().toString().trim(), a.equals(b));

@@ -5,6 +5,7 @@
  */
 package DictionaryApplication;
 
+import static FxmlFiles.DictionaryStart.pool;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,15 +32,17 @@ import javax.tools.ToolProvider;
  * @author user
  */
 public class Generator {//done
-     public static List<String> getClassObject(String selectedClass,Map<String,UserClasses.superDictionary> pool){
+     public static List<String> getClassObject(String selectedClass){
 //        selectedClass=selectedClass.substring(0,selectedClass.indexOf("."));
         List<String> a=new ArrayList<String>();
-        List<String> key = new ArrayList<String>(pool.keySet());
-        for(String s:key){String w=s.substring(0,s.indexOf("."));
-            if(w.equals(selectedClass))
-                a.add(s.substring(s.indexOf(".")+1));
-        }
-        return a;
+//        List<String> key = new ArrayList<String>(pool.keySet());
+//        for(String s:key){String w=s.substring(0,s.indexOf("."));
+//            if(w.equals(selectedClass))
+//                a.add(s.substring(s.indexOf(".")+1));
+//        }
+//        return a;
+         a.addAll(pool.get(selectedClass).keySet());
+         return a;
     }
      public static List<String> getClassNames() {
         List<String> fnames = new ArrayList<String>();
@@ -62,7 +65,7 @@ if (i >= 0) {
 //    fnames.add("byte");
 //    fnames.add("String");
 //    fnames.add("float");
-    fnames.remove("superDictionary");
+    fnames.remove("SuperType");
         return fnames;
     }
 
@@ -90,7 +93,7 @@ if (i >= 0) {
             s = s + " extends " + superClass.getValue().toString().trim();
         }
         else
-            s=s+" extends superDictionary";
+            s=s+" extends SuperType";
         s = s + "{\n";
         //attributes declaration
         for (int i = 0; i < typeField.size(); i++) {
@@ -332,7 +335,7 @@ if (i >= 0) {
         // builtInMap.put("void", Void.TYPE );
         builtInMap.put("short", "Short");
         String s = "@Override\n"
-                + "public int compareTo(superDictionary other){\n if(!(other.getClass()==getClass()))\nSystem.out.println(\"\");\n"
+                + "public int compareTo(SuperType other){\n if(!(other.getClass()==getClass()))\nSystem.out.println(\"\");\n"
                 + String.format("%s others=(%s)other;\n", className, className) + "if(super.compareTo(other)==0 && ";
 //           if (sub.isSelected()==false)
 //               s = s + className + "))\nthrow InvalidComparisonTypeException;\n";

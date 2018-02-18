@@ -7,7 +7,7 @@ package FxmlFiles;
 
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
-import UserClasses.superDictionary;
+import UserClasses.SuperType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +22,16 @@ import javafx.stage.Stage;
  * @author Abo Ali
  */
 public class DictionaryStart extends Application {
-       public static Map<String, superDictionary> pool = new HashMap<String, superDictionary>();
-   public static Map<String,Dictionary> dictionaries=new HashMap<String,Dictionary>();
+       public static Map<String,HashMap<String,SuperType>> pool = new HashMap<String, HashMap<String,SuperType>>();
+   public static Map<String,Dictionary<SuperType>> dictionaries=new HashMap<String,Dictionary<SuperType>>();
 
    public void start(Stage stage) throws Exception {
            List<String> classNames = Generator.getClassNames();
         classNames = Generator.getClassNames();
-        for(String className:classNames)
-            dictionaries.put(className,new Dictionary<superDictionary>());
-    
+        for(String className:classNames){
+            pool.put(className,new HashMap<String,SuperType>());
+            dictionaries.put(className,new Dictionary<SuperType>());
+        }
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);

@@ -1,5 +1,5 @@
 package UserClasses;
-public class mtoo extends superDictionary{
+public class mtoo extends SuperType{
     private final Person pp;
     private final int ss;
 public mtoo(Person S0,int S1){
@@ -20,7 +20,7 @@ public String toString(){return super.toString() + "[" + "pp=" + pp.toString() +
 public int hashCode(){
 return super.hashCode() + 2*pp.hashCode() + 3*Integer.valueOf(ss).hashCode();}
 @Override
-public int compareTo(superDictionary other){
+public int compareTo(SuperType other){
  if(!(other.getClass()==getClass()))
 System.out.println("");
 mtoo others=(mtoo)other;
