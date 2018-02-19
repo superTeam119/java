@@ -21,7 +21,7 @@ public class ClassDetails {
      public boolean subClass;
      public String superClass;
      private String key;
-    public ClassDetails() {attributes=new ArrayList<Attribute>();
+     public ClassDetails() {attributes=new ArrayList<Attribute>();
     }
     public void addAttribute(String name,String type,boolean checked){
      attributes.add(new Attribute(name,type,checked));
