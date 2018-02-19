@@ -5,8 +5,19 @@
  */
 package FxmlFiles;
 
+import DictionaryApplication.Dictionary;
+import static FxmlFiles.DictionaryStart.*;
+import static FxmlFiles.DictionaryStart.pool;
+import UserClasses.SuperType;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -36,6 +47,30 @@ public class FXMLDocumentController implements Initializable {
         System.exit(0);
     }
    
+    public void load(ActionEvent event) throws FileNotFoundException, IOException, ClassNotFoundException{
+    File f=new File(".\\xml\\pool.xml");
+    FileInputStream ff=new FileInputStream(f);
+    ObjectInputStream fff=new ObjectInputStream(ff);
+    pool=(HashMap<String, HashMap<String,SuperType>>)fff.readObject();
+    File s=new File(".\\xml\\dictionaries.xml");
+    FileInputStream ss=new FileInputStream(s);
+    ObjectInputStream sss=new ObjectInputStream(ss);
+    dictionaries=(HashMap<String,Dictionary<SuperType>>)sss.readObject();
+    sss.close();
+    fff.close();
+    }
+    public void save(ActionEvent event) throws FileNotFoundException, IOException{
+    File f=new File(".\\xml\\pool.xml");
+    FileOutputStream ff=new FileOutputStream(f);
+    ObjectOutputStream fff=new ObjectOutputStream(ff);
+    fff.writeObject(pool);
+    fff.close();
+    File s=new File(".\\xml\\dictionaries.xml");
+    FileOutputStream ss=new FileOutputStream(s);
+    ObjectOutputStream sss=new ObjectOutputStream(ss);
+    sss.writeObject(dictionaries);
+    sss.close();
+    }
     
     public void generate(ActionEvent event) throws IOException{
     

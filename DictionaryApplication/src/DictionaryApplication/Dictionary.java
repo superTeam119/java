@@ -5,6 +5,7 @@
  */
 package DictionaryApplication;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,7 +26,7 @@ import static javafx.scene.input.KeyCode.T;
  *
  * @author Aya
  */
-public class Dictionary<T> implements Collection<T> {
+public class Dictionary<T extends Serializable> implements Serializable,Collection<T>{
      private Map<T,Pair<Set<T>,Set<T>>> elements;
      private Set<String> keys;
     public Map<T, Pair<Set<T>, Set<T>>> getElements() {
@@ -76,8 +77,7 @@ public class Dictionary<T> implements Collection<T> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return elements.keySet().toArray(a);    
     }
 
     @Override
@@ -98,11 +98,15 @@ public class Dictionary<T> implements Collection<T> {
 
     @Override
     public boolean remove(Object key) 
-    {
-     
+    {   if(key ==null)
+        return true;
+        for(Pair<Set<T>,Set<T>> a:elements.values()){
+        a.getEnemy().remove(key);
+        a.getFriend().remove(key);
+        }
          Pair s=elements.get(key);
          elements.remove(key);
-         return !(elements.remove(key)==s);
+         return (elements.remove(key).equals(s));//!(elements.remove(key)==s) 
          //elements.get(o);
          //return elements.remove(key).equals(s);
        
@@ -112,10 +116,11 @@ public class Dictionary<T> implements Collection<T> {
     @Override
     public boolean containsAll(Collection<?> c) 
     {
-        for(Object o:c)
-            if(!this.contains(o)) return false;
-        return true;
-        
+//        for(Object o:c)
+//            if(!this.contains(o)) return false;
+//        return true;
+//        
+        return elements.keySet().containsAll(c);
     }
 
     @Override
@@ -170,6 +175,7 @@ public class Dictionary<T> implements Collection<T> {
 
     @Override
     public boolean equals(Object obj) {
+        //return Objects.equals(obj,this);
         if (this == obj) {
             return true;
         }
@@ -188,7 +194,7 @@ public class Dictionary<T> implements Collection<T> {
     
   @Override  
   public Iterator<T> iterator() {
-  return new DictionaryIterator<T>();
+  return new DictionaryIterator<T>();//elements.keySet().iterator();
  }
 
  
@@ -205,12 +211,9 @@ public class Dictionary<T> implements Collection<T> {
    if (!hasNext()) {
     throw new NoSuchElementException();
    }
-
-   
-   T val = (T) elements.get(currentPointer);
-   currentPointer += 2;
-
-   return val;
+    T val = (T) elements.keySet().toArray()[currentPointer];//elements.get(currentPointer);
+    currentPointer += 1;//+2
+    return val;
   }
 
  }

@@ -5,13 +5,15 @@
  */
 package UserClasses;
 
+import java.io.Serializable;
+
 /**
  *
  * @author user
  */
 
     
-    public  class SuperType implements Comparable<SuperType>{
+    public  class SuperType implements Comparable<SuperType>,Serializable{
     public SuperType(){
     }
     

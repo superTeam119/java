@@ -5,11 +5,13 @@
  */
 package DictionaryApplication;
 
+import java.io.Serializable;
+
 /**
  *
  * @author user
  */
-public class Pair<T,V> {
+public class Pair<T,V> implements Serializable{
    
     private T friend;
     private V enemy;
