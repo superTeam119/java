@@ -41,6 +41,7 @@ import javax.tools.ToolProvider;
  * @author Issa
  */
 public class ClassGenerator {
+    // update the push and pull
     public static String getClassText(ClassDetails classDetails) throws FileNotFoundException, IOException, ClassNotFoundException {
         String s = "package UserClasses;\n";
         List<String> primitives = new ArrayList<String>();
