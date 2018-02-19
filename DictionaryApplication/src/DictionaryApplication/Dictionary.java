@@ -79,7 +79,9 @@ public class Dictionary<T extends Serializable> implements Serializable,Collecti
     public <T> T[] toArray(T[] a) {
         return elements.keySet().toArray(a);    
     }
-
+    //public boolean add(<? extends T> key){
+        
+    
     @Override
     public boolean add(T key) 
     {
@@ -218,7 +220,4 @@ public class Dictionary<T extends Serializable> implements Serializable,Collecti
 
  }
 
-
-     
-    
 }
