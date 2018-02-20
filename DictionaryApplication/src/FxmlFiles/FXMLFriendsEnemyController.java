@@ -57,7 +57,7 @@ private ListView enemyList;
 
 @Override
     public void initialize(URL url, ResourceBundle rb) {
-        classNames.getItems().addAll(Generator.getClassNames());
+        classNames.getItems().addAll(dictionaries.keySet());
     }    
     public void classObjects(ActionEvent event){
         Set<SuperType> keys=dictionaries.get(classNames.getValue().toString()).getElements().keySet();
@@ -188,17 +188,17 @@ private ListView enemyList;
     }
     public void addEnemy(){}
     public void addFriend(){}
-    public void methodView(ActionEvent event) throws IOException{
-    
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLCollectionMethods.fxml"));
-        Scene home_page_scene = new Scene(home_page_parent);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(home_page_scene);
-        app_stage.setTitle("Methods Collection Class");
-        app_stage.show();
-    }
+//    public void methodView(ActionEvent event) throws IOException{
+//    
+//        Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLCollectionMethods.fxml"));
+//        Scene home_page_scene = new Scene(home_page_parent);
+//        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        app_stage.setScene(home_page_scene);
+//        app_stage.setTitle("Methods Collection Class");
+//        app_stage.show();
+//    }
       public void Back(ActionEvent event) throws IOException {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLNewObject.fxml"));
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLDictionary.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(home_page_scene);

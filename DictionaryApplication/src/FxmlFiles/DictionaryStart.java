@@ -30,7 +30,7 @@ public class DictionaryStart extends Application {
         classNames = Generator.getClassNames();
         for(String className:classNames){
             pool.put(className,new HashMap<String,SuperType>());
-            dictionaries.put(className,new Dictionary<SuperType>());
+            //dictionaries.put(className,new Dictionary<SuperType>());
         }
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
