@@ -182,6 +182,28 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
         // System.out.println(pool.keySet().toString());
         //               pool.put(chooseClass.getValue().toString().trim() + "." + key.getText().trim(),bobject);
         //System.out.println(pool.keySet().toString());
+        String path="src/media/"+chooseClass.getValue().toString();
+        
+         File files = new File(path);
+        if (!files.exists()) {
+            if (files.mkdir()) {
+                System.out.println("Multiple directories are created!");
+            } else {
+                System.out.println("Failed to create multiple directories!");
+            }
+        }
+        path+="/"+keys;
+        files=new File(path);
+        files.mkdir();
+        files=new File(path + "/Audio");
+        files.mkdir();
+        files=new File(path + "/Video");
+        files.mkdir();
+         
+        files=new File(path+"/Pictures");
+        files.mkdir();
+        
+        
     }
 
     public void attributesFill(ActionEvent event) throws ClassNotFoundException, MalformedURLException {

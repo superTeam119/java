@@ -72,6 +72,16 @@ public class FXMLDocumentController implements Initializable {
     sss.close();
     }
     
+      public void AddMedia(ActionEvent event) throws IOException{
+     
+      Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLMedia.fxml"));
+        Scene home_page_scene = new Scene(home_page_parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.setScene(home_page_scene);
+        app_stage.setTitle("Java Class");
+        app_stage.show();
+     
+     }
     public void generate(ActionEvent event) throws IOException{
     
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLNewClass.fxml"));
