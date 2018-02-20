@@ -7,6 +7,7 @@ package FxmlFiles;
 
 
 import DictionaryApplication.Generator;
+import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.MediaPlayer;
@@ -53,6 +55,8 @@ private ComboBox objectNames;
 
 @FXML private ImageView iv;
 
+@FXML private TextField mediaName;
+
 private MediaPlayer mp,mp2;
 private Media me,me2;
 
@@ -64,7 +68,7 @@ private Media me,me2;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        classNames.getItems().addAll(Generator.getClassNames());
+        classNames.getItems().addAll(dictionaries.keySet());
 //            
 //        String path=new File("src/media/a.mp3").getAbsolutePath();
 //        me=new Media(new File(path).toURI().toString());
@@ -87,8 +91,8 @@ private Media me,me2;
 
     }
      
-    public void classObjects(ActionEvent event){
-        objectNames.getItems().addAll(pool.get(classNames.getValue().toString()).keySet());
+    public void classObjects(ActionEvent event){objectNames.getItems().clear();
+        objectNames.getItems().addAll(Generator.dictionaryObjects(classNames.getValue().toString()));
 //        Set<SuperType> keys=dictionaries.get(classNames.getValue().toString()).getElements().keySet();
 //        if(keys==null)
 //            System.out.println("empty");
@@ -122,7 +126,8 @@ private Media me,me2;
           sourcePath = file.getAbsolutePath();
         Image image=new Image(new File(sourcePath).toURI().toString());
         iv.setImage(image);
-        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),file.getName());
+        String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
+        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
      
      
            
@@ -136,12 +141,14 @@ private Media me,me2;
 );
       File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
          System.out.println(file.toString());
-         String path2=new File(file.toString()).getAbsolutePath();
-        me2=new Media(new File(path2).toURI().toString());
+         String sourcePath=new File(file.toString()).getAbsolutePath();
+        me2=new Media(new File(sourcePath).toURI().toString());
         mp2=new MediaPlayer(me2);
         mv2.setMediaPlayer(mp2);
         mp2.play();
-
+         String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
+        targetPath=String.format(".\\media\\%s\\%s\\video\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
+     
               
           }
           
@@ -153,17 +160,19 @@ private Media me,me2;
     new FileChooser.ExtensionFilter("Media files (*.mp3)", "*.mp3")
 );
         File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
- String path=new File(file.toString()).getAbsolutePath();
-        me=new Media(new File(path).toURI().toString());
+ String sourcePath=new File(file.toString()).getAbsolutePath();
+        me=new Media(new File(sourcePath).toURI().toString());
         mp=new MediaPlayer(me);
         mv.setMediaPlayer(mp);
              System.out.println(file.getName());
          
         //mp.play();
-
+         String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
+        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
+     
 String audioPath="C:\\Users\\Abo Ali\\Documents\\NetBeansProjects\\java\\DictionaryApplication\\src\\media\\"+classNames.getValue().toString()+"\\issa\\Audio\\"+file.getName();
              System.out.println(audioPath);
-             System.out.println(path);
+//             System.out.println(path);
 //              Path movefrom = FileSystems.getDefault().getPath("C:\\Users\\Issa\\Desktop\\Issaa\\aa.jpg");
 //              Path target = FileSystems.getDefault().getPath(".\\media\\Person\\issa\\Pictures\\s.jpg");
        

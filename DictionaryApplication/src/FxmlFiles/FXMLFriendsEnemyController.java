@@ -185,6 +185,11 @@ private ListView enemyList;
              tmpFriends.remove(f);
          }            
             }
+        if(objectNames.getSelectionModel().getSelectedIndex()==0)
+        objectNames.getSelectionModel().selectNext();
+        else
+        objectNames.getSelectionModel().selectPrevious();
+            
     }
     public void addEnemy(){}
     public void addFriend(){}

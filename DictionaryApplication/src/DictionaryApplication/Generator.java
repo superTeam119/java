@@ -5,7 +5,9 @@
  */
 package DictionaryApplication;
 
+import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
+import UserClasses.SuperType;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,8 +21,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -407,6 +411,26 @@ if (i >= 0) {
         
         Files.move(Paths.get(tempSource), Paths.get(sourceClass), StandardCopyOption.REPLACE_EXISTING);
         
+    }
+    public static Set<String> dictionaryObjects(String className){
+         Set<SuperType> keys=dictionaries.get(className).getElements().keySet();
+//        if(keys==null)
+//            System.out.println("empty");
+//        if(keys.size()==0)
+//            System.out.println("0");
+//        System.out.println(keys.size());
+//        System.out.println(keys.toArray()[0].toString());
+        Set<String> poolKeys= pool.get(className).keySet();
+        //for(SuperType key:keys)
+        //    System.out.println(key.toString());
+        Set<String> dictionaryObjects=new HashSet<String>();
+        for(String key:poolKeys){//System.out.println(key);
+            //System.out.println(keys.size());
+            if(keys.contains(pool.get(className).get(key)))
+                dictionaryObjects.add(key);
+        }
+         return dictionaryObjects;
+       
     }
   }
 
