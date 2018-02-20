@@ -182,7 +182,7 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
         // System.out.println(pool.keySet().toString());
         //               pool.put(chooseClass.getValue().toString().trim() + "." + key.getText().trim(),bobject);
         //System.out.println(pool.keySet().toString());
-        String path="src/media/"+chooseClass.getValue().toString();
+        String path="./media/"+chooseClass.getValue().toString();
         
          File files = new File(path);
         if (!files.exists()) {

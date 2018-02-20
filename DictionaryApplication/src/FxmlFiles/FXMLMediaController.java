@@ -11,7 +11,9 @@ import static FxmlFiles.DictionaryStart.pool;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
@@ -38,7 +40,8 @@ import javafx.stage.Stage;
  * @author Aya
  */
 public class FXMLMediaController implements Initializable {
-    
+    private String sourcePath;
+    private String targetPath;
     @FXML
 private ComboBox classNames;
 @FXML
@@ -62,15 +65,15 @@ private Media me,me2;
     public void initialize(URL url, ResourceBundle rb) {
         
         classNames.getItems().addAll(Generator.getClassNames());
-            
-        String path=new File("src/media/a.mp3").getAbsolutePath();
-        me=new Media(new File(path).toURI().toString());
-        mp=new MediaPlayer(me);
-        mv.setMediaPlayer(mp);
-        String path2=new File("src/media/b.mp4").getAbsolutePath();
-        me2=new Media(new File(path2).toURI().toString());
-        mp2=new MediaPlayer(me2);
-       mv2.setMediaPlayer(mp2);
+//            
+//        String path=new File("src/media/a.mp3").getAbsolutePath();
+//        me=new Media(new File(path).toURI().toString());
+//        mp=new MediaPlayer(me);
+//        mv.setMediaPlayer(mp);
+//        String path2=new File("src/media/b.mp4").getAbsolutePath();
+//        me2=new Media(new File(path2).toURI().toString());
+//        mp2=new MediaPlayer(me2);
+//       mv2.setMediaPlayer(mp2);
         // TODO
     }    
     
@@ -116,10 +119,10 @@ private Media me,me2;
 );
                 File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
          System.out.println(file.toString());
-          String path3=file.getAbsolutePath();
-        Image image=new Image(new File(path3).toURI().toString());
+          sourcePath = file.getAbsolutePath();
+        Image image=new Image(new File(sourcePath).toURI().toString());
         iv.setImage(image);
-        
+        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),file.getName());
      
      
            
@@ -161,8 +164,11 @@ private Media me,me2;
 String audioPath="C:\\Users\\Abo Ali\\Documents\\NetBeansProjects\\java\\DictionaryApplication\\src\\media\\"+classNames.getValue().toString()+"\\issa\\Audio\\"+file.getName();
              System.out.println(audioPath);
              System.out.println(path);
-                // Files.move(Paths.get(path), Paths.get(audioPath),  StandardCopyOption.REPLACE_EXISTING);
-                moveFileToDirectory(file,audioPath);
+//              Path movefrom = FileSystems.getDefault().getPath("C:\\Users\\Issa\\Desktop\\Issaa\\aa.jpg");
+//              Path target = FileSystems.getDefault().getPath(".\\media\\Person\\issa\\Pictures\\s.jpg");
+       
+                 
+                //moveFileToDirectory(file,audioPath);
              }
          private boolean moveFileToDirectory(File sourceFile, String targetPath) {
     File tDir = new File(targetPath);
@@ -179,6 +185,13 @@ String audioPath="C:\\Users\\Abo Ali\\Documents\\NetBeansProjects\\java\\Diction
 }
          
          public void AttachMedia(ActionEvent event) throws IOException {
+             File f=new File(targetPath);
+             if(f.exists()==false){
+             Path movefrom = FileSystems.getDefault().getPath(sourcePath);
+              Path target = FileSystems.getDefault().getPath(targetPath);
+             Files.move(movefrom,target,  StandardCopyOption.REPLACE_EXISTING);
+         
+             }
          }
          }
     

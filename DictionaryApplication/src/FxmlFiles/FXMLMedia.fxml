@@ -19,8 +19,7 @@
 <?import javafx.scene.media.*?>
 <?import javafx.scene.image.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="533.0" prefWidth="482.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FxmlFiles.FXMLMediaController">
+<AnchorPane id="AnchorPane" prefHeight="533.0" prefWidth="482.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="FxmlFiles.FXMLMediaController">
     
   <children>
      <Label layoutX="34.0" layoutY="24.0" prefHeight="37.0" prefWidth="190.0" text="Media">
@@ -35,7 +34,6 @@
       </Label>
        <Separator layoutX="24.0" layoutY="71.0" prefHeight="5.0" prefWidth="450.0" />
       <ComboBox fx:id="classNames" layoutX="150.0" layoutY="130.0" onAction="#classObjects" prefWidth="150.0" promptText="-- Class Name --" />
-      <ComboBox fx:id="objectNames" layoutX="150.0" layoutY="176.0"  prefWidth="150.0" promptText="-- Object Name --" />
       <Label layoutX="35.0" layoutY="176.0" text="Choose your object:">
          <font>
             <Font name="System Bold" size="12.0" />
@@ -68,42 +66,44 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
+         <children>
+            
+            <Label text="Image:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font>
+            </Label>
+            <Button fx:id="Image" mnemonicParsing="false" onAction="#Image" prefHeight="23.0" prefWidth="83.0" text="Image" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        
+         </Button>
+            
+            <ImageView fx:id="iv" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            
          
-         <Label GridPane.rowIndex="0" GridPane.columnIndex="0"  text="Image:">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
+         <Label text="Audio:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font>
          </Label>
-         <Button fx:id="Image" GridPane.rowIndex="0" GridPane.columnIndex="1" mnemonicParsing="false" onAction="#Image" prefHeight="23.0" prefWidth="83.0"  text="Image">
+         
+         <Button fx:id="Audio" mnemonicParsing="false" onAction="#Audio" prefHeight="23.0" prefWidth="83.0" text="Audio" GridPane.columnIndex="1" GridPane.rowIndex="2">
         
          </Button>
+            
+            <MediaView fx:id="mv" fitHeight="200.0" fitWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
          
-         <ImageView fx:id="iv" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+         <Label text="Video:" GridPane.columnIndex="0" GridPane.rowIndex="4">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font>
+         </Label>
          
-      
-      <Label GridPane.rowIndex="2" GridPane.columnIndex="0"  text="Audio:">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      
-      <Button fx:id="Audio" GridPane.rowIndex="2" GridPane.columnIndex="1" mnemonicParsing="false" onAction="#Audio" prefHeight="23.0" prefWidth="83.0"  text="Audio">
+           <Button fx:id="Video" mnemonicParsing="false" onAction="#Video" prefHeight="23.0" prefWidth="83.0" text="Video" GridPane.columnIndex="1" GridPane.rowIndex="4">
         
          </Button>
-         
-         <MediaView fx:id="mv" fitHeight="200.0" fitWidth="200.0" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
-      
-      <Label GridPane.rowIndex="4" GridPane.columnIndex="0"   text="Video:">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      
-        <Button fx:id="Video" GridPane.rowIndex="4" GridPane.columnIndex="1" mnemonicParsing="false" onAction="#Video" prefHeight="23.0" prefWidth="83.0"  text="Video">
-        
-         </Button>
-         
-         <MediaView fx:id="mv2" fitHeight="200.0" fitWidth="200.0" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+            
+            <MediaView fx:id="mv2" fitHeight="200.0" fitWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+         </children>
       </GridPane>
       
         <Button fx:id="Back" layoutX="378.0" layoutY="31.0" mnemonicParsing="false" onAction="#Back" prefHeight="23.0" prefWidth="83.0" style="-fx-background-color: Blue;" text="Back">
@@ -133,5 +133,6 @@
             </LinearGradient>
          </textFill>
       </Button>
+      <ComboBox fx:id="objectNames" layoutX="149.0" layoutY="172.0" onAction="#classObjects" prefWidth="150.0" promptText="-- Object Name --" />
       </children>
 </AnchorPane>
