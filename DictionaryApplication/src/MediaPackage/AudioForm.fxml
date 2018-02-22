@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="mvPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="315.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MediaPackage.AudioFormController">
+   <children>
+      <ImageView fitHeight="305.0" fitWidth="451.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../photos/mp3-media-music-player-eps-vectors_csp15004238.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="playButton" layoutX="93.0" layoutY="181.0" mnemonicParsing="false" text="&gt;" textFill="#161f9a" />
+      <Slider fx:id="timeSlider" layoutX="147.0" layoutY="210.0" />
+      <Slider fx:id="volumeSlider" layoutX="321.0" layoutY="206.0" prefHeight="14.0" prefWidth="75.0" />
+      <Label fx:id="playTime" layoutX="85.0" layoutY="232.0" prefHeight="25.0" prefWidth="65.0" text="00:00/15:13" />
+      <Label layoutX="30.0" layoutY="233.0" prefHeight="25.0" prefWidth="40.0" text="Time :" />
+   </children>
+</Pane>
