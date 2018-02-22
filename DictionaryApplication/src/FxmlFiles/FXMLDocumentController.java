@@ -16,9 +16,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +46,8 @@ public class FXMLDocumentController implements Initializable {
     //@FXML
     //private Label label;
     public void close(ActionEvent event) throws IOException {
-    
+             
+
         Platform.exit();
         System.exit(0);
     }
@@ -107,7 +112,12 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            // TODO
+            URLClassLoader   classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
     
 }
