@@ -7,7 +7,7 @@ package FxmlFiles;
 
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
-import UserClasses.SuperType;
+import DictionaryApplication.SuperType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

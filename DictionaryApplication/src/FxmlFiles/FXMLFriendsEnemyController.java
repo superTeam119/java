@@ -10,7 +10,7 @@ import DictionaryApplication.Generator;
 import DictionaryApplication.Pair;
 import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
-import UserClasses.SuperType;
+import DictionaryApplication.SuperType;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
@@ -186,10 +186,13 @@ private ListView enemyList;
          }            
             }
         if(objectNames.getSelectionModel().getSelectedIndex()==0)
-        objectNames.getSelectionModel().selectNext();
+        {objectNames.getSelectionModel().selectNext();
+                objectNames.getSelectionModel().selectPrevious();
+        }
         else
-        objectNames.getSelectionModel().selectPrevious();
-            
+        {objectNames.getSelectionModel().selectPrevious();
+                    objectNames.getSelectionModel().selectNext();
+        }
     }
     public void addEnemy(){}
     public void addFriend(){}

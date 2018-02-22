@@ -9,7 +9,7 @@ import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
-import UserClasses.SuperType;
+import DictionaryApplication.SuperType;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

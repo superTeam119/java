@@ -7,7 +7,6 @@ package DictionaryApplication;
 
 import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
-import UserClasses.SuperType;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -50,7 +49,7 @@ public class Generator {//done
     }
      public static List<String> getClassNames() {
         List<String> fnames = new ArrayList<String>();
-        File folder = new File(".\\UserClasses");
+        File folder = new File(".\\UserClasses1");
         File[] listOfFiles = folder.listFiles();
            // String extension = "";
 for (File fileName : listOfFiles) {

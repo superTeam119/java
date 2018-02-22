@@ -107,7 +107,7 @@ public class Dictionary<T extends Serializable> implements Serializable,Collecti
         a.getFriend().remove(key);
         }
          Pair s=elements.get(key);
-         elements.remove(key);
+         //elements.remove(key);
          return (elements.remove(key).equals(s));//!(elements.remove(key)==s) 
          //elements.get(o);
          //return elements.remove(key).equals(s);
@@ -196,7 +196,7 @@ public class Dictionary<T extends Serializable> implements Serializable,Collecti
     
   @Override  
   public Iterator<T> iterator() {
-  return new DictionaryIterator<T>();//elements.keySet().iterator();
+  return elements.keySet().iterator();//elements.keySet().iterator();
  }
 
  

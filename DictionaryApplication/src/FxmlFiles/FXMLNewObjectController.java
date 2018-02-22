@@ -11,7 +11,7 @@ import DictionaryApplication.Fields;
 import DictionaryApplication.Generator;
 import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
-import UserClasses.SuperType;
+import DictionaryApplication.SuperType;
 import java.io.IOException;
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -23,7 +23,10 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +46,7 @@ import javafx.stage.Stage;
  * @author user
  */
 public class FXMLNewObjectController implements Initializable {
-
+     private static Map<String,Class<?>> classMap=new HashMap<String,Class<?>>();
     /**
      * Initializes the controller class.
      */
@@ -55,6 +58,7 @@ public class FXMLNewObjectController implements Initializable {
     private GridPane attributesPlace;
     @FXML
     public TextField key = new TextField();
+    public URLClassLoader classLoader;
 
     public ComboBox getc() {
         return chooseClass;
@@ -62,11 +66,15 @@ public class FXMLNewObjectController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
-        List<String> classNames = Generator.getClassNames();
-        classNames = Generator.getClassNames();
-        chooseClass.getItems().addAll(classNames);
+        try {
+            // TODO
+            classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+            List<String> classNames = Generator.getClassNames();
+            classNames = Generator.getClassNames();
+            chooseClass.getItems().addAll(classNames);
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLNewObjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void Back(ActionEvent event) throws IOException {
@@ -132,18 +140,22 @@ public class FXMLNewObjectController implements Initializable {
 //               
 //        }
         Class<?> c = int.class;
-URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
-            // Load the class from the classloader by name....
 
-            //Files.move(Paths.get(tempSource), Paths.get(sourceClass), StandardCopyOption.REPLACE_EXISTING);
-             c = classLoader.loadClass("UserClasses." + chooseClass.getValue().toString().trim());
-            
-       // c = Class.forName("UserClasses." + chooseClass.getValue().toString().trim());
+            // Load the class from the classloader by name....
+        //Files.move(Paths.get(tempSource), Paths.get(sourceClass), StandardCopyOption.REPLACE_EXISTING);
+        String className=chooseClass.getValue().toString();
+        if(classMap.keySet().contains(className)==false)
+        {c = classLoader.loadClass("UserClasses1." + className);
+        classMap.put(className, c);
+        }
+        else
+        c=classMap.get(className);
+        // c = Class.forName("UserClasses." + chooseClass.getValue().toString().trim());
         //Field[] field = c.getDeclaredFields();
-        List<Field> field=ClassGenerator.getFields(c);
+        List<Field> field = ClassGenerator.getFields(c);
         ArrayList<Class> params = new ArrayList<>();
         //String classKey=ClassGenerator.classKey("./attributes/" + chooseClass.getValue().toString().trim() + ".txt");
-        String keyValue="";//System.out.println(classKey);
+        String keyValue = "";//System.out.println(classKey);
         for (Field f : field) {
             params.add(f.getType());
         }
@@ -152,39 +164,40 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
         Constructor<?> cons;
         cons = c.getConstructor(paramsArr);
         ArrayList<Object> b = new ArrayList<>();
-        
+
         for (int i = 0; i < field.size(); i++) {//System.out.println(field.get(i).getName().toString().trim());
-        String value=   field.get(i).getName(); 
+            String value = field.get(i).getName();
             //System.out.println(classKey + "  " + value);
 //        if(classKey.equals(value)){//System.out.println("hello");
 //                keyValue=objectFields.get(i).getKeyValue();
 //            }
             Object o = objectFields.get(i).getObject(field.get(i));
             b.add(o);
-       }
+        }
 //        if(c.getDeclaredFields().length==0)
 //            keyValue="singleton";
         //String key = chooseClass.getValue().toString().trim() + "." + keyValue;System.out.println(key);
-        String keys=key.getText();
+        String keys = key.getText();
         Object[] bArr = b.toArray(new Object[b.size()]);
         SuperType bobject = (SuperType) cons.newInstance(bArr);
-        
-        if(pool.get(chooseClass.getValue().toString().trim()).values().contains(bobject)==false)
-            if( pool.get(chooseClass.getValue().toString().trim()).get(keys)==null){        
-        //System.out.println(tmp);
-       // System.out.println(bobject);
-        //pool.put(key, bobject);
-        pool.get(chooseClass.getValue().toString().trim()).put(keys,bobject);
-        }else
-        {System.out.println("before");
-            System.out.println(pool.get(chooseClass.getValue().toString()).get(keys).toString());
+
+        if (pool.get(chooseClass.getValue().toString().trim()).values().contains(bobject) == false) {
+            if (pool.get(chooseClass.getValue().toString().trim()).get(keys) == null) {
+                //System.out.println(tmp);
+                // System.out.println(bobject);
+                //pool.put(key, bobject);
+                pool.get(chooseClass.getValue().toString().trim()).put(keys, bobject);
+            } else {
+                System.out.println("before");
+                System.out.println(pool.get(chooseClass.getValue().toString()).get(keys).toString());
+            }
         }
         // System.out.println(pool.keySet().toString());
         //               pool.put(chooseClass.getValue().toString().trim() + "." + key.getText().trim(),bobject);
         //System.out.println(pool.keySet().toString());
-        String path="./media/"+chooseClass.getValue().toString();
-        
-         File files = new File(path);
+        String path = "./media/" + chooseClass.getValue().toString();
+
+        File files = new File(path);
         if (!files.exists()) {
             if (files.mkdir()) {
                 System.out.println("Multiple directories are created!");
@@ -192,23 +205,22 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
                 System.out.println("Failed to create multiple directories!");
             }
         }
-        path+="/"+keys;
-        files=new File(path);
+        path += "/" + keys;
+        files = new File(path);
         files.mkdir();
-        files=new File(path + "/Audio");
+        files = new File(path + "/Audio");
         files.mkdir();
-        files=new File(path + "/Video");
+        files = new File(path + "/Video");
         files.mkdir();
-         
-        files=new File(path+"/Pictures");
+
+        files = new File(path + "/Pictures");
         files.mkdir();
-        
-        
+
     }
 
     public void attributesFill(ActionEvent event) throws ClassNotFoundException, MalformedURLException {
         attributesPlace.getChildren().clear();
-        
+
         attrField.clear();
         objectFields.clear();
 //            List<String> fnameNew=Generator.getClassNames();
@@ -220,9 +232,9 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
         Class<?> c = int.class;
         try {
             URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
-            
-             c = classLoader.loadClass("UserClasses." + s);
-            
+
+            c = classLoader.loadClass("UserClasses1." + s);
+
             //c = Class.forName("UserClasses." + s);
             System.out.println(c.getSimpleName());
         } catch (ClassNotFoundException ex) {
@@ -233,7 +245,7 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
         attributesPlace.add(new Text("key"), 0, 0);
         //Field[] field = c.getDeclaredFields();
         System.out.println(c.getSimpleName());
-        List<Field> field=ClassGenerator.getFields(c);
+        List<Field> field = ClassGenerator.getFields(c);
         int i;
         attributesPlace.add(new Text("AttributeType"), 0, 1);
         attributesPlace.add(new Text("AttributeName"), 1, 1);
@@ -241,7 +253,7 @@ URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI()
         List<String> classNames = Generator.getClassNames();
         for (i = 0; i < field.size(); i++) {
             attributesPlace.add(new Text(field.get(i).getName()), 1, i + 2);
-            if (classNames.contains(field.get(i).getType().getSimpleName())){
+            if (classNames.contains(field.get(i).getType().getSimpleName())) {
                 ComboBox cc = new ComboBox();
                 cc.getItems().addAll(Generator.getClassObject(field.get(i).getType().getSimpleName()));
                 objectFields.add(new Fields(cc));

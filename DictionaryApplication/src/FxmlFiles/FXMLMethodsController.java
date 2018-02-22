@@ -87,8 +87,8 @@ public class FXMLMethodsController implements Initializable {
     }
 
     public void result(ActionEvent event) {
-        UserClasses.SuperType a;
-        UserClasses.SuperType b;
+        DictionaryApplication.SuperType a;
+        DictionaryApplication.SuperType b;
         String result;
         String Methodname = MethodComboBox.getValue().toString().trim();
         //a = pool.get(firstClassComboBox.getValue().toString().trim() + "." + firstObjectComboBox.getValue().toString().trim());
@@ -108,7 +108,9 @@ public class FXMLMethodsController implements Initializable {
         if (Methodname.equals("equals()")) {
             result = result + String.format(".equals(%s):%s", secondObjectComboBox.getValue().toString().trim(), a.equals(b));
         }
-        if (b != null && a.getClass() != b.getClass() && Methodname.equals("compareTo()")) {
+        System.out.println(a.getClass());
+        System.out.println(b.getClass());
+        if (b != null && a.getClass()!=b.getClass() && Methodname.equals("compareTo()")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Result");
             alert.setResizable(false);

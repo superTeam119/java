@@ -8,7 +8,7 @@ package FxmlFiles;
 import DictionaryApplication.Dictionary;
 import static FxmlFiles.DictionaryStart.*;
 import static FxmlFiles.DictionaryStart.pool;
-import UserClasses.SuperType;
+import DictionaryApplication.SuperType;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -8,7 +8,7 @@ package FxmlFiles;
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import static FxmlFiles.DictionaryStart.dictionaries;
-import UserClasses.SuperType;
+import DictionaryApplication.SuperType;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;

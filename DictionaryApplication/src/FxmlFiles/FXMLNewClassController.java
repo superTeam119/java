@@ -11,7 +11,7 @@ import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import static FxmlFiles.DictionaryStart.dictionaries;
 import static FxmlFiles.DictionaryStart.pool;
-import UserClasses.SuperType;
+import DictionaryApplication.SuperType;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -169,7 +169,7 @@ public class FXMLNewClassController implements Initializable {
         //classText = classText + ClassGenerator.getClassText(classInfo);
         ClassGenerator.compileClass(classInfo);
         pool.put(classInfo.getClassName(),new HashMap<String,SuperType>());
-        dictionaries.put(classInfo.getClassName(), new Dictionary<SuperType>());
+        //dictionaries.put(classInfo.getClassName(), new Dictionary<SuperType>());
         //System.out.println(classText); 
         File f=new File("./media/"+className.getText());
         f.mkdir();

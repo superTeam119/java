@@ -7,7 +7,6 @@ package DictionaryApplication;
 
 //import UserClasses.finalTestt;
 import static DictionaryApplication.Generator.getClassNames;
-import UserClasses.SuperType;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,7 +21,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -41,9 +42,10 @@ import javax.tools.ToolProvider;
  * @author Issa
  */
 public class ClassGenerator {
+
     // update the push and pull
     public static String getClassText(ClassDetails classDetails) throws FileNotFoundException, IOException, ClassNotFoundException {
-        String s = "package UserClasses;\n";
+        String s = "package UserClasses1;\nimport DictionaryApplication.SuperType;\n";
         List<String> primitives = new ArrayList<String>();
         List<String> attributes = new ArrayList<String>();
         int z = 0;//for name of attribbutes
@@ -58,9 +60,9 @@ public class ClassGenerator {
         s += "public class " + classDetails.getClassName();
         if (classDetails.isSubClass() == true) {
             s = s + " extends " + classDetails.getSuperClass();
+        } else {
+            s = s + " extends SuperType";
         }
-        else
-            s=s+" extends SuperType";
         s = s + "{\n";
         //attributes declaration
         for (int i = 0; i < classDetails.getAttributes().size(); i++) {
@@ -69,7 +71,7 @@ public class ClassGenerator {
             } else {
                 attributes.add(classDetails.getAttributes().get(i).getName());
             }
-            s = s + String.format("    private final %s %s;\n", classDetails.getAttributes().get(i).getType(),classDetails.getAttributes().get(i).getName());
+            s = s + String.format("    private final %s %s;\n", classDetails.getAttributes().get(i).getType(), classDetails.getAttributes().get(i).getName());
             attributes.add(classDetails.getAttributes().get(i).getName());
         }
         //classDetails.getClassName()
@@ -94,13 +96,14 @@ public class ClassGenerator {
         }
         //attributes of this class
         for (int i = 0; i < classDetails.getAttributes().size(); i++) {
-            s = s + String.format("%s S%d,",classDetails.getAttributes().get(i).getType(), z);
+            s = s + String.format("%s S%d,", classDetails.getAttributes().get(i).getType(), z);
             z++;
             //s = s + typeField.get(i).getSelectionModel().getSelectedItem().toString() + " " + nameField.get(i).getText().trim() + ",";
-           // finalTestt sas=new finalTestt("sdasd",100);
+            // finalTestt sas=new finalTestt("sdasd",100);
         }
-        if(classDetails.getAttributes().size()>0)
-        s = s.substring(0, s.length() - 1);//remove last ,
+        if (classDetails.getAttributes().size() > 0) {
+            s = s.substring(0, s.length() - 1);//remove last ,
+        }
         s = s + "){\n";
         //super(......)
         z = 0;
@@ -129,7 +132,9 @@ public class ClassGenerator {
         }
         Pair<String, Integer> hashPair = hashCodeText(classDetails);
         saveAttributes(classDetails, superType, hashPair.getEnemy());//+ compareToText(typeField,nameField,method,primitives) ta7et
-        return s + equalText(classDetails, primitives) + stringText(classDetails, primitives) + hashPair.getFriend() + compareToText(classDetails, primitives) + "}";}
+        return s + equalText(classDetails, primitives) + stringText(classDetails, primitives) + hashPair.getFriend() + compareToText(classDetails, primitives) + "}";
+    }
+
     private static String equalText(ClassDetails classDetails, List<String> primitives) {
 
 //        List<String> primitives=new ArrayList<String>();
@@ -150,12 +155,12 @@ public class ClassGenerator {
         s = s + String.format("\n%s other = (%s) otherObj;\n", classDetails.getClassName(), classDetails.getClassName());
         s = s + "return ";
         for (int i = 0; i < classDetails.getAttributes().size(); i++) {
-            if (classDetails.getAttributes().get(i).isChecked()== true) {
+            if (classDetails.getAttributes().get(i).isChecked() == true) {
                 b = true;
                 if (primitives.contains(classDetails.getAttributes().get(i).getType())) {
                     s = s + String.format("this.%s==other.%s && ", classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName());
                 } else {
-                    s = s + String.format("((this.%s==null && other.%s==null)||(this.%s!=null && this.%s.equals(other.%s))) && ",classDetails.getAttributes().get(i).getName(),classDetails.getAttributes().get(i).getName(),classDetails.getAttributes().get(i).getName(),classDetails.getAttributes().get(i).getName(),classDetails.getAttributes().get(i).getName());
+                    s = s + String.format("((this.%s==null && other.%s==null)||(this.%s!=null && this.%s.equals(other.%s))) && ", classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName());
                 }
             }
         }
@@ -175,7 +180,7 @@ public class ClassGenerator {
         String s = "\n@Override\n"
                 + "public String toString(){return super.toString() + \"[\" + ";
         for (i = 0; i < classDetails.getAttributes().size(); i++) {
-            s = s + String.format("\"%s=\" + %s",classDetails.getAttributes().get(i).getName(),classDetails.getAttributes().get(i).getName());
+            s = s + String.format("\"%s=\" + %s", classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName());
 
             if (!(primitives.contains(classDetails.getAttributes().get(i).getType()))) //               s = s + nameField.get(i).getText() + " + ";
             //           else
@@ -192,8 +197,8 @@ public class ClassGenerator {
         return s + "\"]\";\n}";
     }
 
-    private static void saveAttributes(ClassDetails classDetails,List<String> superType, Integer prime) throws FileNotFoundException {
-        String path=".//attributes//" + classDetails.getClassName() + ".txt";
+    private static void saveAttributes(ClassDetails classDetails, List<String> superType, Integer prime) throws FileNotFoundException {
+        String path = ".//attributes//" + classDetails.getClassName() + ".txt";
         File f = new File(path);
         PrintWriter p = new PrintWriter(f);
         p.println(prime);
@@ -260,7 +265,7 @@ public class ClassGenerator {
             primes = getPrimes(Integer.parseInt(line) + 1, checkedNbr);
         }
 
-       // System.out.println(primes.toString());
+        // System.out.println(primes.toString());
         Map<String, String> builtInMap = new HashMap<String, String>();
         builtInMap.put("int", "Integer");
         builtInMap.put("long", "Long");
@@ -276,9 +281,9 @@ public class ClassGenerator {
         for (int i = 0; i < classDetails.getAttributes().size(); i++) {
             if (classDetails.getAttributes().get(i).isChecked() == true) {
                 if (builtInMap.containsKey(classDetails.getAttributes().get(i).getType())) {
-                    s = s + String.format("%d*%s.valueOf(%s).hashCode() + ", primes.get(j), builtInMap.get(classDetails.getAttributes().get(i).getType()),classDetails.getAttributes().get(i).getName());
+                    s = s + String.format("%d*%s.valueOf(%s).hashCode() + ", primes.get(j), builtInMap.get(classDetails.getAttributes().get(i).getType()), classDetails.getAttributes().get(i).getName());
                 } else {
-                    s = s + String.format("%d*%s.hashCode() + ", primes.get(j),classDetails.getAttributes().get(i).getName());
+                    s = s + String.format("%d*%s.hashCode() + ", primes.get(j), classDetails.getAttributes().get(i).getName());
                 }
                 j++;
             }
@@ -292,8 +297,8 @@ public class ClassGenerator {
         }
     }
 
-     private static String compareToText(ClassDetails classDetails,List<String> primitives) throws ClassNotFoundException {
-       Map<String, String> builtInMap = new HashMap<String, String>();
+    private static String compareToText(ClassDetails classDetails, List<String> primitives) throws ClassNotFoundException {
+        Map<String, String> builtInMap = new HashMap<String, String>();
         builtInMap.put("int", "Integer");
         builtInMap.put("long", "Long");
         builtInMap.put("double", "Double");
@@ -305,7 +310,7 @@ public class ClassGenerator {
         // builtInMap.put("void", Void.TYPE );
         builtInMap.put("short", "Short");
         String s = "@Override\n"
-                + "public int compareTo(SuperType other){\n if(!(other.getClass()==getClass()))\nSystem.out.println(\"\");\n"
+                + "public int compareTo(SuperType other){\n if(!(other.getClass()==getClass()))\nSystem.out.println(\"error types\");\n"
                 + String.format("%s others=(%s)other;\n", classDetails.getClassName(), classDetails.getClassName()) + "if(super.compareTo(other)==0 && ";
 //           }
         String ss = "\nreturn (int)(super.compareTo(other) + ";
@@ -313,11 +318,11 @@ public class ClassGenerator {
             if (classDetails.getAttributes().get(i).isChecked() == true) {
                 if (primitives.contains(classDetails.getAttributes().get(i).getType())) {//System.out.println(typeField.get(i));
                     //System.out.println(builtInMap.get(typeField.get(i)));
-                    s = s + String.format("(%s.valueOf(%s) - %s.valueOf(others.%s))==0 && ", builtInMap.get(classDetails.getAttributes().get(i).getType()),classDetails.getAttributes().get(i).getName(),  builtInMap.get(classDetails.getAttributes().get(i).getType()),classDetails.getAttributes().get(i).getName());
-                    ss = ss + String.format("(%s - others.%s) + ", classDetails.getAttributes().get(i).getName(),classDetails.getAttributes().get(i).getName());
+                    s = s + String.format("(%s.valueOf(%s) - %s.valueOf(others.%s))==0 && ", builtInMap.get(classDetails.getAttributes().get(i).getType()), classDetails.getAttributes().get(i).getName(), builtInMap.get(classDetails.getAttributes().get(i).getType()), classDetails.getAttributes().get(i).getName());
+                    ss = ss + String.format("(%s - others.%s) + ", classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName());
                 } else {
-                    s = s + String.format("(%s.compareTo(others.%s))==0 && ", classDetails.getAttributes().get(i).getName(),classDetails.getAttributes().get(i).getName());
-                    ss = ss + String.format("%s.compareTo(others.%s) + ", classDetails.getAttributes().get(i).getName(),classDetails.getAttributes().get(i).getName());
+                    s = s + String.format("(%s.compareTo(others.%s))==0 && ", classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName());
+                    ss = ss + String.format("%s.compareTo(others.%s) + ", classDetails.getAttributes().get(i).getName(), classDetails.getAttributes().get(i).getName());
                 }
             }
         }
@@ -325,8 +330,9 @@ public class ClassGenerator {
         s = s.substring(0, s.length() - 3) + ")\n\treturn 0;" + ss;
         return s;
     }
-    public static void compileClass(ClassDetails classDetails) throws FileNotFoundException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-    String source = ".\\UserClasses\\" + classDetails.getClassName() + ".java";
+
+    public static void compileClass(ClassDetails classDetails) throws FileNotFoundException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        String source = ".\\UserClasses1\\" + classDetails.getClassName() + ".java";
         String tempSource = ".\\UserClasses\\" + classDetails.getClassName() + ".class";
         String sourceClass = ".\\build\\classes\\UserClasses\\" + classDetails.getClassName() + ".class";
         //File f=new File(source);
@@ -346,14 +352,12 @@ public class ClassGenerator {
         }
 
        //  * Compilation Requirements
-        
-       DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
+        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
 
         // This sets up the class path that the compiler will use.
         // I've added the .jar file that contains the DoStuff interface within in it...
-       
         List<String> optionList = new ArrayList<String>();
         optionList.add("-classpath");
         optionList.add(System.getProperty("java.class.path") + ";dist/InlineCompiler.jar");
@@ -368,8 +372,8 @@ public class ClassGenerator {
                 null,
                 compilationUnit);
        //  * Compilation Requirements *
-      
-       if (task.call()) {
+
+        if (task.call()) {
             /**
              * Load and execute
              * ************************************************************************************************
@@ -377,61 +381,71 @@ public class ClassGenerator {
             System.out.println("teeesssstttttttttttttttt");
             // Create a new custom class loader, pointing to the directory that contains the compiled
             // classes, this should point to the top of the package structure!
-            URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+   //         URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./)).toURI().toURL()});//-ahbal
             // Load the class from the classloader by name....
 
             //Files.move(Paths.get(tempSource), Paths.get(sourceClass), StandardCopyOption.REPLACE_EXISTING);
-            Class<?> loadedClass = classLoader.loadClass("UserClasses." + classDetails.getClassName());
+//            Class<?> loadedClass = classLoader.loadClass("UserClasses." + classDetails.getClassName());
             //System.out.println(loadedClass.getTypeName());
-
-                    Constructor<?> cons;
-                    cons = loadedClass.getConstructors()[0];
-                   // UserClasses.SuperType o = (UserClasses.SuperType) cons.newInstance(5);
-                    //System.out.println("teeessttt objeeccttt");
-                   // System.out.println(o.toString()); 
+                  //  Constructor<?> cons;
+            // cons = loadedClass.getConstructors()[0];
+            // UserClasses.SuperType o = (UserClasses.SuperType) cons.newInstance(5);
+            //System.out.println("teeessttt objeeccttt");
+            // System.out.println(o.toString()); 
 //   
-    
-}
-        
+            //moveFile(source,".\\src\\UserClasses\\" + classDetails.getClassName() + ".java");
+            //moveFile(source.replace(".java",".class"),".\\build\\classes\\UserClasses\\" + classDetails.getClassName() + ".class");
+        } else {
+            System.err.println("Error in compiler");
+        }
+
     }
-    
-    public static String classKey(String path) throws FileNotFoundException, IOException{
+
+    public static String classKey(String path) throws FileNotFoundException, IOException {
         File f = new File(path);
-            BufferedReader reader = new BufferedReader(new FileReader(f));
-            String line;
-            line = reader.readLine();
-            line = reader.readLine();
-            return line;
+        BufferedReader reader = new BufferedReader(new FileReader(f));
+        String line;
+        line = reader.readLine();
+        line = reader.readLine();
+        return line;
     }
-    
-    public static List<Field> getFields(Class c){
-         ArrayList<Field> finished=new ArrayList<Field>();
-         ArrayList<Field> current=new ArrayList<Field>();
-            Object o=new Object();
-           while(c != o.getClass()){
-               current.clear();
-               Field[] fz=c.getDeclaredFields();
-                for (int i = 0; i < fz.length; i++) 
-                     current.add(fz[i]);
-                finished.addAll(0,current);
-            c=c.getSuperclass();
-           }   
-           return finished;
+
+    public static List<Field> getFields(Class c) {
+        ArrayList<Field> finished = new ArrayList<Field>();
+        ArrayList<Field> current = new ArrayList<Field>();
+        Object o = new Object();
+        while (c != o.getClass()) {
+            current.clear();
+            Field[] fz = c.getDeclaredFields();
+            for (int i = 0; i < fz.length; i++) {
+                current.add(fz[i]);
+            }
+            finished.addAll(0, current);
+            c = c.getSuperclass();
+        }
+        return finished;
     }
-   public static List<String> getFieldsString(Class c){
-       List<Field> a=getFields(c);
-       List<String> b=new ArrayList<>();
-       for (int i = 0; i < a.size(); i++) {
-           b.add(a.get(i).getName());
-       }
-       return b;
-   }
-    public static void fillDictionary(Map<String,Dictionary> map){
-        List<String> a=getClassNames();
-        for(int i=0;i<a.size();i++){
+
+    public static List<String> getFieldsString(Class c) {
+        List<Field> a = getFields(c);
+        List<String> b = new ArrayList<>();
+        for (int i = 0; i < a.size(); i++) {
+            b.add(a.get(i).getName());
+        }
+        return b;
+    }
+
+    public static void fillDictionary(Map<String, Dictionary> map) {
+        List<String> a = getClassNames();
+        for (int i = 0; i < a.size(); i++) {
             map.put(a.get(i), new Dictionary<SuperType>());
         }
     }
+
+    private static void moveFile(String sourcePath, String targetPath) throws IOException {
+        Path movefrom = FileSystems.getDefault().getPath(sourcePath);
+        Path target = FileSystems.getDefault().getPath(targetPath);
+        // Files.move(movefrom,target,  StandardCopyOption.COPY_ATTRIBUTES);
+        Files.copy(movefrom, target, StandardCopyOption.COPY_ATTRIBUTES);
+    }
 }
-
-
