@@ -109,7 +109,7 @@ public class FXMLMethodsController implements Initializable {
             result = result + String.format(".equals(%s):%s", secondObjectComboBox.getValue().toString().trim(), a.equals(b));
         }
         System.out.println(a.getClass());
-        System.out.println(b.getClass());
+//        System.out.println(b.getClass());
         if (b != null && a.getClass()!=b.getClass() && Methodname.equals("compareTo()")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Result");
