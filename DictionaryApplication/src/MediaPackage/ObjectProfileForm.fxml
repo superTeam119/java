@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane fx:id="mainTabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="642.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MediaPackage.ObjectProfileForm">
+  <tabs>
+    <Tab fx:id="pictureTab" text="Pictures">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <ImageView fx:id="pictureView" fitHeight="257.0" fitWidth="430.0" layoutX="106.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button layoutX="577.0" layoutY="162.0" mnemonicParsing="false" onAction="#nextPicture" prefHeight="25.0" prefWidth="51.0" text="Next" />
+                  <Button layoutY="150.0" mnemonicParsing="false" onAction="#previousPicture" text="Previous" />
+                  <Button layoutX="217.0" layoutY="368.0" mnemonicParsing="false" onAction="#pictureRemove" text="Remove" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab fx:id="audioTab" text="Audio">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button layoutX="14.0" layoutY="196.0" mnemonicParsing="false" onAction="#previousAudio" text="Previous" />
+                  <Button layoutX="576.0" layoutY="196.0" mnemonicParsing="false" onAction="#nextAudio" text="Next" />
+                  <Label fx:id="audioName" layoutX="86.0" layoutY="49.0" text="songName" />
+                  <ImageView fx:id="audioMediaView" fitHeight="267.0" fitWidth="394.0" layoutX="107.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../photos/audio.jpg" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="235.0" layoutY="364.0" mnemonicParsing="false" onAction="#audioRemove" text="Remove" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab fx:id="videoTab" text="Video">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="417.0" prefWidth="623.0">
+               <children>
+                  <Button layoutX="567.0" layoutY="165.0" mnemonicParsing="false" onAction="#nextVideo" prefHeight="25.0" prefWidth="61.0" text="Next" />
+                  <Button layoutX="14.0" layoutY="165.0" mnemonicParsing="false" onAction="#previousVideo" text="previous" />
+                  <MediaView fx:id="videoMediaView" fitHeight="200.0" fitWidth="200.0" layoutX="121.0" layoutY="77.0" />
+                  <Button layoutX="254.0" layoutY="356.0" mnemonicParsing="false" onAction="#videoRemove" text="Remove" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>
