@@ -7,6 +7,7 @@ package DictionaryApplication;
 
 //import UserClasses.finalTestt;
 import static DictionaryApplication.Generator.getClassNames;
+import static FxmlFiles.FXMLNewObjectController.classMap;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -398,7 +399,9 @@ public class ClassGenerator {
         } else {
             System.err.println("Error in compiler");
         }
-
+                   URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+                   Class<?> c= classLoader.loadClass("UserClasses1." + classDetails.getClassName());
+                   classMap.put(classDetails.getClassName(), c);
     }
 
     public static String classKey(String path) throws FileNotFoundException, IOException {

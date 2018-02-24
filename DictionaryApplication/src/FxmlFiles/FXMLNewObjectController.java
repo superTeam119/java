@@ -46,7 +46,7 @@ import javafx.stage.Stage;
  * @author user
  */
 public class FXMLNewObjectController implements Initializable {
-     private static Map<String,Class<?>> classMap=new HashMap<String,Class<?>>();
+     public static Map<String,Class<?>> classMap=new HashMap<String,Class<?>>();
     /**
      * Initializes the controller class.
      */
@@ -68,7 +68,7 @@ public class FXMLNewObjectController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         try {
             // TODO
-            classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+            //classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
             List<String> classNames = Generator.getClassNames();
             classNames = Generator.getClassNames();
             chooseClass.getItems().addAll(classNames);
@@ -140,13 +140,15 @@ public class FXMLNewObjectController implements Initializable {
 //               
 //        }
         Class<?> c = int.class;
-
+           
             // Load the class from the classloader by name....
         //Files.move(Paths.get(tempSource), Paths.get(sourceClass), StandardCopyOption.REPLACE_EXISTING);
         String className=chooseClass.getValue().toString();
         if(classMap.keySet().contains(className)==false)
-        {c = classLoader.loadClass("UserClasses1." + className);
-        classMap.put(className, c);
+        {System.out.println(className);
+            c = classLoader.loadClass("UserClasses1." + className);
+        
+            classMap.put(className, c);
         }
         else
         c=classMap.get(className);
@@ -231,7 +233,7 @@ public class FXMLNewObjectController implements Initializable {
         String s = chooseClass.getValue().toString().trim();
         Class<?> c = int.class;
         try {
-            URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+           URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
 
             c = classLoader.loadClass("UserClasses1." + s);
 

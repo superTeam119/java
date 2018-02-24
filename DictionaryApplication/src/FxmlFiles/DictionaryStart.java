@@ -8,6 +8,10 @@ package FxmlFiles;
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import DictionaryApplication.SuperType;
+import static FxmlFiles.FXMLNewObjectController.classMap;
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +30,14 @@ public class DictionaryStart extends Application {
    public static Map<String,Dictionary<SuperType>> dictionaries=new HashMap<String,Dictionary<SuperType>>();
 
    public void start(Stage stage) throws Exception {
+           URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+       
            List<String> classNames = Generator.getClassNames();
         classNames = Generator.getClassNames();
         for(String className:classNames){
             pool.put(className,new HashMap<String,SuperType>());
+          Class<?> c = classLoader.loadClass("UserClasses1." + className);
+          classMap.put(className, c);
             //dictionaries.put(className,new Dictionary<SuperType>());
         }
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));

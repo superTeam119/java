@@ -53,7 +53,8 @@ public class FXMLDocumentController implements Initializable {
     }
    
     public void load(ActionEvent event) throws FileNotFoundException, IOException, ClassNotFoundException{
-    File f=new File(".\\xml\\pool.xml");
+    URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+        File f=new File(".\\xml\\pool.xml");
     FileInputStream ff=new FileInputStream(f);
     ObjectInputStream fff=new ObjectInputStream(ff);
     pool=(HashMap<String, HashMap<String,SuperType>>)fff.readObject();
@@ -62,9 +63,9 @@ public class FXMLDocumentController implements Initializable {
     ObjectInputStream sss=new ObjectInputStream(ss);
     dictionaries=(HashMap<String,Dictionary<SuperType>>)sss.readObject();
     sss.close();
-    fff.close();
+    fff.close();//catch(Exception ex){System.out.println(ex.getMessage());}
     }
-    public void save(ActionEvent event) throws FileNotFoundException, IOException{
+    public void save(ActionEvent event) throws FileNotFoundException, IOException{URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
     File f=new File(".\\xml\\pool.xml");
     FileOutputStream ff=new FileOutputStream(f);
     ObjectOutputStream fff=new ObjectOutputStream(ff);
@@ -112,12 +113,12 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            // TODO
-            URLClassLoader   classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            // TODO
+//            //URLClassLoader   classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }    
     
 }

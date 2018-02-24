@@ -1,4 +1,3 @@
 3
-owner
-Employee
-int
+double
+String

@@ -118,7 +118,7 @@ private ListView oListView;
                        if(methodName.equals("size")==false && methodName.equals("isEmpty")==false &&methodName.equals("toArray")==false && methodName.equals("clear")==false){
                        for(int j=0; j< oArray.length; j++)
                            oClass[j]=Object.class;//(oArray[j].getClass());
-                           
+                        
                        }else
                        {oClass=new Class[0];
                        }
