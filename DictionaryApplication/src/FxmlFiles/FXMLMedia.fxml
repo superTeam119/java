@@ -19,7 +19,7 @@
 <?import javafx.scene.media.*?>
 <?import javafx.scene.image.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="533.0" prefWidth="482.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="FxmlFiles.FXMLMediaController">
+<AnchorPane id="AnchorPane" prefHeight="533.0" prefWidth="482.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FxmlFiles.FXMLMediaController">
     
   <children>
      <Label layoutX="34.0" layoutY="24.0" prefHeight="37.0" prefWidth="190.0" text="Media">
@@ -58,6 +58,7 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
          <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -140,5 +141,18 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <Button fx:id="attach1" layoutX="335.0" layoutY="485.0" mnemonicParsing="false" onAction="#showProfile" prefHeight="37.0" prefWidth="117.0" style="-fx-background-color: Blue;" text="Show Profile">
+         <font>
+            <Font name="Arial Bold Italic" size="12.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="WHITE" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
       </children>
 </AnchorPane>

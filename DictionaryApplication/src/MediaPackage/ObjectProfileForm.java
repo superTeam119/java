@@ -5,6 +5,8 @@
  */
 package MediaPackage;
 
+import static FxmlFiles.FXMLMediaController.className;
+import static FxmlFiles.FXMLMediaController.objectName;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -14,12 +16,14 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.application.Application.launch;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,7 +45,8 @@ public class ObjectProfileForm implements Initializable {
     /**
      * Initializes the controller class.
      */
-public  static String popUp;
+public  static String audioPopUp;
+public  static String videoPopUp;
     @FXML private ImageView pictureView;
     @FXML private Tab pictureTab;
     @FXML private Tab videoTab;
@@ -53,32 +58,50 @@ public  static String popUp;
       Media media;
     Image image;
 
-    private int i=0;
-    ArrayList<String> paths;
+    private int audioIndex=0,videoIndex=0,pictureIndex=0;
+    ArrayList<String> videoPaths;
+    ArrayList<String> audioPaths;
+    ArrayList<String> picturePaths;
 protected  String mediaPath;
 List<String> MediaPaths;
 
+@FXML private ListView oListView;
 
-
-    
+    String audioFolderPath;
+    String videoFolderPath;
+    String picFolderPath;
       @Override
     public void initialize(URL url, ResourceBundle rb) {
+//          System.out.println(className+objectName);
         // TODO
+        //videoMediaView
+      
+ audioFolderPath="media\\"  + className+"\\"+objectName + "\\Audio\\";
+          System.out.println(audioFolderPath);
+audioPaths=(ArrayList<String>) listFiles(audioFolderPath);
+  videoFolderPath="media\\"  + className +"\\"+objectName+ "\\Video\\";
+videoPaths=(ArrayList<String>) listFiles(videoFolderPath);
+ picFolderPath="media\\"  + className+"\\"+objectName + "\\Pictures\\";
+picturePaths=(ArrayList<String>) listFiles(picFolderPath);
 //videoMediaView
 
-mediaPath=new File("src/media/b.MP4").getAbsolutePath();
+//mediaPath=new File(videoPaths.get(videoIndex)).getAbsolutePath();
+mediaPath=new File(videoFolderPath+videoPaths.get(videoIndex)).getAbsolutePath();
+
           
 media = new Media(new File(mediaPath).toURI().toString());
 mediaPlayer = new MediaPlayer(media);
 videoMediaView.setMediaPlayer(mediaPlayer);
-videoMediaView.setFitWidth(400);
-videoMediaView.setFitHeight(350);
+videoMediaView.setFitWidth(450);
+videoMediaView.setFitHeight(370);
 //audioMediaView
-
-mediaPath=new File("src/media/c.jpg").getAbsolutePath();
+videoPopUp=mediaPath;
+audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
+mediaPath=new File(picFolderPath+picturePaths.get(pictureIndex)).getAbsolutePath();
  image=new Image(new File(mediaPath).toURI().toString());
           pictureView.setImage(image);
- audioName.setText("a.mp3");
+         if(audioPaths.size()>0)
+ audioName.setText(audioPaths.get(audioIndex));
 
 
    videoMediaView.setOnMouseClicked((MouseEvent mouseEvent) -> {
@@ -86,6 +109,7 @@ mediaPath=new File("src/media/c.jpg").getAbsolutePath();
            if(mouseEvent.getClickCount() == 2){
                Parent home_page_parent;
                try {
+                  
                    home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/VideoForm.fxml"));
                    Scene home_page_scene = new Scene(home_page_parent);
                    Stage app_stage = new Stage();
@@ -100,22 +124,23 @@ mediaPath=new File("src/media/c.jpg").getAbsolutePath();
        }
 });
      audioMediaView.setOnMouseClicked((MouseEvent mouseEvent) -> {
-         if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-             if(mouseEvent.getClickCount() == 2){
-                 Parent home_page_parent;
-                 try {
-                     home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/AudioForm.fxml"));
-                     Scene home_page_scene = new Scene(home_page_parent);
-                     Stage app_stage = new Stage();
-                     app_stage.setScene(home_page_scene);
-                     //app_stage.setTitle("Methods");
-                     
-                     app_stage.show();
-                 }           catch (IOException ex) {
-                     Logger.getLogger(ObjectProfileForm.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-             }
-         }
+       if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+           if(mouseEvent.getClickCount() == 2){
+               try {
+                   Parent home_page_parent;
+                   
+                   home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/AudioForm.fxml"));
+                   Scene home_page_scene = new Scene(home_page_parent);
+                   Stage app_stage = new Stage();
+                   app_stage.setScene(home_page_scene);
+                   //app_stage.setTitle("Methods");
+                   
+                   app_stage.show();
+               } catch (IOException ex) {
+                   Logger.getLogger(ObjectProfileForm.class.getName()).log(Level.SEVERE, null, ex);
+               }
+           }
+       }
 });
     pictureTab.selectedProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue) {
@@ -124,120 +149,101 @@ mediaPath=new File("src/media/c.jpg").getAbsolutePath();
     });
     }
     public void videoRemove(){
-        System.out.println(mediaPath);
-         File videoFile=new File(mediaPath);
-      if(videoFile.exists()){
-          videoFile.delete();
-      }
+   videoPaths.remove(videoIndex);
      nextVideo();
     }
      public void pictureRemove(){
-           System.out.println(mediaPath);
-      File pictureFile=new File(mediaPath);
-      if(pictureFile.exists()){
-          pictureFile.delete();
-      }
+    picturePaths.remove(pictureIndex);
       nextPicture();
     }
  
       public void audioRemove(){
          
-//          mediaPath.replaceAll("\\","\\\\");
-         // "C:\\Users\\Abo Ali\\Documents\\NetBeansProjects\\JavaFXApplication14\\src\\media\\Person\\Hasan\\Audio\\03 - فتوى الغرام (عباس بدوي) - YouTube.mp3"
-            System.out.println(mediaPath);
-         File audioFile=new File(mediaPath);
-      if(audioFile.exists()){
-          audioFile.delete();
-      }
+         audioPaths.remove(audioIndex);
   nextAudio();
     }
     public void nextPicture(){
-        paths=(ArrayList<String>) listFiles("src\\media\\Person\\Hasan\\Pictures");
-        String path="src\\media\\Person\\Hasan\\Pictures\\"+paths.get(i);
-        i=(i+1)%(paths.size());
-        image=new Image(new File(path).toURI().toString());
+       
+        
+                   if(pictureIndex==(picturePaths.size()-1))
+             pictureIndex=0;
+         else
+        pictureIndex=pictureIndex+1;
+                   mediaPath=picFolderPath+picturePaths.get(pictureIndex);
+        image=new Image(new File(mediaPath).toURI().toString());
           pictureView.setImage(image);
-          mediaPath=path;
+   
           
     }
         public void previousPicture(){
-                    paths=(ArrayList<String>) listFiles("src\\media\\Person\\Hasan\\Pictures");
-   String path="src\\media\\Person\\Hasan\\Pictures\\"+paths.get(i);
    
-                   if(i==0)
-             i=paths.size()-1;
+                   if(pictureIndex==0)
+             pictureIndex=picturePaths.size()-1;
          else
-        i=(i-1)%(paths.size());
-
-  
-        image=new Image(new File(path).toURI().toString());
+        pictureIndex=pictureIndex-1;
+  mediaPath=picFolderPath+picturePaths.get(pictureIndex);
+        image=new Image(new File(mediaPath).toURI().toString());
        pictureView.setImage(image);
-mediaPath=path;
     }
         
         
             public void nextVideo() {
-                
-                paths=(ArrayList<String>) listFiles("src\\media\\Person\\Hasan\\Video");
-                System.out.println(paths.get(i));
-        String path="src\\media\\Person\\Hasan\\Video\\"+paths.get(i);
-        i=(i+1)%(paths.size());
-        media=new Media(new File(path).toURI().toString());
+        if(videoIndex==(videoPaths.size()-1))
+        videoIndex=0;
+        else
+        videoIndex=videoIndex+1;
+          mediaPath=videoFolderPath+videoPaths.get(videoIndex);
+        media=new Media(new File(mediaPath).toURI().toString());
         mediaPlayer=new MediaPlayer(media);  
   
 videoMediaView.setMediaPlayer(mediaPlayer);
-videoMediaView.setFitHeight(400);
-videoMediaView.setFitWidth(400);
-audioName.setText(paths.get(i));
- popUp=path;
-mediaPath=path;
+videoMediaView.setFitHeight(450);
+videoMediaView.setFitWidth(370);
+audioName.setText(videoPaths.get(videoIndex));
+ videoPopUp=mediaPath;
+
     }
         public void previousVideo(){
-            
-                   paths=(ArrayList<String>) listFiles("src\\media\\Person\\Hasan\\Video");
-                            String path="src\\media\\Person\\Hasan\\Video\\"+paths.get(i);
-                            System.out.println(paths.get(i));
-                   if(i==0)
-             i=paths.size()-1;
+
+                     if(videoIndex==0)
+             videoIndex=videoPaths.size()-1;
          else
-        i=(i-1)%(paths.size());
-         media=new Media(new File(path).toURI().toString());
-         media=new Media(new File(path).toURI().toString());
+        videoIndex=videoIndex-1;
+                         mediaPath=videoFolderPath+videoPaths.get(videoIndex);
+        media=new Media(new File(mediaPath).toURI().toString());
         mediaPlayer=new MediaPlayer(media);  
-   popUp=path;
+  
 videoMediaView.setMediaPlayer(mediaPlayer);
-videoMediaView.setFitHeight(400);
-videoMediaView.setFitWidth(400);
-audioName.setText(paths.get(i));
-mediaPath=path;
+videoMediaView.setFitHeight(450);
+videoMediaView.setFitWidth(370);
+ videoPopUp=mediaPath;
     }
                     public void nextAudio() {
-                paths=(ArrayList<String>) listFiles("src\\media\\Person\\Hasan\\Audio");
-        String path="src\\media\\Person\\Hasan\\Audio\\"+paths.get(i);
-                   if(i==paths.size())
-             i=0;
-         else
-        i++;
-        
-  popUp="src\\media\\Person\\Hasan\\Audio\\"+paths.get(i);
+      
+          if(audioIndex==(audioPaths.size()-1))
+        audioIndex=0;
+        else
+        audioIndex=audioIndex+1;
+          mediaPath=audioFolderPath+audioPaths.get(audioIndex);
+  audioPopUp=mediaPath;
 //audioMediaView.setMediaPlayer(mediaPlayer);
 //audioMediaView.setFitHeight(400);
 //audioMediaView.setFitWidth(400);
-audioName.setText(paths.get(i));
-mediaPath=path;
+audioName.setText(audioPaths.get(audioIndex));
+
 
     }
                public void previousAudio(){
-                   paths=(ArrayList<String>) listFiles("src\\media\\Person\\Hasan\\Audio");
-                            String path="src\\media\\Person\\Hasan\\Audio\\"+paths.get(i);
-                   if(i==0)
-             i=paths.size()-1;
+                  
+                          
+                     if(audioIndex==0)
+             audioIndex=picturePaths.size()-1;
          else
-        i=(i-1)%(paths.size());
-   popUp="src\\media\\Person\\Hasan\\Audio\\"+paths.get(i);
+        audioIndex=audioIndex-1;
+   audioPopUp=mediaPath;
+   mediaPath=audioFolderPath+audioPaths.get(audioIndex);
+audioName.setText(audioPaths.get(audioIndex));
 
-audioName.setText(paths.get(i));
-mediaPath=path;
     }
                
   public List<String> listFiles(String directoryName){

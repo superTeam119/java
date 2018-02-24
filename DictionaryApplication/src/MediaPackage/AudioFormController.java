@@ -21,7 +21,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
-import static MediaPackage.ObjectProfileForm.popUp;
+import static MediaPackage.ObjectProfileForm.audioPopUp;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -56,8 +56,10 @@ public class AudioFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-     String path =  popUp;
+//     String path =  audioPopUp;
+     String path =  audioPopUp;
         Media media = new Media(new File(path).toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
         mediaPlayer = new MediaPlayer(media);
         playButton.setStyle("-fx-background-color: transparent;"); 
 
@@ -124,12 +126,12 @@ public class AudioFormController implements Initializable {
             }
      });
         
-         Stage stage = (Stage) mvPane.getScene().getWindow();
-        stage.setOnCloseRequest((WindowEvent event) -> {
-            System.out.println("Closing......");
-            mediaPlayer.setAutoPlay(false);
-            event.consume();
-        });
+//         Stage stage = (Stage) mvPane.getScene().getWindow();
+//        stage.setOnCloseRequest((WindowEvent event) -> {
+//            System.out.println("Closing......");
+//            mediaPlayer.setAutoPlay(false);
+//            event.consume();
+//        });
     }
 
     public void updateValues() {

@@ -44,6 +44,7 @@ import javafx.stage.Stage;
 public class FXMLMediaController implements Initializable {
     private String sourcePath;
     private String targetPath;
+    public static String className,objectName;
     @FXML
 private ComboBox classNames;
 @FXML
@@ -93,6 +94,8 @@ private Media me,me2;
      
     public void classObjects(ActionEvent event){objectNames.getItems().clear();
         objectNames.getItems().addAll(Generator.dictionaryObjects(classNames.getValue().toString()));
+       
+        
 //        Set<SuperType> keys=dictionaries.get(classNames.getValue().toString()).getElements().keySet();
 //        if(keys==null)
 //            System.out.println("empty");
@@ -127,10 +130,7 @@ private Media me,me2;
         Image image=new Image(new File(sourcePath).toURI().toString());
         iv.setImage(image);
         String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
-        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
-     
-     
-           
+        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);         
        }
        
           public void Video(ActionEvent event) throws IOException {
@@ -139,16 +139,14 @@ private Media me,me2;
                 fileChooser.getExtensionFilters().addAll(
     new FileChooser.ExtensionFilter("Media files (*.mp4)", "*.mp4")
 );
+     // File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
       File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
-         System.out.println(file.toString());
-         String sourcePath=new File(file.toString()).getAbsolutePath();
+          sourcePath= file.getAbsolutePath();
         me2=new Media(new File(sourcePath).toURI().toString());
         mp2=new MediaPlayer(me2);
         mv2.setMediaPlayer(mp2);
-        mp2.play();
          String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
-        targetPath=String.format(".\\media\\%s\\%s\\video\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
-     
+        targetPath=String.format(".\\media\\%s\\%s\\Video\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
               
           }
           
@@ -160,24 +158,27 @@ private Media me,me2;
     new FileChooser.ExtensionFilter("Media files (*.mp3)", "*.mp3")
 );
         File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
- String sourcePath=new File(file.toString()).getAbsolutePath();
+sourcePath= file.getAbsolutePath();
         me=new Media(new File(sourcePath).toURI().toString());
         mp=new MediaPlayer(me);
-        mv.setMediaPlayer(mp);
+//        mv.setMediaPlayer(mp);
              System.out.println(file.getName());
          
         //mp.play();
          String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
-        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
+        targetPath=String.format(".\\media\\%s\\%s\\Audio\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
+        
+        
      
-String audioPath="C:\\Users\\Abo Ali\\Documents\\NetBeansProjects\\java\\DictionaryApplication\\src\\media\\"+classNames.getValue().toString()+"\\issa\\Audio\\"+file.getName();
-             System.out.println(audioPath);
+//String audioPath="C:\\Users\\Abo Ali\\Documents\\NetBeansProjects\\java\\DictionaryApplication\\src\\media\\"+classNames.getValue().toString()+"\\issa\\Audio\\"+file.getName();
+//             System.out.println(audioPath);
 //             System.out.println(path);
 //              Path movefrom = FileSystems.getDefault().getPath("C:\\Users\\Issa\\Desktop\\Issaa\\aa.jpg");
 //              Path target = FileSystems.getDefault().getPath(".\\media\\Person\\issa\\Pictures\\s.jpg");
        
                  
                 //moveFileToDirectory(file,audioPath);
+       
              }
          private boolean moveFileToDirectory(File sourceFile, String targetPath) {
     File tDir = new File(targetPath);
@@ -198,9 +199,19 @@ String audioPath="C:\\Users\\Abo Ali\\Documents\\NetBeansProjects\\java\\Diction
              if(f.exists()==false){
              Path movefrom = FileSystems.getDefault().getPath(sourcePath);
               Path target = FileSystems.getDefault().getPath(targetPath);
-             Files.move(movefrom,target,  StandardCopyOption.REPLACE_EXISTING);
+             Files.copy(movefrom,target,  StandardCopyOption.REPLACE_EXISTING);
          
              }
+         }
+         public void showProfile(ActionEvent event) throws IOException{
+                       className=classNames.getValue().toString();
+        objectName=objectNames.getValue().toString();
+                Parent home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/ObjectProfileForm.fxml"));
+        Scene home_page_scene = new Scene(home_page_parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.setScene(home_page_scene);
+        //app_stage.setTitle("Methods");
+        app_stage.show();
          }
          }
     
