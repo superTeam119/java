@@ -83,8 +83,8 @@ public class FXMLDocumentController implements Initializable {
     ObjectOutputStream sss=new ObjectOutputStream(ss);
     sss.writeObject(dictionaries);
     sss.close();
-    pool=new HashMap<String,HashMap<String,SuperType>>();
-            pool.putAll(tmpPool);
+    tmpPool=new HashMap<String,HashMap<String,SuperType>>();
+            tmpPool.putAll(pool);
     tmpDictionaries=new HashMap<String,Dictionary<SuperType>>();
             tmpDictionaries.putAll(dictionaries);
     //tmpPool=new HashMap<String,HashMap<String,SuperType>>(pool);
