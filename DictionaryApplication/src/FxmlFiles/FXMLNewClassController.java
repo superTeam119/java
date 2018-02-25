@@ -31,6 +31,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -55,6 +56,8 @@ public class FXMLNewClassController implements Initializable {
 
     @FXML
     private TextField numberOfAtt;
+    @FXML
+    private Label classStatus;   
     @FXML
     private GridPane gridPane;
     @FXML
@@ -146,7 +149,9 @@ public class FXMLNewClassController implements Initializable {
             superClass.setDisable(true);
         }
     }
-
+public void jjj(ActionEvent event){
+    System.out.println(className.getText());
+}
     public void generateYourClass(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
         //String classText="";
