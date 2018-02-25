@@ -24,8 +24,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -50,25 +53,34 @@ public class Import_Export_FormController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    public void Back(ActionEvent event) throws IOException {
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/FxmlFiles/FXMLDictionary.fxml"));
+        Scene home_page_scene = new Scene(home_page_parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.setScene(home_page_scene);
+        //app_stage.setTitle("Methods");
+        app_stage.show();
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        filteredArray=new ArrayList<String>();
-        filteredArray.add("song.mp3");
-        filteredArray.add("fatwa.mp3");
-        filteredArray.add("nadbeyet.mp3");
+//        filteredArray=new ArrayList<String>();
+//        filteredArray.add("song.mp3");
+//        filteredArray.add("fatwa.mp3");
+//        filteredArray.add("nadbeyet.mp3");
         exportClassesNames.getItems().addAll(Generator.getClassNames());
-         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-             filterListView.getItems().clear();
-                // Compare first name and last name field in your object with filter.
-                String lowerCaseFilter = newValue.toLowerCase();
-                for (int i = 0; i <filteredArray.size() ; i++) {
-                 if(filteredArray.get(i).contains(lowerCaseFilter)){
-                    filterListView.getItems().add(filteredArray.get(i));
-                 }
-             }
-
-        });
+//         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+//             filterListView.getItems().clear();
+//                 Compare first name and last name field in your object with filter.
+//                String lowerCaseFilter = newValue.toLowerCase();
+//                for (int i = 0; i <filteredArray.size() ; i++) {
+//                 if(filteredArray.get(i).contains(lowerCaseFilter)){
+//                    filterListView.getItems().add(filteredArray.get(i));
+//                 }
+//             }
+//
+//        });
     }    
     public void exportDictionary(ActionEvent event) throws FileNotFoundException, IOException{
         FileChooser fileChooser = new FileChooser();
@@ -84,7 +96,7 @@ public class Import_Export_FormController implements Initializable {
           File f=new File(file.getAbsolutePath().toString()+"\\pool.xml");
     FileOutputStream ff=new FileOutputStream(f);
     ObjectOutputStream fff=new ObjectOutputStream(ff);
-    fff.writeObject(pool);
+    fff.writeObject(pool.get(className));
     fff.close();
 
     if(dictionaries.containsKey(className)==true){
