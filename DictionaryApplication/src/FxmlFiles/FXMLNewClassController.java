@@ -34,6 +34,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import javafx.stage.Stage;
@@ -57,7 +58,7 @@ public class FXMLNewClassController implements Initializable {
     @FXML
     private TextField numberOfAtt;
     @FXML
-    private Label classStatus;   
+    private Label classStatus;
     @FXML
     private GridPane gridPane;
     @FXML
@@ -149,9 +150,11 @@ public class FXMLNewClassController implements Initializable {
             superClass.setDisable(true);
         }
     }
-public void jjj(ActionEvent event){
-    System.out.println(className.getText());
-}
+
+    public void jjj(ActionEvent event) {
+        System.out.println(className.getText());
+    }
+
     public void generateYourClass(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
         //String classText="";
@@ -174,17 +177,17 @@ public void jjj(ActionEvent event){
         }
         //classText = classText + ClassGenerator.getClassText(classInfo);
         ClassGenerator.compileClass(classInfo);
-        pool.put(classInfo.getClassName(),new HashMap<String,SuperType>());
+        pool.put(classInfo.getClassName(), new HashMap<String, SuperType>());
         //dictionaries.put(classInfo.getClassName(), new Dictionary<SuperType>());
         //System.out.println(classText); 
-        File f=new File("./media/"+className.getText());
+        File f = new File("./media/" + className.getText());
         f.mkdir();
-        
-         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Result");
         alert.setResizable(false);
         alert.getDialogPane().setPrefSize(200, 200);
-        alert.setContentText("Class "+className.getText()+" is created");
+        alert.setContentText("Class " + className.getText() + " is created");
         alert.showAndWait();
     }
 
@@ -208,7 +211,7 @@ public void jjj(ActionEvent event){
 
         //  attributesPlace.add(chooseClass, 0, 0);
     }
-
+    
     public void methodScene(ActionEvent event) throws IOException {
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLMethods.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
@@ -222,6 +225,66 @@ public void jjj(ActionEvent event){
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
 
+        List<String> AR = new ArrayList<String>();
+
+        AR.add("private");
+        AR.add("public");
+        AR.add("protected");
+        AR.add("static");
+        AR.add("void");
+        AR.add("int");
+        AR.add("float");
+        AR.add("double");
+        AR.add("String");
+        AR.add("boolean");
+        AR.add("abstract");
+        AR.add("final");
+        AR.add("char");
+
+        List<String> savedClasses = Generator.getClassNames();
+        classStatus.setTextFill(Color.web("#ff0000"));
+        classStatus.setText("enter the class name");
+        className.textProperty().addListener((observable, oldValue, newValue)
+                -> {
+            
+            classStatus.setTextFill(Color.web("#ff0000"));
+            if (className.getText().equals("")) {
+                classStatus.setText("enter the class name");
+
+            }
+            String tmp = className.getText();
+            char tmpC;
+            for (int i = 0; i < tmp.length(); i++) {
+                tmpC = tmp.charAt(i);
+                if (tmpC == '_' || tmpC == '$' || (tmpC >= 'a' && tmpC <= 'z') || (tmpC >= 'A' && tmpC <= 'Z') || (tmpC >= '0' && tmpC <= '9')) {
+                    classStatus.setTextFill(Color.web("#00e600"));
+                    classStatus.setText("accepted");
+                } else {
+                    classStatus.setText("incorrect class name");
+                    return;
+                }
+                if (i == 0 && (tmpC >= '0' && tmpC <= '9')) {
+                    classStatus.setTextFill(Color.web("#ff0000"));
+
+                    classStatus.setText("incorrect class name");
+                    return;
+                }
+            }
+            if (AR.contains(className.getText())) {
+                classStatus.setTextFill(Color.web("#ff0000"));
+                classStatus.setText("can't set a JAVA predefined name");
+                return;
+            }
+
+            if (savedClasses.contains(className.getText())) {
+                classStatus.setTextFill(Color.web("#ff0000"));
+                classStatus.setText("class name already exists!");
+                return;
+            }
+
+        }
+        );
+
+    }
 }

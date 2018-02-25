@@ -58,6 +58,7 @@ public class ClassGenerator {
         primitives.add("byte");
         primitives.add("long");
         primitives.add("short");
+        
         s += "public class " + classDetails.getClassName();
         if (classDetails.isSubClass() == true) {
             s = s + " extends " + classDetails.getSuperClass();
