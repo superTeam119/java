@@ -50,7 +50,8 @@ public class DictionaryStart extends Application {
        // stage.setTitle("Dictionary Generator Application ");
         stage.show();
     }
-
+    public static Map<String,HashMap<String,SuperType>> tmpPool=null ;
+   public static Map<String,Dictionary<SuperType>> tmpDictionaries=null;
     /**
      * @param args the command line arguments
      */

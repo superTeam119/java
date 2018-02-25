@@ -55,6 +55,7 @@ private ListView oListView;
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
        // oListView.setItems((ObservableList) Generator.getClassObject(classNames.getValue().toString(), pool));
+       methods.setDisable(true);
         methods.getItems().add("add");
         methods.getItems().add("remove");
         methods.getItems().add("clear");
@@ -70,9 +71,13 @@ private ListView oListView;
         
         
         classNames.getItems().addAll(dictionaries.keySet());       
-        oListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+       // oListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }   
    
+    public void methodEnable(ActionEvent event){
+        methods.setDisable(false);
+    }
+    
      public void Back(ActionEvent event) throws IOException {
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLDictionary.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
@@ -83,7 +88,15 @@ private ListView oListView;
 
     }
      public void fillList(ActionEvent event){oListView.getItems().clear();
+        
          oListView.getItems().addAll( Generator.getClassObject(classNames.getValue().toString())); 
+         String methodName=methods.getValue().toString();
+         if(methodName.equals("add") || methodName.equals("addAll"))
+             oListView.getItems().removeAll(Generator.dictionaryObjects(classNames.getValue().toString()));
+         if(methodName.contains("All"))
+             oListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+         else
+             oListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
      }
  public void resultMethod(ActionEvent event) throws IOException {System.out.println("sss");
 //                        if(methodName.equals("add")){

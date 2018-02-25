@@ -22,7 +22,7 @@
          </font>
       </Label>
       <Separator layoutX="14.0" layoutY="63.0" prefHeight="5.0" prefWidth="608.0" />
-      <ComboBox fx:id="classNames" layoutX="158.0" layoutY="90.0" onAction="#fillList" prefWidth="150.0" />
+      <ComboBox fx:id="classNames" layoutX="158.0" layoutY="90.0" onAction="#methodEnable" prefWidth="150.0" />
       <Label layoutX="31.0" layoutY="94.0" text="Choose Class Name:" />
       <Label layoutX="380.0" layoutY="94.0" text="Method:" />
       <Label layoutX="33.0" layoutY="147.0" text="Choose Object :" />
@@ -45,6 +45,6 @@
          </textFill>
       </Button>
       <ListView fx:id="oListView" layoutX="169.0" layoutY="147.0" prefHeight="200.0" prefWidth="200.0" />
-      <ComboBox fx:id="methods" layoutX="450.0" layoutY="90.0" prefWidth="150.0" />
+      <ComboBox fx:id="methods" layoutX="450.0" layoutY="90.0" onAction="#fillList" prefWidth="150.0" />
    </children>
 </AnchorPane>

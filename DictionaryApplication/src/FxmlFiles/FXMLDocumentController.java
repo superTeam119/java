@@ -53,6 +53,13 @@ public class FXMLDocumentController implements Initializable {
     }
    
     public void load(ActionEvent event) throws FileNotFoundException, IOException, ClassNotFoundException{
+        if(tmpPool!=null){
+            pool=new HashMap<String,HashMap<String,SuperType>>();
+            pool.putAll(tmpPool);
+    dictionaries=new HashMap<String,Dictionary<SuperType>>();
+            dictionaries.putAll(tmpDictionaries);
+        return;
+        }
     URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
         File f=new File(".\\xml\\pool.xml");
     FileInputStream ff=new FileInputStream(f);
@@ -76,6 +83,12 @@ public class FXMLDocumentController implements Initializable {
     ObjectOutputStream sss=new ObjectOutputStream(ss);
     sss.writeObject(dictionaries);
     sss.close();
+    pool=new HashMap<String,HashMap<String,SuperType>>();
+            pool.putAll(tmpPool);
+    tmpDictionaries=new HashMap<String,Dictionary<SuperType>>();
+            tmpDictionaries.putAll(dictionaries);
+    //tmpPool=new HashMap<String,HashMap<String,SuperType>>(pool);
+    //tmpDictionaries=new HashMap<String,Dictionary<SuperType>>(dictionaries);
     }
     
       public void AddMedia(ActionEvent event) throws IOException{
