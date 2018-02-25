@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
@@ -75,5 +76,11 @@ public class FXMLDictionaryController implements Initializable {
         String className=classNames.getValue().toString();
         dictionaries.put(className,new Dictionary<SuperType>());
         classNames.getItems().remove(className);
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Result");
+        alert.setResizable(false);
+        alert.getDialogPane().setPrefSize(200, 200);
+        alert.setContentText("Dictionary "+className+" created");
+        alert.showAndWait();
     }
 }

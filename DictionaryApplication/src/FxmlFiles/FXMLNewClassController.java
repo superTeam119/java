@@ -28,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -173,6 +174,13 @@ public class FXMLNewClassController implements Initializable {
         //System.out.println(classText); 
         File f=new File("./media/"+className.getText());
         f.mkdir();
+        
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Result");
+        alert.setResizable(false);
+        alert.getDialogPane().setPrefSize(200, 200);
+        alert.setContentText("Class "+className.getText()+" is created");
+        alert.showAndWait();
     }
 
     public void handleButtonAction(ActionEvent event) throws IOException {
