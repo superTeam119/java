@@ -69,7 +69,10 @@ public class Import_Export_FormController implements Initializable {
 //        filteredArray.add("song.mp3");
 //        filteredArray.add("fatwa.mp3");
 //        filteredArray.add("nadbeyet.mp3");
-        exportClassesNames.getItems().addAll(Generator.getClassNames());
+       // exportClassesNames.getItems().addAll(Generator.getClassNames());
+        for(String s:Generator.getClassNames())
+            if(pool.get(s).size()!=0)
+                exportClassesNames.getItems().add(s);
 //         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
 //             filterListView.getItems().clear();
 //                 Compare first name and last name field in your object with filter.
@@ -92,7 +95,7 @@ public class Import_Export_FormController implements Initializable {
           String className=exportClassesNames.getValue().toString();
           //pool.get(className);
           //dictionaries
-
+          
           File f=new File(file.getAbsolutePath().toString()+"\\pool.xml");
     FileOutputStream ff=new FileOutputStream(f);
     ObjectOutputStream fff=new ObjectOutputStream(ff);
