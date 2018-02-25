@@ -68,7 +68,7 @@ private Media me,me2;
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+         mediaName.setEditable(false);
         classNames.getItems().addAll(dictionaries.keySet());
 //            
 //        String path=new File("src/media/a.mp3").getAbsolutePath();
@@ -115,7 +115,7 @@ private Media me,me2;
     }
     
        public void Image(ActionEvent event) throws IOException {
-       
+       mediaName.setEditable(false);
           FileChooser fileChooser = new FileChooser();
                 fileChooser.getExtensionFilters().addAll(
 
@@ -129,12 +129,16 @@ private Media me,me2;
           sourcePath = file.getAbsolutePath();
         Image image=new Image(new File(sourcePath).toURI().toString());
         iv.setImage(image);
+        mediaName.setEditable(true);
+              mediaName.setText(file.getName());
+           
         String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
-        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);         
+        targetPath=String.format(".\\media\\%s\\%s\\Pictures\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName); 
+  mediaName.setText("");        
        }
        
           public void Video(ActionEvent event) throws IOException {
-              
+              mediaName.setEditable(false);
               FileChooser fileChooser = new FileChooser();
                 fileChooser.getExtensionFilters().addAll(
     new FileChooser.ExtensionFilter("Media files (*.mp4)", "*.mp4")
@@ -145,14 +149,17 @@ private Media me,me2;
         me2=new Media(new File(sourcePath).toURI().toString());
         mp2=new MediaPlayer(me2);
         mv2.setMediaPlayer(mp2);
+       
+             mediaName.setEditable(true);
+               mediaName.setText(file.getName());
          String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
         targetPath=String.format(".\\media\\%s\\%s\\Video\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
-              
+              mediaName.setText("");
           }
           
          public void Audio(ActionEvent event) throws IOException {
              
-             
+              mediaName.setEditable(false);
         FileChooser fileChooser = new FileChooser();
                 fileChooser.getExtensionFilters().addAll(
     new FileChooser.ExtensionFilter("Media files (*.mp3)", "*.mp3")
@@ -162,12 +169,13 @@ sourcePath= file.getAbsolutePath();
         me=new Media(new File(sourcePath).toURI().toString());
         mp=new MediaPlayer(me);
 //        mv.setMediaPlayer(mp);
-             System.out.println(file.getName());
-         
+             
+           mediaName.setEditable(true);
+             mediaName.setText(file.getName());
         //mp.play();
          String mediaFileName=mediaName.getText()+file.getName().substring(file.getName().indexOf("."));
         targetPath=String.format(".\\media\\%s\\%s\\Audio\\%s",classNames.getValue().toString(),objectNames.getValue().toString(),mediaFileName);
-        
+        mediaName.setText("");
         
      
 //String audioPath="C:\\Users\\Abo Ali\\Documents\\NetBeansProjects\\java\\DictionaryApplication\\src\\media\\"+classNames.getValue().toString()+"\\issa\\Audio\\"+file.getName();
@@ -208,10 +216,10 @@ sourcePath= file.getAbsolutePath();
         objectName=objectNames.getValue().toString();
                 Parent home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/ObjectProfileForm.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.setScene(home_page_scene);
+        Stage  stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(home_page_scene);
         //app_stage.setTitle("Methods");
-        app_stage.show();
+        stage.show();
          }
          }
     

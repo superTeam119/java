@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -53,6 +54,12 @@ public  static String videoPopUp;
     @FXML private Tab audioTab;
      @FXML protected MediaView videoMediaView;
       @FXML protected ImageView   audioMediaView;
+      @FXML private TextField pictureFilteredField;
+      @FXML private TextField audioFilteredField;
+      @FXML private TextField videoFilteredField;
+      @FXML private ListView pictureFilteredListView; 
+      @FXML private ListView audioFilteredListView; 
+      @FXML private ListView videoFilteredListView; 
       @FXML private Label audioName;
       MediaPlayer mediaPlayer;
       Media media;
@@ -84,27 +91,83 @@ videoPaths=(ArrayList<String>) listFiles(videoFolderPath);
  picFolderPath="media\\"  + className+"\\"+objectName + "\\Pictures\\";
 picturePaths=(ArrayList<String>) listFiles(picFolderPath);
 //videoMediaView
-
+audioFilteredListView.getItems().addAll(audioPaths);
+pictureFilteredListView.getItems().addAll(picturePaths);
+videoFilteredListView.getItems().addAll(videoPaths);
 //mediaPath=new File(videoPaths.get(videoIndex)).getAbsolutePath();
 if(videoPaths.size()>0)
 {mediaPath=new File(videoFolderPath+videoPaths.get(videoIndex)).getAbsolutePath();
 
+          videoFilteredField.textProperty().addListener((observable, oldValue, newValue) -> {
+       videoFilteredListView.getItems().clear();
+    String filteredValue=videoFilteredField.getText();
+        for (int i = 0; i < videoPaths.size(); i++) 
+            if(videoPaths.get(i).contains(filteredValue))
+               videoFilteredListView.getItems().add(videoPaths.get(i));
+          });
           
 media = new Media(new File(mediaPath).toURI().toString());
 mediaPlayer = new MediaPlayer(media);
 videoMediaView.setMediaPlayer(mediaPlayer);
-videoMediaView.setFitWidth(450);
+videoMediaView.setFitWidth(345);
 videoMediaView.setFitHeight(370);
 //audioMediaView
-videoPopUp=mediaPath;}
+}
+videoFilteredListView.getSelectionModel().selectedItemProperty()
+        .addListener((observable, oldValue, newValue) -> {
+         if(newValue!=null){
+           videoPopUp=new File(videoFolderPath+newValue.toString()).getAbsolutePath();
+           media = new Media(new File(videoPopUp).toURI().toString());
+           mediaPlayer = new MediaPlayer(media);
+           videoMediaView.setMediaPlayer(mediaPlayer);
+         }       
+        });
 if(audioPaths.size()>0)
-{audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
-    audioName.setText(audioPaths.get(audioIndex));}
+{ 
+    audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
+    audioName.setText(audioPaths.get(audioIndex));
+    
+   
+audioFilteredListView.getSelectionModel().selectedItemProperty()
+        .addListener((observable, oldValue, newValue) -> {
+         if(newValue!=null){
+           audioPopUp=new File(audioFolderPath+newValue.toString()).getAbsolutePath();
+        }
+         System.out.println(oldValue);
+         audioName.setText(newValue.toString());
+         
+        });
+}
+ audioFilteredField.textProperty().addListener((observable, oldValue, newValue) -> {
+       audioFilteredListView.getItems().clear();
+    String filteredValue=audioFilteredField.getText();
+        for (int i = 0; i < audioPaths.size(); i++) 
+            if(audioPaths.get(i).contains(filteredValue))
+               audioFilteredListView.getItems().add(audioPaths.get(i));
+          });
+ 
+ pictureFilteredField.textProperty().addListener((observable, oldValue, newValue) -> {
+       pictureFilteredListView.getItems().clear();
+    String filteredValue=pictureFilteredField.getText();
+        for (int i = 0; i < picturePaths.size(); i++) 
+            if(picturePaths.get(i).contains(filteredValue))
+               pictureFilteredListView.getItems().add(picturePaths.get(i));
+          });
+ 
 if(picturePaths.size()>0)
 {mediaPath=new File(picFolderPath+picturePaths.get(pictureIndex)).getAbsolutePath();
 image=new Image(new File(mediaPath).toURI().toString());
           pictureView.setImage(image);}
-
+pictureFilteredListView.getSelectionModel().selectedItemProperty()
+        .addListener((observable, oldValue, newValue) -> {
+         if(newValue!=null){
+         mediaPath=new File(picFolderPath+newValue.toString()).getAbsolutePath();
+image=new Image(new File(mediaPath).toURI().toString());
+          pictureView.setImage(image);
+        }
+        
+         
+        });
    videoMediaView.setOnMouseClicked((MouseEvent mouseEvent) -> {
        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
            if(mouseEvent.getClickCount() == 2){
@@ -155,7 +218,7 @@ image=new Image(new File(mediaPath).toURI().toString());
     }
      public void pictureRemove(){
     picturePaths.remove(pictureIndex);
-      nextPicture();
+     nextPicture();
     }
  
       public void audioRemove(){
@@ -252,7 +315,6 @@ audioName.setText(audioPaths.get(audioIndex));
          MediaPaths=new ArrayList<String>();
         //get all the files from a directory
         File[] fList = directory.listFiles();
-        System.out.println(fList.toString());
         if(fList.length==0)
             return MediaPaths;
         for (File file : fList){

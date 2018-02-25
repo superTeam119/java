@@ -67,28 +67,28 @@ public class VideoFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+
+              
         String path =  videoPopUp;
         Media media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(false);
         mediaView.setMediaPlayer(mediaPlayer);
-        mvPane.setStyle("-fx-background-color: black;");
+        mvPane.setStyle("-fx-background-color: gray;");
 
         mediaBar.setAlignment(Pos.CENTER);
         mediaBar.setPadding(new Insets(5, 10, 5, 10));
         BorderPane.setAlignment(mediaBar, Pos.CENTER);
-        mediaView.setFitHeight(350);
-        mediaView.setFitWidth(550);
         HBox.setHgrow(timeSlider, Priority.ALWAYS);
-        timeSlider.setMinWidth(50);
-        timeSlider.setMaxWidth(Double.MAX_VALUE);
+        //timeSlider.setMinWidth(50);
+      //  timeSlider.setMaxWidth(Double.MAX_VALUE);
 
-        playTime.setPrefWidth(130);
-        playTime.setMinWidth(50);
+       // playTime.setPrefWidth(60);
+       // playTime.setMinWidth(30);
 
-        volumeSlider.setPrefWidth(70);
-        volumeSlider.setMaxWidth(Region.USE_PREF_SIZE);
-        volumeSlider.setMinWidth(30);
+        //volumeSlider.setPrefWidth(25);
+       // volumeSlider.setMaxWidth(Region.USE_PREF_SIZE);
+       // volumeSlider.setMinWidth(30);
 
         playButton.setOnAction((ActionEvent e) -> {
             Status status = mediaPlayer.getStatus();
@@ -149,7 +149,7 @@ public class VideoFormController implements Initializable {
 //            event.consume();
 //        });
     }
-   
+    
     public void updateValues() {
         if (playTime != null && timeSlider != null && volumeSlider != null) {
             Platform.runLater(() -> {

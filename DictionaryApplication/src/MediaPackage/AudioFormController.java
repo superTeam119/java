@@ -57,7 +57,7 @@ public class AudioFormController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
 //     String path =  audioPopUp;
-     String path =  audioPopUp;
+     String path =  new File(audioPopUp).getAbsolutePath();
         Media media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer = new MediaPlayer(media);
