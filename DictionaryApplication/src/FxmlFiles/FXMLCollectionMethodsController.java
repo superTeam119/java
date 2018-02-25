@@ -57,11 +57,18 @@ private ListView oListView;
        // oListView.setItems((ObservableList) Generator.getClassObject(classNames.getValue().toString(), pool));
         methods.getItems().add("add");
         methods.getItems().add("remove");
+        methods.getItems().add("clear");
         methods.getItems().add("contains");
         methods.getItems().add("addAll");
         methods.getItems().add("removeAll");
         methods.getItems().add("containsAll");
         methods.getItems().add("size");
+        methods.getItems().add("isEmpty");
+        methods.getItems().add("toArray");
+        methods.getItems().add("hashCode");
+        
+        
+        
         classNames.getItems().addAll(dictionaries.keySet());       
         oListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }   

@@ -86,7 +86,8 @@ picturePaths=(ArrayList<String>) listFiles(picFolderPath);
 //videoMediaView
 
 //mediaPath=new File(videoPaths.get(videoIndex)).getAbsolutePath();
-mediaPath=new File(videoFolderPath+videoPaths.get(videoIndex)).getAbsolutePath();
+if(videoPaths.size()>0)
+{mediaPath=new File(videoFolderPath+videoPaths.get(videoIndex)).getAbsolutePath();
 
           
 media = new Media(new File(mediaPath).toURI().toString());
@@ -95,14 +96,14 @@ videoMediaView.setMediaPlayer(mediaPlayer);
 videoMediaView.setFitWidth(450);
 videoMediaView.setFitHeight(370);
 //audioMediaView
-videoPopUp=mediaPath;
-audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
-mediaPath=new File(picFolderPath+picturePaths.get(pictureIndex)).getAbsolutePath();
- image=new Image(new File(mediaPath).toURI().toString());
-          pictureView.setImage(image);
-         if(audioPaths.size()>0)
- audioName.setText(audioPaths.get(audioIndex));
-
+videoPopUp=mediaPath;}
+if(audioPaths.size()>0)
+{audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
+    audioName.setText(audioPaths.get(audioIndex));}
+if(picturePaths.size()>0)
+{mediaPath=new File(picFolderPath+picturePaths.get(pictureIndex)).getAbsolutePath();
+image=new Image(new File(mediaPath).toURI().toString());
+          pictureView.setImage(image);}
 
    videoMediaView.setOnMouseClicked((MouseEvent mouseEvent) -> {
        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
@@ -248,9 +249,12 @@ audioName.setText(audioPaths.get(audioIndex));
                
   public List<String> listFiles(String directoryName){
         File directory = new File(directoryName);
-         MediaPaths=new ArrayList();
+         MediaPaths=new ArrayList<String>();
         //get all the files from a directory
         File[] fList = directory.listFiles();
+        System.out.println(fList.toString());
+        if(fList.length==0)
+            return MediaPaths;
         for (File file : fList){
             if (file.isFile()){
                MediaPaths.add(file.getName());

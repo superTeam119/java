@@ -164,7 +164,7 @@ public class Dictionary<T extends Serializable> implements Serializable,Collecti
 
     @Override
     public int hashCode()
-    {
+    { // return elements.hashCode();
         int hash=1;
         
      for(T k:elements.keySet())
@@ -172,7 +172,7 @@ public class Dictionary<T extends Serializable> implements Serializable,Collecti
         hash=hash*elements.get(k).hashCode();
      }
      return hash;
-                
+//                
     }
 
     @Override

@@ -394,8 +394,10 @@ public class ClassGenerator {
             //System.out.println("teeessttt objeeccttt");
             // System.out.println(o.toString()); 
 //   
-            //moveFile(source,".\\src\\UserClasses\\" + classDetails.getClassName() + ".java");
-            //moveFile(source.replace(".java",".class"),".\\build\\classes\\UserClasses\\" + classDetails.getClassName() + ".class");
+          
+            moveFile(source,".\\src\\UserClasses1\\" + classDetails.getClassName() + ".java");
+            
+            moveFile(source.replace(".java",".class"),".\\src\\UserClasses1\\" + classDetails.getClassName() + ".class");
         } else {
             System.err.println("Error in compiler");
         }
@@ -449,6 +451,6 @@ public class ClassGenerator {
         Path movefrom = FileSystems.getDefault().getPath(sourcePath);
         Path target = FileSystems.getDefault().getPath(targetPath);
         // Files.move(movefrom,target,  StandardCopyOption.COPY_ATTRIBUTES);
-        Files.copy(movefrom, target, StandardCopyOption.COPY_ATTRIBUTES);
+        Files.copy(movefrom, target, StandardCopyOption.REPLACE_EXISTING);
     }
 }
