@@ -10,6 +10,9 @@ import static FxmlFiles.FXMLMediaController.objectName;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -212,18 +215,38 @@ image=new Image(new File(mediaPath).toURI().toString());
         }
     });
     }
-    public void videoRemove(){
+    public void videoRemove() throws IOException{
+          String targetPath=videoFolderPath+videoPaths.get(videoIndex);
+        Path target = FileSystems.getDefault().getPath(targetPath);
+        System.out.println(targetPath);
+         if(Files.deleteIfExists(target))
    videoPaths.remove(videoIndex);
+            videoFilteredListView.getItems().clear();
+        videoFilteredListView.getItems().addAll(videoPaths);
      nextVideo();
     }
-     public void pictureRemove(){
+     public void pictureRemove() throws IOException{
+         String targetPath=picFolderPath+picturePaths.get(pictureIndex);
+        Path target = FileSystems.getDefault().getPath(targetPath);
+       
+         if(Files.deleteIfExists(target))
     picturePaths.remove(pictureIndex);
+         pictureFilteredListView.getItems().clear();
+         pictureFilteredListView.getItems().addAll(picturePaths);
+
      nextPicture();
     }
  
-      public void audioRemove(){
+      public void audioRemove() throws IOException{
          
-         audioPaths.remove(audioIndex);
+        String targetPath=audioFolderPath+audioPaths.get(audioIndex);
+        Path target = FileSystems.getDefault().getPath(targetPath);
+       
+         if(Files.deleteIfExists(target))
+             audioPaths.remove(audioIndex);
+         audioFilteredListView.getItems().clear();
+         audioFilteredListView.getItems().addAll(audioPaths);
+
   nextAudio();
     }
     public void nextPicture(){
@@ -261,9 +284,8 @@ image=new Image(new File(mediaPath).toURI().toString());
         mediaPlayer=new MediaPlayer(media);  
   
 videoMediaView.setMediaPlayer(mediaPlayer);
-videoMediaView.setFitHeight(450);
-videoMediaView.setFitWidth(370);
-audioName.setText(videoPaths.get(videoIndex));
+videoMediaView.setFitWidth(345);
+videoMediaView.setFitHeight(370);
  videoPopUp=mediaPath;
 
     }
@@ -278,8 +300,8 @@ audioName.setText(videoPaths.get(videoIndex));
         mediaPlayer=new MediaPlayer(media);  
   
 videoMediaView.setMediaPlayer(mediaPlayer);
-videoMediaView.setFitHeight(450);
-videoMediaView.setFitWidth(370);
+videoMediaView.setFitWidth(345);
+videoMediaView.setFitHeight(370);
  videoPopUp=mediaPath;
     }
                     public void nextAudio() {
