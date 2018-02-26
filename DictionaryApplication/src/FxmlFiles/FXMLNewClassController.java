@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,7 +61,7 @@ public class FXMLNewClassController implements Initializable {
     private TextField numberOfAtt;
     @FXML
     private Label classStatus;
-       @FXML
+    @FXML
     private Label attributesStatus;
     @FXML
     private GridPane gridPane;
@@ -224,7 +226,20 @@ public class FXMLNewClassController implements Initializable {
         app_stage.show();
 
     }
-
+    private void attributeCheck(){
+         numberOfAtt.textProperty().addListener((observable, oldValue, newValue)
+                -> {
+            try{
+            int nbrOfAttributes=Integer.parseInt(numberOfAtt.getText().toString());
+            if(nbrOfAttributes<0)        
+                    attributesStatus.setText("it must be positve integer");
+            else
+                attributesStatus.setText("");
+            } catch (Exception ex) {
+            attributesStatus.setText("it must be positve integer");
+            }//object8uml 
+        });
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -244,7 +259,8 @@ public class FXMLNewClassController implements Initializable {
         AR.add("abstract");
         AR.add("final");
         AR.add("char");
-
+        attributeCheck();
+       
         List<String> savedClasses = Generator.getClassNames();
         classStatus.setTextFill(Color.web("#ff0000"));
         classStatus.setText("enter the class name");
