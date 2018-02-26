@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
@@ -80,20 +81,20 @@ public class ClassGenerator {
         //full constructor declaration
         s = s + "public " + classDetails.getClassName() + "(";
         //attributes of super class
-        List<String> superType = new ArrayList<String>();
+        List<String> superFields = new ArrayList<String>();
         //List<String> superName=new ArrayList<String>();
-        if (classDetails.isSubClass() == true) {
-            File f = new File("./attributes/" + classDetails.getSuperClass() + ".txt");
-            BufferedReader reader = new BufferedReader(new FileReader(f));
-            String line;
-            line = reader.readLine();
-            line = reader.readLine();
-            while ((line = reader.readLine()) != null) {//System.out.println(line);
-                superType.add(line);
-            }
+        if (classDetails.isSubClass() == true) {superFields.addAll(getFieldsType(classMap.get(classDetails.getSuperClass())));
+          //  File f = new File("./attributes/" + classDetails.getSuperClass() + ".txt");
+           // BufferedReader reader = new BufferedReader(new FileReader(f));
+           // String line;
+          //  line = reader.readLine();
+          //  line = reader.readLine();
+          //  while ((line = reader.readLine()) != null) {//System.out.println(line);
+          //      superFields.add(line);
+          //  }
         }
-        for (int i = 0; i < superType.size(); i++) {
-            s = s + String.format("%s S%d,", superType.get(i), z);
+        for (int i = 0; i < superFields.size(); i++) {
+            s = s + String.format("%s S%d,", superFields.get(i), z);
             z++;
         }
         //attributes of this class
@@ -109,13 +110,13 @@ public class ClassGenerator {
         s = s + "){\n";
         //super(......)
         z = 0;
-        for (int i = 0; i < superType.size(); i++) {
+        for (int i = 0; i < superFields.size(); i++) {
             if (i == 0) {
                 s = s + "super(";
             }
             s = s + String.format("S%d,", z);
             z++;
-            if (i == superType.size() - 1) {
+            if (i == superFields.size() - 1) {
                 s = s.substring(0, s.length() - 1) + ");\n";
             }
         }
@@ -133,10 +134,20 @@ public class ClassGenerator {
             classSuper = "";
         }
         Pair<String, Integer> hashPair = hashCodeText(classDetails);
-        saveAttributes(classDetails, superType, hashPair.getEnemy());//+ compareToText(typeField,nameField,method,primitives) ta7et
+        saveAttributes(classDetails, superFields, hashPair.getEnemy());//+ compareToText(typeField,nameField,method,primitives) ta7et
         return s + equalText(classDetails, primitives) + stringText(classDetails, primitives) + hashPair.getFriend() + compareToText(classDetails, primitives) + "}";
     }
-
+    private static Map<String,String> hashCodes() throws FileNotFoundException{
+        File f =new File("./hashCodes.txt");
+        Scanner scan=new Scanner(f);
+        HashMap<String,String> h;
+        h = new HashMap<>();
+        //ArrayList<String> a=new ArrayList<>();
+        while(scan.hasNext()){String[] hash=scan.nextLine().split(" ");
+           h.put(hash[0],hash[1]);
+        }
+        return h;
+    }
     private static String equalText(ClassDetails classDetails, List<String> primitives) {
 
 //        List<String> primitives=new ArrayList<String>();
@@ -200,17 +211,23 @@ public class ClassGenerator {
     }
 
     private static void saveAttributes(ClassDetails classDetails, List<String> superType, Integer prime) throws FileNotFoundException {
-        String path = ".//attributes//" + classDetails.getClassName() + ".txt";
+        //String path = ".//attributes//" + classDetails.getClassName() + ".txt";
+        String path="./hashCodes.txt";
+       Map<String,String> hashCodes=hashCodes();
+       hashCodes.put(classDetails.getClassName(),prime.toString());
         File f = new File(path);
         PrintWriter p = new PrintWriter(f);
-        p.println(prime);
+        //p.println(prime);
         //p.println(classDetails.getKey());
-        for (int i = 0; i < superType.size(); i++) {
-            p.println(superType.get(i));
+        for(Map.Entry<String,String> hash:hashCodes.entrySet()){
+            p.println(hash.getKey() + " " + hash.getValue());
         }
-        for (int i = 0; i < classDetails.getAttributes().size(); i++) {
-            p.println(classDetails.getAttributes().get(i).getType());
-        }
+//        for (int i = 0; i < superType.size(); i++) {
+//            p.println(superType.get(i));
+//        }
+//        for (int i = 0; i < classDetails.getAttributes().size(); i++) {
+//            p.println(classDetails.getAttributes().get(i).getType());
+//        }
         p.close();
     }
 
@@ -260,11 +277,11 @@ public class ClassGenerator {
         String line = "1";
         if (classDetails.isSubClass() == false) {
             primes = getPrimes(2, checkedNbr);
-        } else {
-            File f = new File("./attributes/" + classDetails.getSuperClass() + ".txt");
-            BufferedReader reader = new BufferedReader(new FileReader(f));
-            line = reader.readLine();
-            primes = getPrimes(Integer.parseInt(line) + 1, checkedNbr);
+        } else {Map<String,String> hashCodes=hashCodes();
+           // File f = new File("./attributes/" + classDetails.getSuperClass() + ".txt");
+            //BufferedReader reader = new BufferedReader(new FileReader(f));
+            //line = reader.readLine();
+            primes = getPrimes(Integer.parseInt(hashCodes.get(classDetails.getSuperClass())) + 1, checkedNbr);
         }
 
         // System.out.println(primes.toString());
@@ -431,7 +448,15 @@ public class ClassGenerator {
         }
         return finished;
     }
-
+public static List<String> getFieldsType(Class c) {
+        List<Field> a = getFields(c);
+        List<String> b = new ArrayList<>();
+        for (int i = 0; i < a.size(); i++) {
+            System.out.println(a.get(i).getType().getSimpleName());
+            b.add(a.get(i).getType().getSimpleName());
+        }
+        return b;
+    }
     public static List<String> getFieldsString(Class c) {
         List<Field> a = getFields(c);
         List<String> b = new ArrayList<>();
