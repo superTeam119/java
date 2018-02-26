@@ -68,7 +68,7 @@ public class FXMLMethodsController implements Initializable {
 
     public void firstClassComboBox1(ActionEvent event) {
         firstObjectComboBox.getItems().clear();
-       // System.out.println(FXMLNewObjectController.pool.keySet().toString());
+        // System.out.println(FXMLNewObjectController.pool.keySet().toString());
         firstObjectComboBox.getItems().addAll(Generator.getClassObject(firstClassComboBox.getValue().toString().trim()));//package plus
     }
 
@@ -79,7 +79,7 @@ public class FXMLMethodsController implements Initializable {
     }
 
     public void MethodComboBox1(ActionEvent event) {
-            //firstClassComboBox.getItems().clear();
+        //firstClassComboBox.getItems().clear();
         //secondClassComboBox.getItems().clear();
 
 //            firstClassComboBox.getItems().addAll(Generator.getClassNames());
@@ -87,30 +87,45 @@ public class FXMLMethodsController implements Initializable {
     }
 
     public void result(ActionEvent event) {
+
+        try{
+        String first = firstObjectComboBox.getValue().toString().trim();
+        
         DictionaryApplication.SuperType a;
         DictionaryApplication.SuperType b;
         String result;
         String Methodname = MethodComboBox.getValue().toString().trim();
         //a = pool.get(firstClassComboBox.getValue().toString().trim() + "." + firstObjectComboBox.getValue().toString().trim());
-        a=pool.get(firstClassComboBox.getValue().toString().trim()).get(firstObjectComboBox.getValue().toString().trim());
+        a = pool.get(firstClassComboBox.getValue().toString().trim()).get(firstObjectComboBox.getValue().toString().trim());
         result = firstObjectComboBox.getValue().toString().trim();
         if (Methodname.equals("toString()")) {
-            result = result + ".toString():" + a.toString();
+
+            result = result + " : " + a.toString();
         }
         if (Methodname.equals("hashCode()")) {
-            result = result + ".hashCode():" + a.hashCode();
+            result = result + "'s hash code is: " + a.hashCode();
         }
         b = null;
         if (secondClassComboBox.getValue() != null) {
             //b = pool.get(secondClassComboBox.getValue().toString().trim() + "." + secondObjectComboBox.getValue().toString().trim());
-            b=pool.get(secondClassComboBox.getValue().toString().trim()).get(secondObjectComboBox.getValue().toString().trim());
+            b = pool.get(secondClassComboBox.getValue().toString().trim()).get(secondObjectComboBox.getValue().toString().trim());
         }
         if (Methodname.equals("equals()")) {
-            result = result + String.format(".equals(%s):%s", secondObjectComboBox.getValue().toString().trim(), a.equals(b));
+            String second = secondObjectComboBox.getValue().toString().trim();
+
+            System.out.println("entered if condition");
+            //result = result + String.format(".equals(%s):%s", secondObjectComboBox.getValue().toString().trim(), a.equals(b));
+            if (a.equals(b)) {
+                result = result + String.format(" is equal to %s", second);
+            } else {
+                result = result + String.format(" is NOT equal to %s", second);
+            }
         }
-        System.out.println(a.getClass());
-//        System.out.println(b.getClass());
-        if (b != null && a.getClass()!=b.getClass() && Methodname.equals("compareTo()")) {
+
+        //System.out.println(a.getClass());
+
+        //System.out.println(b.getClass());
+        if (b != null && a.getClass() != b.getClass() && Methodname.equals("compareTo()")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Result");
             alert.setResizable(false);
@@ -119,9 +134,19 @@ public class FXMLMethodsController implements Initializable {
             alert.showAndWait();
             return;
         } else {
-            if(Methodname.equals("compareTo()"))
-            result = result + String.format(".compareTo(%s):%d", secondObjectComboBox.getValue().toString().trim(), a.compareTo(b));
-            
+            if (Methodname.equals("compareTo()")) //result = result + String.format(".compareTo(%s):%d", secondObjectComboBox.getValue().toString().trim(), a.compareTo(b));
+            {
+                String second = secondObjectComboBox.getValue().toString().trim();
+
+                if (a.compareTo(b) > 0) {
+                    result = first + String.format(" is bigger than %s ", second);
+                } else if (a.compareTo(b) < 0) {
+                    result = first + String.format(" is smaller than %s ", second);
+                } else {
+                    result = first + String.format(" is equal to %s ", second);
+                }
+            }
+
         }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Result");
@@ -130,6 +155,17 @@ public class FXMLMethodsController implements Initializable {
         alert.setContentText(result);
         alert.showAndWait();
         //System.out.println(result);
+    }
+        catch(Exception e)
+        {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Warning");
+        alert.setResizable(false);
+        alert.getDialogPane().setPrefSize(250, 320);
+        alert.setContentText("make sure you have assigned values to all variables!");
+        alert.showAndWait();
+            
+        }
     }
 
 }
