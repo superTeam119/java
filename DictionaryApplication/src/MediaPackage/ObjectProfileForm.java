@@ -7,6 +7,7 @@ package MediaPackage;
 
 import static FxmlFiles.FXMLMediaController.className;
 import static FxmlFiles.FXMLMediaController.objectName;
+import static MediaPackage.AudioFormController.audioMediaPlayer;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -19,7 +20,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.application.Application.launch;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,11 +33,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * FXML Controller class
@@ -64,7 +64,9 @@ public  static String videoPopUp;
       @FXML private ListView audioFilteredListView; 
       @FXML private ListView videoFilteredListView; 
       @FXML private Label audioName;
-      MediaPlayer mediaPlayer;
+     public static  MediaPlayer videoMediaPlayer;
+     public  static  Stage audioStage;
+      public  static  Stage videoStage;
       Media media;
     Image image;
 
@@ -100,7 +102,7 @@ videoFilteredListView.getItems().addAll(videoPaths);
 //mediaPath=new File(videoPaths.get(videoIndex)).getAbsolutePath();
 if(videoPaths.size()>0)
 {mediaPath=new File(videoFolderPath+videoPaths.get(videoIndex)).getAbsolutePath();
-
+videoPopUp=mediaPath;
           videoFilteredField.textProperty().addListener((observable, oldValue, newValue) -> {
        videoFilteredListView.getItems().clear();
     String filteredValue=videoFilteredField.getText();
@@ -110,8 +112,8 @@ if(videoPaths.size()>0)
           });
           
 media = new Media(new File(mediaPath).toURI().toString());
-mediaPlayer = new MediaPlayer(media);
-videoMediaView.setMediaPlayer(mediaPlayer);
+videoMediaPlayer = new MediaPlayer(media);
+videoMediaView.setMediaPlayer(videoMediaPlayer);
 videoMediaView.setFitWidth(345);
 videoMediaView.setFitHeight(370);
 //audioMediaView
@@ -121,8 +123,8 @@ videoFilteredListView.getSelectionModel().selectedItemProperty()
          if(newValue!=null){
            videoPopUp=new File(videoFolderPath+newValue.toString()).getAbsolutePath();
            media = new Media(new File(videoPopUp).toURI().toString());
-           mediaPlayer = new MediaPlayer(media);
-           videoMediaView.setMediaPlayer(mediaPlayer);
+           videoMediaPlayer = new MediaPlayer(media);
+           videoMediaView.setMediaPlayer(videoMediaPlayer);
          }       
         });
 if(audioPaths.size()>0)
@@ -175,14 +177,19 @@ image=new Image(new File(mediaPath).toURI().toString());
        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
            if(mouseEvent.getClickCount() == 2){
                Parent home_page_parent;
-               try {
-                  
-                   home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/VideoForm.fxml"));
+               try {                 
+                  home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/VideoForm.fxml"));
                    Scene home_page_scene = new Scene(home_page_parent);
                    Stage app_stage = new Stage();
                    app_stage.setScene(home_page_scene);
                    //app_stage.setTitle("Methods");
-                   
+                   videoStage=app_stage;
+                videoStage.setOnCloseRequest((WindowEvent event) -> {
+            System.out.println("Closing......");
+            videoMediaPlayer.pause();
+            event.consume();
+            videoStage.close();
+        });
                    app_stage.show();
                }           catch (IOException ex) {
                    Logger.getLogger(ObjectProfileForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -194,14 +201,20 @@ image=new Image(new File(mediaPath).toURI().toString());
        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
            if(mouseEvent.getClickCount() == 2){
                try {
-                   Parent home_page_parent;
-                   
+                    audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
+                   Parent home_page_parent;                 
                    home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/AudioForm.fxml"));
                    Scene home_page_scene = new Scene(home_page_parent);
                    Stage app_stage = new Stage();
                    app_stage.setScene(home_page_scene);
                    //app_stage.setTitle("Methods");
-                   
+                   audioStage=app_stage;
+                     audioStage.setOnCloseRequest((WindowEvent event) -> {
+            System.out.println("Closing......");
+            audioMediaPlayer.pause();
+            event.consume();
+            audioStage.close();
+        });
                    app_stage.show();
                } catch (IOException ex) {
                    Logger.getLogger(ObjectProfileForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -211,7 +224,8 @@ image=new Image(new File(mediaPath).toURI().toString());
 });
     pictureTab.selectedProperty().addListener((observable, oldValue, newValue) -> {
         if (newValue) {
-          mediaPlayer.setAutoPlay(false);
+          videoMediaPlayer.pause();
+          audioMediaPlayer.pause();
         }
     });
     }
@@ -281,9 +295,9 @@ image=new Image(new File(mediaPath).toURI().toString());
         videoIndex=videoIndex+1;
           mediaPath=videoFolderPath+videoPaths.get(videoIndex);
         media=new Media(new File(mediaPath).toURI().toString());
-        mediaPlayer=new MediaPlayer(media);  
+        videoMediaPlayer=new MediaPlayer(media);  
   
-videoMediaView.setMediaPlayer(mediaPlayer);
+videoMediaView.setMediaPlayer(videoMediaPlayer);
 videoMediaView.setFitWidth(345);
 videoMediaView.setFitHeight(370);
  videoPopUp=mediaPath;
@@ -297,9 +311,9 @@ videoMediaView.setFitHeight(370);
         videoIndex=videoIndex-1;
                          mediaPath=videoFolderPath+videoPaths.get(videoIndex);
         media=new Media(new File(mediaPath).toURI().toString());
-        mediaPlayer=new MediaPlayer(media);  
+        videoMediaPlayer=new MediaPlayer(media);  
   
-videoMediaView.setMediaPlayer(mediaPlayer);
+videoMediaView.setMediaPlayer(videoMediaPlayer);
 videoMediaView.setFitWidth(345);
 videoMediaView.setFitHeight(370);
  videoPopUp=mediaPath;

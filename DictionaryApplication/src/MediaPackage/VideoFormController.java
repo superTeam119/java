@@ -5,6 +5,8 @@
  */
 package MediaPackage;
 
+
+import static MediaPackage.ObjectProfileForm.videoMediaPlayer;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,15 +24,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import static MediaPackage.ObjectProfileForm.videoPopUp;
-import javafx.event.EventHandler;
-import javafx.stage.Stage;
+import static MediaPackage.ObjectProfileForm.videoStage;
 import javafx.stage.WindowEvent;
 
 /**
@@ -48,7 +48,6 @@ public class VideoFormController implements Initializable {
 
     @FXML
     private MediaView mediaView;
-    private MediaPlayer mediaPlayer;
     private final boolean repeat = false;
     private boolean stopRequested = false;
     private boolean atEndOfMedia = false;
@@ -71,9 +70,9 @@ public class VideoFormController implements Initializable {
               
         String path =  videoPopUp;
         Media media = new Media(new File(path).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(false);
-        mediaView.setMediaPlayer(mediaPlayer);
+        videoMediaPlayer = new MediaPlayer(media);
+        videoMediaPlayer.setAutoPlay(false);
+        mediaView.setMediaPlayer(videoMediaPlayer);
         mvPane.setStyle("-fx-background-color: gray;");
 
         mediaBar.setAlignment(Pos.CENTER);
@@ -91,7 +90,7 @@ public class VideoFormController implements Initializable {
        // volumeSlider.setMinWidth(30);
 
         playButton.setOnAction((ActionEvent e) -> {
-            Status status = mediaPlayer.getStatus();
+            Status status = videoMediaPlayer.getStatus();
             
             if (status == Status.UNKNOWN || status == Status.HALTED) {
                 // don't do anything in these states
@@ -103,57 +102,51 @@ public class VideoFormController implements Initializable {
                     || status == Status.STOPPED) {
                 // rewind the movie if we're sitting at the end
                 if (atEndOfMedia) {
-                    mediaPlayer.seek(mediaPlayer.getStartTime());
+                    videoMediaPlayer.seek(videoMediaPlayer.getStartTime());
                     atEndOfMedia = false;
                 }
-                mediaPlayer.play();
+                videoMediaPlayer.play();
             } else {
-                mediaPlayer.pause();
+                videoMediaPlayer.pause();
             }
         });
 
-        mediaPlayer.currentTimeProperty().addListener((Observable ov) -> {
+        videoMediaPlayer.currentTimeProperty().addListener((Observable ov) -> {
             updateValues();
         });
-        mediaPlayer.setOnPlaying(() -> {
+        videoMediaPlayer.setOnPlaying(() -> {
             if (stopRequested) {
-                mediaPlayer.pause();
+                videoMediaPlayer.pause();
                 stopRequested = false;
             } else {
                 playButton.setText("||");
             }
         });
-        mediaPlayer.setOnPaused(() -> {
+        videoMediaPlayer.setOnPaused(() -> {
             System.out.println("onPaused");
             playButton.setText(">");
         });
-        mediaPlayer.setOnReady(() -> {
-            duration = mediaPlayer.getMedia().getDuration();
+        videoMediaPlayer.setOnReady(() -> {
+            duration = videoMediaPlayer.getMedia().getDuration();
             updateValues();
         });
         timeSlider.valueProperty().addListener((Observable ov) -> {
             if (timeSlider.isValueChanging()) {
                 // multiply duration by percentage calculated by slider position
-                mediaPlayer.seek(duration.multiply(timeSlider.getValue() / 100.0));
+                videoMediaPlayer.seek(duration.multiply(timeSlider.getValue() / 100.0));
             }
         });
         volumeSlider.valueProperty().addListener((Observable ov) -> {
             if (volumeSlider.isValueChanging()) {
-                mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
+                videoMediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
             }
         });
-//    Stage  stage = (Stage) mvPane.getScene().getWindow();
-//        stage.setOnCloseRequest((WindowEvent event) -> {
-//            System.out.println("Closing......");
-//            mediaPlayer.setAutoPlay(false);
-//            event.consume();
-//        });
     }
     
     public void updateValues() {
         if (playTime != null && timeSlider != null && volumeSlider != null) {
             Platform.runLater(() -> {
-                Duration currentTime = mediaPlayer.getCurrentTime();
+                Duration currentTime = videoMediaPlayer.getCurrentTime();
                 playTime.setText(formatTime(currentTime, duration));
                 timeSlider.setDisable(duration.isUnknown());
                 if (!timeSlider.isDisabled()
@@ -163,7 +156,7 @@ public class VideoFormController implements Initializable {
                             * 100.0);
                 }
                 if (!volumeSlider.isValueChanging()) {
-                    volumeSlider.setValue((int) Math.round(mediaPlayer.getVolume()
+                    volumeSlider.setValue((int) Math.round(videoMediaPlayer.getVolume()
                             * 100));
                 }
             });

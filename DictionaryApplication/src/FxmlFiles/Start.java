@@ -41,7 +41,7 @@ public class Start extends Application {
           classMap.put(className, c);
             //dictionaries.put(className,new Dictionary<SuperType>());
         }
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLMain.fxml"));
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/css/simple.css");

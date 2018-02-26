@@ -22,6 +22,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import static MediaPackage.ObjectProfileForm.audioPopUp;
+import static MediaPackage.ObjectProfileForm.audioStage;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -34,7 +35,7 @@ public class AudioFormController implements Initializable {
      @FXML private Pane mvPane;
 
  @FXML private MediaView mediaView;
-    private MediaPlayer mediaPlayer;
+   public static  MediaPlayer audioMediaPlayer;
     private final boolean repeat = false;
     private boolean stopRequested = false;
     private boolean atEndOfMedia = false;
@@ -59,13 +60,13 @@ public class AudioFormController implements Initializable {
 //     String path =  audioPopUp;
      String path =  new File(audioPopUp).getAbsolutePath();
         Media media = new Media(new File(path).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer = new MediaPlayer(media);
+        audioMediaPlayer = new MediaPlayer(media);
+        audioMediaPlayer = new MediaPlayer(media);
         playButton.setStyle("-fx-background-color: transparent;"); 
 
 
         playButton.setOnAction((ActionEvent e) -> {
-            MediaPlayer.Status status = mediaPlayer.getStatus();
+            MediaPlayer.Status status = audioMediaPlayer.getStatus();
             
             if (status == MediaPlayer.Status.UNKNOWN || status == MediaPlayer.Status.HALTED) {
                 // don't do anything in these states
@@ -77,16 +78,16 @@ public class AudioFormController implements Initializable {
                     || status == MediaPlayer.Status.STOPPED) {
                 // rewind the movie if we're sitting at the end
                 if (atEndOfMedia) {
-                    mediaPlayer.seek(mediaPlayer.getStartTime());
+                    audioMediaPlayer.seek(audioMediaPlayer.getStartTime());
                     atEndOfMedia = false;
                 }
-                mediaPlayer.play();
+                audioMediaPlayer.play();
             } else {
-                mediaPlayer.pause();
+                audioMediaPlayer.pause();
             }
      });
-                mediaPlayer.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
-        mediaPlayer.setOnEndOfMedia(() -> {
+                audioMediaPlayer.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
+        audioMediaPlayer.setOnEndOfMedia(() -> {
             if (!repeat) {
                 playButton.setText(">");
                 stopRequested = true;
@@ -95,49 +96,45 @@ public class AudioFormController implements Initializable {
      });
         
 //
-        mediaPlayer.currentTimeProperty().addListener((Observable ov) -> {
+        audioMediaPlayer.currentTimeProperty().addListener((Observable ov) -> {
             updateValues();
      });
-        mediaPlayer.setOnPlaying(() -> {
+        audioMediaPlayer.setOnPlaying(() -> {
             if (stopRequested) {
-                mediaPlayer.pause();
+                audioMediaPlayer.pause();
                 stopRequested = false;
             } else {
                 playButton.setText("||");
             }
      });
-        mediaPlayer.setOnPaused(() -> {
+        audioMediaPlayer.setOnPaused(() -> {
             System.out.println("onPaused");
             playButton.setText(">");
      });
-        mediaPlayer.setOnReady(() -> {
-            duration = mediaPlayer.getMedia().getDuration();
+        audioMediaPlayer.setOnReady(() -> {
+            duration = audioMediaPlayer.getMedia().getDuration();
             updateValues();
      });
         timeSlider.valueProperty().addListener((Observable ov) -> {
             if (timeSlider.isValueChanging()) {
                 // multiply duration by percentage calculated by slider position
-                mediaPlayer.seek(duration.multiply(timeSlider.getValue() / 100.0));
+                audioMediaPlayer.seek(duration.multiply(timeSlider.getValue() / 100.0));
             }
      });
         volumeSlider.valueProperty().addListener((Observable ov) -> {
             if (volumeSlider.isValueChanging()) {
-                mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
+                audioMediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
             }
      });
         
-//         Stage stage = (Stage) mvPane.getScene().getWindow();
-//        stage.setOnCloseRequest((WindowEvent event) -> {
-//            System.out.println("Closing......");
-//            mediaPlayer.setAutoPlay(false);
-//            event.consume();
-//        });
+
+ 
     }
 
     public void updateValues() {
         if (playTime != null && timeSlider != null && volumeSlider != null) {
             Platform.runLater(() -> {
-                Duration currentTime = mediaPlayer.getCurrentTime();
+                Duration currentTime = audioMediaPlayer.getCurrentTime();
                 playTime.setText(formatTime(currentTime, duration));
                 timeSlider.setDisable(duration.isUnknown());
                 if (!timeSlider.isDisabled()
@@ -147,7 +144,7 @@ public class AudioFormController implements Initializable {
                             * 100.0);
                 }
                 if (!volumeSlider.isValueChanging()) {
-                    volumeSlider.setValue((int) Math.round(mediaPlayer.getVolume()
+                    volumeSlider.setValue((int) Math.round(audioMediaPlayer.getVolume()
                             * 100));
                 }
             });
