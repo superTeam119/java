@@ -59,6 +59,8 @@ public class FXMLNewClassController implements Initializable {
     private TextField numberOfAtt;
     @FXML
     private Label classStatus;
+       @FXML
+    private Label attributesStatus;
     @FXML
     private GridPane gridPane;
     @FXML

@@ -70,7 +70,7 @@
             <Blend mode="SCREEN" />
          </effect>
       </ImageView>
-      <Button fx:id="fill" layoutX="381.0" layoutY="140.0" mnemonicParsing="false" onAction="#fill" style="-fx-background-color: blue; -fx-text-fill: white; -fx-font-size: 14;" text="Fill" />
+      <Button fx:id="fill" layoutX="328.0" layoutY="141.0" mnemonicParsing="false" onAction="#fill" style="-fx-background-color: blue; -fx-text-fill: white; -fx-font-size: 14;" text="Fill" />
       <Label layoutX="15.0" layoutY="196.0" text="Attributes" />
       <Label layoutX="112.0" layoutY="196.0" text="Name" />
       <Label layoutX="186.0" layoutY="196.0" text="Choose the type of attribute" />
@@ -93,5 +93,6 @@
          </textFill>
       </Button>
       <Label fx:id="classStatus" layoutX="336.0" layoutY="68.0" />
+      <Label fx:id="attributesStatus" layoutX="374.0" layoutY="148.0" textFill="RED" />
    </children>
 </AnchorPane>
