@@ -83,10 +83,9 @@ private Media me,me2;
     }    
     
      public void Back(ActionEvent event) throws IOException {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLMain.fxml"));
-        
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLMain.fxml"));        
         Scene home_page_scene = new Scene(home_page_parent);
-                home_page_scene.getStylesheets().add("/css/simple.css");
+           home_page_scene.getStylesheets().add("/css/simple.css");
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(home_page_scene);
         //app_stage.setTitle("Methods");
