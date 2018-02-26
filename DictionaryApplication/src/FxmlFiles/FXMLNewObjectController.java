@@ -9,8 +9,8 @@ import DictionaryApplication.ClassGenerator;
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Fields;
 import DictionaryApplication.Generator;
-import static FxmlFiles.DictionaryStart.dictionaries;
-import static FxmlFiles.DictionaryStart.pool;
+import static FxmlFiles.Start.dictionaries;
+import static FxmlFiles.Start.pool;
 import DictionaryApplication.SuperType;
 import java.io.IOException;
 import java.io.File;
@@ -280,12 +280,12 @@ public class FXMLNewObjectController implements Initializable {
         //      superClassMethod.getItems().addAll(fnameNew);    
     }
 
-    public void classesAre(ActionEvent event) {
-
-        chooseClass.getItems().clear();
-        List<String> fnameNew = Generator.getClassNames();
-        fnameNew = Generator.getClassNames();
-
-        chooseClass.getItems().addAll(fnameNew);
-    }
+//    public void classesAre(ActionEvent event) {
+//
+//        chooseClass.getItems().clear();
+//        List<String> fnameNew = Generator.getClassNames();
+//        fnameNew = Generator.getClassNames();
+//
+//        chooseClass.getItems().addAll(fnameNew);
+//    }
 }

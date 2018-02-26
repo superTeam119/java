@@ -8,11 +8,11 @@ package FxmlFiles;//done
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import DictionaryApplication.Pair;
-import static FxmlFiles.DictionaryStart.dictionaries;
-import static FxmlFiles.DictionaryStart.pool;
+import static FxmlFiles.Start.dictionaries;
+import static FxmlFiles.Start.pool;
 import DictionaryApplication.SuperType;
-import static FxmlFiles.DictionaryStart.dictionaries;
-import static FxmlFiles.DictionaryStart.pool;
+import static FxmlFiles.Start.dictionaries;
+import static FxmlFiles.Start.pool;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;

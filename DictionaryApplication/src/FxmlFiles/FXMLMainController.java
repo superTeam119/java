@@ -6,8 +6,8 @@
 package FxmlFiles;
 
 import DictionaryApplication.Dictionary;
-import static FxmlFiles.DictionaryStart.*;
-import static FxmlFiles.DictionaryStart.pool;
+import static FxmlFiles.Start.*;
+import static FxmlFiles.Start.pool;
 import DictionaryApplication.SuperType;
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,7 +41,7 @@ import javafx.stage.Stage;
  */
 
 
-public class FXMLDocumentController implements Initializable {
+public class FXMLMainController implements Initializable {
     
     //@FXML
     //private Label label;
@@ -126,6 +126,8 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        
 //        try {
 //            // TODO
 //            //URLClassLoader   classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});

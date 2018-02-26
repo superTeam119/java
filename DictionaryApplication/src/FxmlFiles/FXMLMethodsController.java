@@ -6,7 +6,7 @@
 package FxmlFiles;
 
 import DictionaryApplication.Generator;
-import static FxmlFiles.DictionaryStart.pool;
+import static FxmlFiles.Start.pool;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -5,7 +5,7 @@
  */
 package DictionaryApplication;
 
-import static FxmlFiles.DictionaryStart.pool;
+import static FxmlFiles.Start.pool;
 import java.lang.reflect.Field;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;

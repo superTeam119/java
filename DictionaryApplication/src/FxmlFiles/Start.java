@@ -25,7 +25,8 @@ import javafx.stage.Stage;
  *
  * @author Abo Ali
  */
-public class DictionaryStart extends Application {
+public class Start extends Application {
+    
        public static Map<String,HashMap<String,SuperType>> pool = new HashMap<String, HashMap<String,SuperType>>();
    public static Map<String,Dictionary<SuperType>> dictionaries=new HashMap<String,Dictionary<SuperType>>();
 

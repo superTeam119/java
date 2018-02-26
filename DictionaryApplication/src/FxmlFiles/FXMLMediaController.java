@@ -7,8 +7,8 @@ package FxmlFiles;
 
 
 import DictionaryApplication.Generator;
-import static FxmlFiles.DictionaryStart.dictionaries;
-import static FxmlFiles.DictionaryStart.pool;
+import static FxmlFiles.Start.dictionaries;
+import static FxmlFiles.Start.pool;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -83,8 +83,10 @@ private Media me,me2;
     }    
     
      public void Back(ActionEvent event) throws IOException {
-        Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLMain.fxml"));
+        
         Scene home_page_scene = new Scene(home_page_parent);
+                home_page_scene.getStylesheets().add("/css/simple.css");
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         app_stage.setScene(home_page_scene);
         //app_stage.setTitle("Methods");

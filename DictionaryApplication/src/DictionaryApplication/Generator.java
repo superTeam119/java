@@ -5,8 +5,8 @@
  */
 package DictionaryApplication;
 
-import static FxmlFiles.DictionaryStart.dictionaries;
-import static FxmlFiles.DictionaryStart.pool;
+import static FxmlFiles.Start.dictionaries;
+import static FxmlFiles.Start.pool;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
