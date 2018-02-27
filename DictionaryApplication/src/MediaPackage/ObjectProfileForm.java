@@ -7,7 +7,7 @@ package MediaPackage;
 
 import static FxmlFiles.FXMLMediaController.className;
 import static FxmlFiles.FXMLMediaController.objectName;
-import static MediaPackage.AudioFormController.audioMediaPlayer;
+import static MediaPackage.VideoFormController.m;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,9 +20,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.application.Application.launch;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -51,9 +53,11 @@ public class ObjectProfileForm implements Initializable {
     /**
      * Initializes the controller class.
      */
+    private File f;
 public  static String audioPopUp;
 public  static String videoPopUp;
     @FXML private ImageView pictureView;
+     @FXML private ImageView videoImageView;
     @FXML private Tab pictureTab;
     @FXML private Tab videoTab;
     @FXML private Tab audioTab;
@@ -66,7 +70,8 @@ public  static String videoPopUp;
       @FXML private ListView audioFilteredListView; 
       @FXML private ListView videoFilteredListView; 
       @FXML private Label audioName;
-     public static  MediaPlayer videoMediaPlayer;
+     public   MediaPlayer videoMediaPlayer;
+     public static  MediaPlayer audioMediaPlayer;
      public  static  Stage audioStage;
       public  static  Stage videoStage;
       Media media;
@@ -103,7 +108,8 @@ pictureFilteredListView.getItems().addAll(picturePaths);
 videoFilteredListView.getItems().addAll(videoPaths);
 //mediaPath=new File(videoPaths.get(videoIndex)).getAbsolutePath();
 if(videoPaths.size()>0)
-{mediaPath=new File(videoFolderPath+videoPaths.get(videoIndex)).getAbsolutePath();
+{
+    mediaPath=new File(videoFolderPath+videoPaths.get(videoIndex)).getAbsolutePath();
 videoPopUp=mediaPath;
           videoFilteredField.textProperty().addListener((observable, oldValue, newValue) -> {
        videoFilteredListView.getItems().clear();
@@ -113,9 +119,9 @@ videoPopUp=mediaPath;
                videoFilteredListView.getItems().add(videoPaths.get(i));
           });
           
-media = new Media(new File(mediaPath).toURI().toString());
-videoMediaPlayer = new MediaPlayer(media);
-videoMediaView.setMediaPlayer(videoMediaPlayer);
+//media = new Media(new File(videoPopUp).toURI().toString());
+//videoMediaPlayer = new MediaPlayer(media);
+//videoMediaView.setMediaPlayer(videoMediaPlayer);
 videoMediaView.setFitWidth(345);
 videoMediaView.setFitHeight(370);
 //audioMediaView
@@ -124,28 +130,40 @@ videoMediaView.setFitHeight(370);
 videoFilteredListView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
          if(newValue!=null){
-           videoPopUp=new File(videoFolderPath+newValue.toString()).getAbsolutePath();
-           media = new Media(new File(videoPopUp).toURI().toString());
-           videoMediaPlayer = new MediaPlayer(media);
-           videoMediaView.setMediaPlayer(videoMediaPlayer);
+             mediaPath=videoFolderPath+videoFilteredListView.getSelectionModel().getSelectedItem();
+//         String   po=new File(videoFolderPath+newValue.toString()).getAbsolutePath();
+//           videoPopUp=po;
+//             f=new File(mediaPath);
+//           media = new Media(f.toURI().toString());
+//           videoMediaPlayer = new MediaPlayer(media);
+//           videoMediaView.setMediaPlayer(videoMediaPlayer);
          }       
         });
+
+
+
 if(audioPaths.size()>0)
 { 
     audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
+    
     audioName.setText(audioPaths.get(audioIndex));
     
    
+
+}
 audioFilteredListView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
          if(newValue!=null){
            audioPopUp=new File(audioFolderPath+newValue.toString()).getAbsolutePath();
         }
+         System.out.println(audioPopUp);
+              
+         
          System.out.println(oldValue);
+          System.out.println(newValue);
          audioName.setText(newValue.toString());
          
         });
-}
 
  audioFilteredField.textProperty().addListener((observable, oldValue, newValue) -> {
        audioFilteredListView.getItems().clear();
@@ -178,7 +196,7 @@ image=new Image(new File(mediaPath).toURI().toString());
         
          
         });
-   videoMediaView.setOnMouseClicked((MouseEvent mouseEvent) -> {
+   videoImageView.setOnMouseClicked((MouseEvent mouseEvent) -> {
        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
            if(mouseEvent.getClickCount() == 2){
                Parent home_page_parent;
@@ -188,12 +206,15 @@ image=new Image(new File(mediaPath).toURI().toString());
                    Stage app_stage = new Stage();
                    app_stage.setScene(home_page_scene);
                    //app_stage.setTitle("Methods");
-                   videoStage=app_stage;
-                videoStage.setOnCloseRequest((WindowEvent event) -> {
+                  // videoStage=app_stage;
+                app_stage.setOnCloseRequest((WindowEvent event) -> {
             System.out.println("Closing......");
-            videoMediaPlayer.pause();
+            videoMediaView=null;///////
+            m.dispose();
+            m=null;
             event.consume();
-            videoStage.close();
+            //videoStage.close();
+              app_stage.close();
         });
                    app_stage.show();
                }           catch (IOException ex) {
@@ -206,7 +227,7 @@ image=new Image(new File(mediaPath).toURI().toString());
        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
            if(mouseEvent.getClickCount() == 2){
                try {
-                    audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
+                   
                    Parent home_page_parent;                 
                    home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/AudioForm.fxml"));
                    Scene home_page_scene = new Scene(home_page_parent);
@@ -214,11 +235,17 @@ image=new Image(new File(mediaPath).toURI().toString());
                    app_stage.setScene(home_page_scene);
                    //app_stage.setTitle("Methods");
                    audioStage=app_stage;
+       
                      audioStage.setOnCloseRequest((WindowEvent event) -> {
             System.out.println("Closing......");
-            audioMediaPlayer.pause();
+//            audioMediaPlayer.pause();
+//            audioMediaPlayer=new MediaPlayer(new Media(new File("./src/images/tt.mp3").toURI().toString()));
+//            audioMediaPlayer.stop();
+            audioMediaPlayer.dispose();
+            audioMediaPlayer=null;
             event.consume();
             audioStage.close();
+            app_stage.close();
         });
                    app_stage.show();
                } catch (IOException ex) {
@@ -227,24 +254,20 @@ image=new Image(new File(mediaPath).toURI().toString());
            }
        }
 });
-    pictureTab.selectedProperty().addListener((observable, oldValue, newValue) -> {
-        if (newValue) {
-          videoMediaPlayer.pause();
-          audioMediaPlayer.pause();
-        }
-    });
     }
-    public void videoRemove() throws IOException{
+    public void videoRemove() throws IOException{//try{
+  
         if(videoPaths.size()>0){
-          String targetPath=videoFolderPath+videoPaths.get(videoIndex);
+          String targetPath=videoFolderPath+videoFilteredListView.getSelectionModel().getSelectedItem().toString();
+           // System.out.println(targetPath);
         Path target = FileSystems.getDefault().getPath(targetPath);
         System.out.println(targetPath);
-         if(Files.deleteIfExists(target))
-   videoPaths.remove(videoIndex);
-            videoFilteredListView.getItems().clear();
-        videoFilteredListView.getItems().addAll(videoPaths);
-     nextVideo();}
-           else{
+          if(Files.deleteIfExists(target))
+             videoPaths.remove(videoFilteredListView.getSelectionModel().getSelectedItem().toString());
+         videoFilteredListView.getItems().remove(videoFilteredListView.getSelectionModel().getSelectedItem().toString());
+     }
+  //  }catch(Exception ex){
+        //System.out.println(ex.getMessage());
     Alert alert = new Alert(AlertType.ERROR);
 alert.setTitle("Media Information");
 alert.setHeaderText("Look, an Error Dialog");
@@ -252,19 +275,18 @@ alert.setContentText("Ooops, there are no Videos please check your video!");
 
 alert.showAndWait();
 }
-    }
+    
      public void pictureRemove() throws IOException{
-         if(picturePaths.size()>0){
-         String targetPath=picFolderPath+picturePaths.get(pictureIndex);
+        try{
+         String targetPath=picFolderPath+pictureFilteredListView.getSelectionModel().getSelectedItem();;
         Path target = FileSystems.getDefault().getPath(targetPath);
        
-         if(Files.deleteIfExists(target))
-    picturePaths.remove(pictureIndex);
-         pictureFilteredListView.getItems().clear();
-         pictureFilteredListView.getItems().addAll(picturePaths);
-
-     nextPicture();}
-           else{
+          if(Files.deleteIfExists(target))
+             picturePaths.remove(pictureFilteredListView.getSelectionModel().getSelectedItem());
+         pictureFilteredListView.getItems().remove(pictureFilteredListView.getSelectionModel().getSelectedItem());
+         nextPicture();
+     }
+           catch(Exception ex){
     Alert alert = new Alert(AlertType.ERROR);
 alert.setTitle("Media Information");
 alert.setHeaderText("Look, an Error Dialog");
@@ -274,19 +296,18 @@ alert.showAndWait();
 }
     }
  
-      public void audioRemove() throws IOException{
+       public void audioRemove() throws IOException{
+           try{
          if(audioPaths.size()>0){
-        String targetPath=audioFolderPath+audioPaths.get(audioIndex);
+        String targetPath=audioFolderPath + audioFilteredListView.getSelectionModel().getSelectedItem();
         Path target = FileSystems.getDefault().getPath(targetPath);
        
          if(Files.deleteIfExists(target))
-             audioPaths.remove(audioIndex);
-         audioFilteredListView.getItems().clear();
-         audioFilteredListView.getItems().addAll(audioPaths);
+        audioPaths.remove(audioFilteredListView.getSelectionModel().getSelectedItem());
+         audioFilteredListView.getItems().remove(audioFilteredListView.getSelectionModel().getSelectedItem());
 
-  nextAudio();
          }
-               else{
+           }    catch(Exception ex){
     Alert alert = new Alert(AlertType.ERROR);
 alert.setTitle("Media Information");
 alert.setHeaderText("Look, an Error Dialog");
@@ -358,8 +379,8 @@ alert.showAndWait();
         videoMediaPlayer=new MediaPlayer(media);  
   
 videoMediaView.setMediaPlayer(videoMediaPlayer);
-videoMediaView.setFitWidth(345);
-videoMediaView.setFitHeight(370);
+//videoMediaView.setFitWidth(345);
+//videoMediaView.setFitHeight(370);
  videoPopUp=mediaPath;
                 }
                 else{
@@ -382,8 +403,8 @@ if(videoPaths.size()>0){
         videoMediaPlayer=new MediaPlayer(media);  
   
 videoMediaView.setMediaPlayer(videoMediaPlayer);
-videoMediaView.setFitWidth(345);
-videoMediaView.setFitHeight(370);
+//videoMediaView.setFitWidth(345);
+//videoMediaView.setFitHeight(370);
  videoPopUp=mediaPath;}
  else{
     Alert alert = new Alert(AlertType.ERROR);
@@ -452,6 +473,19 @@ alert.showAndWait();
         }
         return MediaPaths ;
     }
+  public void Back(Event event){
+        try{
+        Parent home_page_parent = FXMLLoader.load(getClass().getResource("/FxmlFiles/FXMLMain.fxml"));
+        Scene home_page_scene = new Scene(home_page_parent);
+         home_page_scene.getStylesheets().add("/css/simple.css");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(home_page_scene);
+        //app_stage.setTitle("Methods");
+        stage.show();
+      }
+catch(Exception ex){
+}
+  }
         
 
   public static void main(String[] args) {

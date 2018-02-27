@@ -6,7 +6,6 @@
 package MediaPackage;
 
 
-import static MediaPackage.ObjectProfileForm.videoMediaPlayer;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -62,7 +61,7 @@ public class VideoFormController implements Initializable {
     private HBox mediaBar;
     @FXML
     private Button playButton;
-
+    public static MediaPlayer m;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -70,9 +69,9 @@ public class VideoFormController implements Initializable {
               
         String path =  videoPopUp;
         Media media = new Media(new File(path).toURI().toString());
-        videoMediaPlayer = new MediaPlayer(media);
-        videoMediaPlayer.setAutoPlay(false);
-        mediaView.setMediaPlayer(videoMediaPlayer);
+        m= new MediaPlayer(media);
+        m.setAutoPlay(false);
+        mediaView.setMediaPlayer(m);    
         mvPane.setStyle("-fx-background-color: gray;");
 
         mediaBar.setAlignment(Pos.CENTER);
@@ -88,9 +87,10 @@ public class VideoFormController implements Initializable {
         //volumeSlider.setPrefWidth(25);
        // volumeSlider.setMaxWidth(Region.USE_PREF_SIZE);
        // volumeSlider.setMinWidth(30);
-
+        mediaView.setFitWidth(500);
+        mediaView.setFitHeight(77750);
         playButton.setOnAction((ActionEvent e) -> {
-            Status status = videoMediaPlayer.getStatus();
+            Status status = m.getStatus();
             
             if (status == Status.UNKNOWN || status == Status.HALTED) {
                 // don't do anything in these states
@@ -102,43 +102,43 @@ public class VideoFormController implements Initializable {
                     || status == Status.STOPPED) {
                 // rewind the movie if we're sitting at the end
                 if (atEndOfMedia) {
-                    videoMediaPlayer.seek(videoMediaPlayer.getStartTime());
+                    m.seek(m.getStartTime());
                     atEndOfMedia = false;
                 }
-                videoMediaPlayer.play();
+                m.play();
             } else {
-                videoMediaPlayer.pause();
+                m.pause();
             }
         });
 
-        videoMediaPlayer.currentTimeProperty().addListener((Observable ov) -> {
+        m.currentTimeProperty().addListener((Observable ov) -> {
             updateValues();
         });
-        videoMediaPlayer.setOnPlaying(() -> {
+        m.setOnPlaying(() -> {
             if (stopRequested) {
-                videoMediaPlayer.pause();
+                m.pause();
                 stopRequested = false;
             } else {
                 playButton.setText("||");
             }
         });
-        videoMediaPlayer.setOnPaused(() -> {
+        m.setOnPaused(() -> {
             System.out.println("onPaused");
             playButton.setText(">");
         });
-        videoMediaPlayer.setOnReady(() -> {
-            duration = videoMediaPlayer.getMedia().getDuration();
+        m.setOnReady(() -> {
+            duration = m.getMedia().getDuration();
             updateValues();
         });
         timeSlider.valueProperty().addListener((Observable ov) -> {
             if (timeSlider.isValueChanging()) {
                 // multiply duration by percentage calculated by slider position
-                videoMediaPlayer.seek(duration.multiply(timeSlider.getValue() / 100.0));
+                m.seek(duration.multiply(timeSlider.getValue() / 100.0));
             }
         });
         volumeSlider.valueProperty().addListener((Observable ov) -> {
             if (volumeSlider.isValueChanging()) {
-                videoMediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
+                m.setVolume(volumeSlider.getValue() / 100.0);
             }
         });
     }
@@ -146,7 +146,7 @@ public class VideoFormController implements Initializable {
     public void updateValues() {
         if (playTime != null && timeSlider != null && volumeSlider != null) {
             Platform.runLater(() -> {
-                Duration currentTime = videoMediaPlayer.getCurrentTime();
+                Duration currentTime = m.getCurrentTime();
                 playTime.setText(formatTime(currentTime, duration));
                 timeSlider.setDisable(duration.isUnknown());
                 if (!timeSlider.isDisabled()
@@ -156,7 +156,7 @@ public class VideoFormController implements Initializable {
                             * 100.0);
                 }
                 if (!volumeSlider.isValueChanging()) {
-                    volumeSlider.setValue((int) Math.round(videoMediaPlayer.getVolume()
+                    volumeSlider.setValue((int) Math.round(m.getVolume()
                             * 100));
                 }
             });

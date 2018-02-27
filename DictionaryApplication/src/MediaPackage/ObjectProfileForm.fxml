@@ -22,6 +22,7 @@
                   <TextField fx:id="pictureFilteredField" layoutX="450.0" layoutY="14.0" />
                   <ListView fx:id="pictureFilteredListView" layoutX="435.0" layoutY="53.0" prefHeight="200.0" prefWidth="200.0" />
                   <Label layoutX="288.0" layoutY="18.0" text="Search For Your Pictures" />
+                  <Button layoutX="560.0" layoutY="362.0" mnemonicParsing="false" onAction="#Back" text="Back" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -41,6 +42,7 @@
                   <Label layoutX="321.0" layoutY="14.0" text="Search For Your Songs" />
                   <TextField fx:id="audioFilteredField" layoutX="457.0" layoutY="10.0" />
                   <ListView fx:id="audioFilteredListView" layoutX="432.0" layoutY="56.0" prefHeight="200.0" prefWidth="200.0" />
+                  <Button layoutX="567.0" layoutY="364.0" mnemonicParsing="false" onAction="#Back" text="Back" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -55,6 +57,11 @@
                   <ListView fx:id="videoFilteredListView" layoutX="405.0" layoutY="109.0" prefHeight="200.0" prefWidth="200.0" />
                   <Label layoutX="275.0" layoutY="26.0" text="Search For Yor Videos" />
                   <TextField fx:id="videoFilteredField" layoutX="431.0" layoutY="22.0" />
+                  <Button layoutX="543.0" layoutY="344.0" mnemonicParsing="false" onAction="#Back" text="Back" />
+                  <ImageView fx:id="videoImageView" fitHeight="261.0" fitWidth="368.0" layoutX="62.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../photos/images.jpg" />
+                     </image></ImageView>
                </children>
             </AnchorPane>
         </content>

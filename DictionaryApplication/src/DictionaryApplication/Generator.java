@@ -10,12 +10,18 @@ import static FxmlFiles.Start.pool;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -431,33 +437,70 @@ if (i >= 0) {
          return dictionaryObjects;
        
     }
-    public static void deleteMedia(String path){
+    public static void deleteMedia(String path){System.out.println("11");
         File oldMedia=new File(path);
-        File[] classFolders= oldMedia.listFiles();
-        ArrayList<File> objectFolders=new ArrayList<>();
-        for(int i=0;i<classFolders.length;i++){
-            File[] objectFold=classFolders[i].listFiles();
-            for(int j=0;j<objectFold.length;j++)
-                objectFolders.add(objectFold[j]);
-        }
-        ArrayList<File> mediaObjectFolders=new ArrayList<File>();
-        for(int i=0;i<objectFolders.size();i++){
-            File[] objectFold=objectFolders.get(i).listFiles();
-            for(int j=0;j<objectFold.length;j++)
-                mediaObjectFolders.add(objectFold[j]);
-        }
-        for(int i=0;i<mediaObjectFolders.size();i++)
-        {File[] objectFold=mediaObjectFolders.get(i).listFiles();
-        for(int j=0;j<objectFold.length;j++)
-                objectFold[j].delete();
-        mediaObjectFolders.get(i).delete();
-        }
-        for(int i=0;i<objectFolders.size();i++)
-        objectFolders.get(i).delete();
-        for(int i=0;i<classFolders.length;i++)
-        classFolders[i].delete();
-        oldMedia.delete();
+        String[]entries = oldMedia.list();
+        System.out.println(entries.length);
+for(String s: entries){System.out.println(s);
+    File currentFile = new File(oldMedia.getPath(),s);
+    currentFile.delete();
+}
+//        File[] classFolders= oldMedia.listFiles();
+//        ArrayList<File> objectFolders=new ArrayList<>();
+//        for(int i=0;i<classFolders.length;i++){
+//            File[] objectFold=classFolders[i].listFiles();
+//            for(int j=0;j<objectFold.length;j++)
+//                objectFolders.add(objectFold[j]);
+//        }
+//        ArrayList<File> mediaObjectFolders=new ArrayList<File>();
+//        for(int i=0;i<objectFolders.size();i++){
+//            File[] objectFold=objectFolders.get(i).listFiles();
+//            for(int j=0;j<objectFold.length;j++)
+//                mediaObjectFolders.add(objectFold[j]);
+//        }
+//        for(int i=0;i<mediaObjectFolders.size();i++)
+//        {File[] objectFold=mediaObjectFolders.get(i).listFiles();
+//        for(int j=0;j<objectFold.length;j++)
+//                objectFold[j].delete();
+//        mediaObjectFolders.get(i).delete();
+//        }
+//        for(int i=0;i<objectFolders.size();i++)
+//        objectFolders.get(i).delete();
+//        for(int i=0;i<classFolders.length;i++)
+//        classFolders[i].delete();
+//        oldMedia.delete();
+//        
+//    }
+}
         
+    public static void deleteDirectory(File source) throws IOException {File[] files;
+        if(source.isDirectory()==true){System.out.println("isDre" + source.getName());files=source.listFiles();
+        for(int i=0;i<files.length;i++){System.out.println(files[i]);
+            if(files[i].isDirectory()==true)
+                deleteDirectory(files[i]);
+            else
+                Files.delete(files[i].toPath());
+        }
     }
+
+}
+//    private static void copyFile(File source, File target) throws IOException {        
+//    try (
+//            InputStream in = new FileInputStream(source);
+//            OutputStream out = new FileOutputStream(target)
+//    ) {
+//        byte[] buf = new byte[1024];
+//        int length;
+//        while ((length = in.read(buf)) > 0) {
+//            out.write(buf, 0, length);
+//        }
+//    }}
+//    public static void copy(File sourceLocation, File targetLocation) throws IOException {
+//    if (sourceLocation.isDirectory()) {
+//        copyDirectory(sourceLocation, targetLocation);
+//    } else {
+//        copyFile(sourceLocation, targetLocation);
+//    }
+//}
 }
 

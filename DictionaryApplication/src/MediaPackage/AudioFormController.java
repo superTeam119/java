@@ -5,6 +5,7 @@
  */
 package MediaPackage;
 
+import static MediaPackage.ObjectProfileForm.audioMediaPlayer;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,7 +36,7 @@ public class AudioFormController implements Initializable {
      @FXML private Pane mvPane;
 
  @FXML private MediaView mediaView;
-   public static  MediaPlayer audioMediaPlayer;
+ 
     private final boolean repeat = false;
     private boolean stopRequested = false;
     private boolean atEndOfMedia = false;
@@ -58,13 +59,13 @@ public class AudioFormController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
 //     String path =  audioPopUp;
-     String path =  new File(audioPopUp).getAbsolutePath();
-        Media media = new Media(new File(path).toURI().toString());
-        audioMediaPlayer = new MediaPlayer(media);
-        audioMediaPlayer = new MediaPlayer(media);
+     
+  
+  
+       // mediaView.setMediaPlayer(new MediaPlayer(new Media(new File(path).toURI().toString())));
+      Media media = new Media(new File(audioPopUp).toURI().toString());
+           audioMediaPlayer = new MediaPlayer(media);
         playButton.setStyle("-fx-background-color: transparent;"); 
-
-
         playButton.setOnAction((ActionEvent e) -> {
             MediaPlayer.Status status = audioMediaPlayer.getStatus();
             

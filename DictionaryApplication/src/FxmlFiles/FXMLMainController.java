@@ -73,8 +73,8 @@ public class FXMLMainController implements Initializable {
     dictionaries=(HashMap<String,Dictionary<SuperType>>)sss.readObject();
     sss.close();
     fff.close();//catch(Exception ex){System.out.println(ex.getMessage());}
-    Generator.deleteMedia("./media");
-    ClassGenerator.copy(new File("savedMeida"), new File("media"));
+   Generator.deleteMedia("./media");
+   ClassGenerator.copy(new File("./MediaSaved"), new File("./media"));
     tmpPool=new HashMap<String,HashMap<String,SuperType>>();
             tmpPool.putAll(pool);
     tmpDictionaries=new HashMap<String,Dictionary<SuperType>>();
@@ -96,10 +96,11 @@ public class FXMLMainController implements Initializable {
             tmpPool.putAll(pool);
     tmpDictionaries=new HashMap<String,Dictionary<SuperType>>();
             tmpDictionaries.putAll(dictionaries);
+            System.out.println("saved");
     //tmpPool=new HashMap<String,HashMap<String,SuperType>>(pool);
     //tmpDictionaries=new HashMap<String,Dictionary<SuperType>>(dictionaries);
-    Generator.deleteMedia("./savedMedia");
-    ClassGenerator.copy(new File("meida"), new File("savedMedia"));
+    Generator.deleteMedia("./MediaSaved");
+    ClassGenerator.copy(new File("./media"), new File("./MediaSaved"));
     }
     
       public void AddMedia(ActionEvent event) throws IOException{

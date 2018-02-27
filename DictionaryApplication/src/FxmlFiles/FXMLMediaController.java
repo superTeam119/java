@@ -42,7 +42,8 @@ import javafx.stage.Stage;
  * @author Aya
  */
 public class FXMLMediaController implements Initializable {
-
+    private  File file;
+    private  String mediaFileName;
     private String sourcePath;
     private String targetPath;
     public static String className, objectName;
@@ -123,22 +124,18 @@ public class FXMLMediaController implements Initializable {
             mediaName.setEditable(false);
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                    new FileChooser.ExtensionFilter("GIF", "*.gif"),
-                    new FileChooser.ExtensionFilter("BMP", "*.bmp"),
-                    new FileChooser.ExtensionFilter("PNG", "*.png")
+                    new FileChooser.ExtensionFilter("jpg", "*.jpg"),
+                    new FileChooser.ExtensionFilter("gif", "*.gif"),
+                    new FileChooser.ExtensionFilter("jpeg", "*.jpeg"),
+                    new FileChooser.ExtensionFilter("png", "*.png")
             );
-            File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
+             file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
             System.out.println(file.toString());
             sourcePath = file.getAbsolutePath();
             Image image = new Image(new File(sourcePath).toURI().toString());
             iv.setImage(image);
             mediaName.setEditable(true);
-            mediaName.setText(file.getName());
-
-            String mediaFileName = mediaName.getText() + file.getName().substring(file.getName().indexOf("."));
-            targetPath = String.format(".\\media\\%s\\%s\\Pictures\\%s", classNames.getValue().toString(), objectNames.getValue().toString(), mediaFileName);
-            mediaName.setText("");
+            mediaName.setText(file.getName().substring(0,file.getName().lastIndexOf(".")));
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
@@ -157,17 +154,15 @@ public class FXMLMediaController implements Initializable {
                     new FileChooser.ExtensionFilter("Media files (*.mp4)", "*.mp4"));
 
             // File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
-            File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
+             file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
             sourcePath = file.getAbsolutePath();
             me2 = new Media(new File(sourcePath).toURI().toString());
             mp2 = new MediaPlayer(me2);
             mv2.setMediaPlayer(mp2);
 
             mediaName.setEditable(true);
-            mediaName.setText(file.getName());
-            String mediaFileName = mediaName.getText() + file.getName().substring(file.getName().indexOf("."));
-            targetPath = String.format(".\\media\\%s\\%s\\Video\\%s", classNames.getValue().toString(), objectNames.getValue().toString(), mediaFileName);
-            mediaName.setText("");
+            mediaName.setText(file.getName().substring(0,file.getName().lastIndexOf(".")));
+           
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
@@ -186,18 +181,16 @@ public class FXMLMediaController implements Initializable {
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("Media files (*.mp3)", "*.mp3")
             );
-            File file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
+             file = fileChooser.showOpenDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
             sourcePath = file.getAbsolutePath();
             me = new Media(new File(sourcePath).toURI().toString());
             mp = new MediaPlayer(me);
 //        mv.setMediaPlayer(mp);
 
             mediaName.setEditable(true);
-            mediaName.setText(file.getName());
+           mediaName.setText(file.getName().substring(0,file.getName().lastIndexOf(".")));
             //mp.play();
-            String mediaFileName = mediaName.getText() + file.getName().substring(file.getName().indexOf("."));
-            targetPath = String.format(".\\media\\%s\\%s\\Audio\\%s", classNames.getValue().toString(), objectNames.getValue().toString(), mediaFileName);
-            mediaName.setText("");
+            
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
@@ -231,8 +224,19 @@ public class FXMLMediaController implements Initializable {
     }
 
     public void AttachMedia(ActionEvent event) throws IOException {
+          mediaFileName = mediaName.getText() + file.getName().substring(file.getName().lastIndexOf("."));
+          System.out.println(mediaFileName);
+          if(mediaFileName.contains("mp4"))
+            targetPath = String.format(".\\media\\%s\\%s\\Video\\%s", classNames.getValue().toString(), objectNames.getValue().toString(), mediaFileName);
+            if(mediaFileName.contains("mp3"))
+            targetPath = String.format(".\\media\\%s\\%s\\Audio\\%s", classNames.getValue().toString(), objectNames.getValue().toString(), mediaFileName);
+            if(mediaFileName.contains("png") || mediaFileName.contains("jpg") || mediaFileName.contains("gif") || mediaFileName.contains("jpeg"))
+            targetPath = String.format(".\\media\\%s\\%s\\Pictures\\%s", classNames.getValue().toString(), objectNames.getValue().toString(), mediaFileName);
+        System.out.println(targetPath);
+        System.out.println(sourcePath);
+        
         try {
-            File f = new File(targetPath);
+            File f=new File(targetPath);
             if (f.exists() == false) {
                 Path movefrom = FileSystems.getDefault().getPath(sourcePath);
                 Path target = FileSystems.getDefault().getPath(targetPath);
@@ -247,10 +251,11 @@ public class FXMLMediaController implements Initializable {
             alert.setContentText("please fill all the required fields");
             alert.showAndWait();
         }
-
+  mediaName.setText("");
     }
 
     public void showProfile(ActionEvent event) throws IOException {
+      try{
         className = classNames.getValue().toString();
         objectName = objectNames.getValue().toString();
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/ObjectProfileForm.fxml"));
@@ -259,5 +264,16 @@ public class FXMLMediaController implements Initializable {
         stage.setScene(home_page_scene);
         //app_stage.setTitle("Methods");
         stage.show();
+      }
+     catch(Exception ex){
+              
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+alert.setTitle("Media Information");
+alert.setHeaderText("Look, an Error Dialog");
+alert.setContentText("Please choose your class and object");
+
+alert.showAndWait();
+     }
+     
     }
 }

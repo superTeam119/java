@@ -72,7 +72,7 @@ public class Import_Export_FormController implements Initializable {
 //        filteredArray.add("fatwa.mp3");
 //        filteredArray.add("nadbeyet.mp3");
         // exportClassesNames.getItems().addAll(Generator.getClassNames());
-        for (String s : Generator.getClassNames()) {
+        for (String s : dictionaries.keySet()) {
             if (pool.get(s).size() != 0) {
                 exportClassesNames.getItems().add(s);
             }
