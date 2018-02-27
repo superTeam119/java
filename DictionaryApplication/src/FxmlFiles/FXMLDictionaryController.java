@@ -83,6 +83,7 @@ public class FXMLDictionaryController implements Initializable {
     }
 
     public void CreateDictionary() {
+        try{
         String className=classNames.getValue().toString();
         dictionaries.put(className,new Dictionary<SuperType>());
         classNames.getItems().remove(className);
@@ -92,5 +93,15 @@ public class FXMLDictionaryController implements Initializable {
         alert.getDialogPane().setPrefSize(200, 200);
         alert.setContentText("Dictionary "+className+" created");
         alert.showAndWait();
-    }
+        }
+        catch(Exception e)
+       { Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Warning");
+                    alert.setResizable(false);
+                    alert.getDialogPane().setPrefSize(250, 320);
+                    alert.setContentText("choose a class");
+                    alert.showAndWait();
+       }
+       
+        }
 }

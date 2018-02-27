@@ -167,33 +167,35 @@ public class FXMLNewClassController implements Initializable {
 //        if (classKey.getItems().size() > 0 && classKey.getValue().toString().contains(" ")) {
 //            keyIndex = Integer.parseInt(classKey.getValue().toString().trim().substring(10)) - 1;
 //        }
-        ClassDetails classInfo = new ClassDetails();
-        if (sub.isSelected() == true) {
-            classInfo.setSuperClass(superClass.getValue().toString().trim());
-            classInfo.setSubClass(sub.isSelected());
-        }
-        classInfo.setClassName(className.getText());
+       
+            ClassDetails classInfo = new ClassDetails();
+            if (sub.isSelected() == true) {
+                classInfo.setSuperClass(superClass.getValue().toString().trim());
+                classInfo.setSubClass(sub.isSelected());
+            }
+            classInfo.setClassName(className.getText());
 //        if(keyIndex!=-1)
 //        classInfo.setKey(nameField.get(keyIndex).getText());
 //        else
-        //classInfo.setKey(classKey.getValue().toString());    
-        for (int i = 0; i < typeField.size(); i++) {
-            classInfo.addAttribute(nameField.get(i).getText(), typeField.get(i).getValue().toString().trim(), methods.get(i).isSelected());
-        }
-        //classText = classText + ClassGenerator.getClassText(classInfo);
-        ClassGenerator.compileClass(classInfo);
-        pool.put(classInfo.getClassName(), new HashMap<String, SuperType>());
-        //dictionaries.put(classInfo.getClassName(), new Dictionary<SuperType>());
-        //System.out.println(classText); 
-        File f = new File("./media/" + className.getText());
-        f.mkdir();
+            //classInfo.setKey(classKey.getValue().toString());    
+            for (int i = 0; i < typeField.size(); i++) {
+                classInfo.addAttribute(nameField.get(i).getText(), typeField.get(i).getValue().toString().trim(), methods.get(i).isSelected());
+            }
+            //classText = classText + ClassGenerator.getClassText(classInfo);
+            ClassGenerator.compileClass(classInfo);
+            pool.put(classInfo.getClassName(), new HashMap<String, SuperType>());
+            //dictionaries.put(classInfo.getClassName(), new Dictionary<SuperType>());
+            //System.out.println(classText); 
+            File f = new File("./media/" + className.getText());
+            f.mkdir();
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Result");
-        alert.setResizable(false);
-        alert.getDialogPane().setPrefSize(200, 200);
-        alert.setContentText("Class " + className.getText() + " is created");
-        alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Result");
+            alert.setResizable(false);
+            alert.getDialogPane().setPrefSize(200, 200);
+            alert.setContentText("Class " + className.getText() + " is created");
+            alert.showAndWait();
+      
     }
 
     public void handleButtonAction(ActionEvent event) throws IOException {
@@ -216,7 +218,7 @@ public class FXMLNewClassController implements Initializable {
 
         //  attributesPlace.add(chooseClass, 0, 0);
     }
-    
+
     public void methodScene(ActionEvent event) throws IOException {
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLMethods.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
@@ -226,20 +228,23 @@ public class FXMLNewClassController implements Initializable {
         app_stage.show();
 
     }
-    private void attributeCheck(){
-         numberOfAtt.textProperty().addListener((observable, oldValue, newValue)
+
+    private void attributeCheck() {
+        numberOfAtt.textProperty().addListener((observable, oldValue, newValue)
                 -> {
-            try{
-            int nbrOfAttributes=Integer.parseInt(numberOfAtt.getText().toString());
-            if(nbrOfAttributes<0)        
+            try {
+                int nbrOfAttributes = Integer.parseInt(numberOfAtt.getText().toString());
+                if (nbrOfAttributes < 0) {
                     attributesStatus.setText("it must be positve integer");
-            else
-                attributesStatus.setText("");
+                } else {
+                    attributesStatus.setText("");
+                }
             } catch (Exception ex) {
-            attributesStatus.setText("it must be positve integer");
+                attributesStatus.setText("it must be positve integer");
             }//object8uml 
         });
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -260,13 +265,13 @@ public class FXMLNewClassController implements Initializable {
         AR.add("final");
         AR.add("char");
         attributeCheck();
-       
+
         List<String> savedClasses = Generator.getClassNames();
         classStatus.setTextFill(Color.web("#ff0000"));
         classStatus.setText("enter the class name");
         className.textProperty().addListener((observable, oldValue, newValue)
                 -> {
-            
+
             classStatus.setTextFill(Color.web("#ff0000"));
             if (className.getText().equals("")) {
                 classStatus.setText("enter the class name");

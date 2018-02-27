@@ -63,13 +63,16 @@ private ListView enemyList;
         classNames.getItems().addAll(dictionaries.keySet());
     }    
     public void classObjects(ActionEvent event){
+     
         Set<SuperType> keys=dictionaries.get(classNames.getValue().toString()).getElements().keySet();
         if(keys==null)
             System.out.println("empty");
         if(keys.size()==0)
             System.out.println("0");
         System.out.println(keys.size());
+        try{
         System.out.println(keys.toArray()[0].toString());
+        
         List<String> poolKeys= Generator.getClassObject(classNames.getValue().toString());
         for(SuperType key:keys)
             System.out.println(key.toString());
@@ -78,6 +81,17 @@ private ListView enemyList;
             if(keys.contains(pool.get(classNames.getValue().toString()).get(key)))
                 objectNames.getItems().add(key);
         }
+        
+        }
+          catch(Exception e)
+       { Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Warning");
+                    alert.setResizable(false);
+                    alert.getDialogPane().setPrefSize(250, 320);
+                    alert.setContentText("this class contains NO OBJECTS");
+                    alert.showAndWait();
+                    
+       }
 //objectNames.getItems().addAll(dictionaries.get(classNames.getValue().toString()).getElements().keySet());
     }
     public void generateObjects(ActionEvent event){friendList.getItems().clear();
@@ -115,6 +129,7 @@ private ListView enemyList;
         
     }
     public void add(ActionEvent event){
+        try{
         Dictionary<SuperType> objDictionary=dictionaries.get(classNames.getValue().toString());
         SuperType obj=pool.get(classNames.getValue().toString()).get(objectNames.getValue().toString());
         SuperType objToAdd=pool.get(classNames.getValue().toString()).get(toAddObjectNames.getValue().toString());
@@ -212,6 +227,17 @@ private ListView enemyList;
                     objectNames.getSelectionModel().selectNext();
         }
     }
+        catch(Exception e)
+       { Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Warning");
+                    alert.setResizable(false);
+                    alert.getDialogPane().setPrefSize(250, 320);
+                    alert.setContentText("Fill all the required parameters");
+                    alert.showAndWait();
+       }
+       
+    }
+    
     public void addEnemy(){}
     public void addFriend(){}
 //    public void methodView(ActionEvent event) throws IOException{
