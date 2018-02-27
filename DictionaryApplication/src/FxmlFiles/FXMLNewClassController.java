@@ -55,6 +55,7 @@ public class FXMLNewClassController implements Initializable {
     List<ComboBox> typeField = new ArrayList<ComboBox>();
     List<TextField> nameField = new ArrayList<TextField>();
     List<CheckBox> methods = new ArrayList<CheckBox>();
+    List<Label> fieldStatus = new ArrayList<Label>();
     ComboBox classKey = new ComboBox();
 
     @FXML
@@ -99,11 +100,20 @@ public class FXMLNewClassController implements Initializable {
         app_stage.setScene(home_page_scene);
         //app_stage.setTitle("Methods");
         app_stage.show();
-
+        
     }
 
     public void fill(ActionEvent event) throws IOException, ClassNotFoundException {
-
+        //System.out.println("");
+        if(classStatus.getText().equals("accepted")==false || attributesStatus.getText().equals("")==false)
+        {Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Check your fields");
+        alert.setResizable(false);
+        alert.getDialogPane().setPrefSize(200, 200);
+        alert.setContentText("check your fields");
+        alert.showAndWait();
+            return;
+        }
         classKey.getItems().clear();
         gridPane.getChildren().clear();
         int n = Integer.parseInt(numberOfAtt.getText().trim());
@@ -121,16 +131,25 @@ public class FXMLNewClassController implements Initializable {
             dataTypeField.getItems().addAll("long", "float", "double", "char", "boolean", "String", "int");
             dataTypeField.getItems().addAll(Generator.getClassNames());
             System.out.println(Generator.getClassNames());
-
+            Label fieldError=new Label("Enter field name");
+            fieldError.setTextFill(Color.web("#ff0000"));
             gridPane.add(dataTypeField, 2, (i + 1));// type of attribute i field
             typeField.add(dataTypeField);
             TextField dataNameField = new TextField();//name of attribute i field
+            dataNameField.textProperty().addListener((observable, oldValue, newValue)
+                -> {
+            if(dataNameField.getText().matches("^[A-Za-z_$][A-Za-z_$0-9]*$")==false)
+                fieldError.setText("Enter field name");
+            else
+                fieldError.setText("");
+                });
+            fieldStatus.add(fieldError);
             gridPane.add(dataNameField, 1, (i + 1));
             nameField.add(dataNameField);
             CheckBox checkBox = new CheckBox("");
             methods.add(checkBox);
             gridPane.add(checkBox, 3, (i + 1));
-
+            gridPane.add(fieldError,4,(i+1));
         }
 //        if(sub.isSelected())
 //        {Class ccc=Class.forName("UserClasses." + superClass.getValue());
@@ -161,7 +180,50 @@ public class FXMLNewClassController implements Initializable {
     }
 
     public void generateYourClass(ActionEvent event) throws IOException, FileNotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
+        for(Label l:fieldStatus){
+            if(l.getText().equals("")==false){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                 alert.setTitle("Error");
+                 alert.setResizable(false);
+                  alert.getDialogPane().setPrefSize(200, 200);
+                 alert.setContentText("Check your fieldNames");
+                  alert.showAndWait();
+                  return;
+            }
+        }
+      if(classStatus.getText().equals("accepted")==false || attributesStatus.getText().equals("")==false)
+        {Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Check your fields");
+        alert.setResizable(false);
+        alert.getDialogPane().setPrefSize(200, 200);
+        alert.setContentText("check your fields");
+        alert.showAndWait();
+            return;
+        }
+      ArrayList<String> duplicate=new ArrayList<String>();
+      for(ComboBox x:typeField){
+          if(x.getSelectionModel().isEmpty()==true){
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Check your ComboBoxType");
+        alert.setResizable(false);
+        alert.getDialogPane().setPrefSize(200, 200);
+        alert.setContentText("fill all ComboBoxes");
+        alert.showAndWait();
+              return;
+          }}
+          for(TextField xs:nameField){
+              if(duplicate.contains(xs.getText()))
+          {Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Attribute Name");
+        alert.setResizable(false);
+        alert.getDialogPane().setPrefSize(200, 200);
+        alert.setContentText("Cannot duplicate values");
+        alert.showAndWait();
+              return;   
+          }
+              duplicate.add(xs.getText());
+          }
+      
         //String classText="";
 //        int keyIndex = -1;
 //        if (classKey.getItems().size() > 0 && classKey.getValue().toString().contains(" ")) {
@@ -232,18 +294,18 @@ public class FXMLNewClassController implements Initializable {
             try{
             int nbrOfAttributes=Integer.parseInt(numberOfAtt.getText().toString());
             if(nbrOfAttributes<0)        
-                    attributesStatus.setText("it must be positve integer");
+                    attributesStatus.setText("enter positve integer");
             else
                 attributesStatus.setText("");
             } catch (Exception ex) {
-            attributesStatus.setText("it must be positve integer");
+            attributesStatus.setText("enter positve integer");
             }//object8uml 
         });
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+attributesStatus.setText("enter positve integer");
         List<String> AR = new ArrayList<String>();
 
         AR.add("private");
@@ -279,7 +341,7 @@ public class FXMLNewClassController implements Initializable {
                 if (tmpC == '_' || tmpC == '$' || (tmpC >= 'a' && tmpC <= 'z') || (tmpC >= 'A' && tmpC <= 'Z') || (tmpC >= '0' && tmpC <= '9')) {
                     classStatus.setTextFill(Color.web("#00e600"));
                     classStatus.setText("accepted");
-                } else {
+                } else {classStatus.setTextFill(Color.web("#ff0000"));
                     classStatus.setText("incorrect class name");
                     return;
                 }
