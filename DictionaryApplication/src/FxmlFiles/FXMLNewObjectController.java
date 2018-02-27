@@ -77,7 +77,21 @@ public class FXMLNewObjectController implements Initializable {
             Logger.getLogger(FXMLNewObjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    private boolean testException(String type,String input){
+        try{
+        if(type.equals("int"))
+            Integer.parseInt(input);
+        if(type.equals("double"))
+            Double.parseDouble(input);
+        if(type.equals("float"))
+            Float.parseFloat(input);
+        if(type.equals("boolean"))
+            Boolean.getBoolean(input);
+        }catch(Exception ex){
+            return false;
+        }
+        return true;
+    }
     public void Back(ActionEvent event) throws IOException {
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLNewClass.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
@@ -89,6 +103,7 @@ public class FXMLNewObjectController implements Initializable {
     }
 
     public void createObject(ActionEvent event) throws NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
+try{
 //     Class<?> c=int.class;
 //                
 //                    c = Class.forName("UserClasses." + chooseClass.getValue().toString().trim());
@@ -225,7 +240,15 @@ public class FXMLNewObjectController implements Initializable {
         alert.getDialogPane().setPrefSize(200, 200);
         alert.setContentText("Instance of "+chooseClass.getValue().toString()+" is created");
         alert.showAndWait();
-
+}catch(Exception ex){
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                 alert.setTitle("Error");
+                 alert.setResizable(false);
+                  alert.getDialogPane().setPrefSize(200, 200);
+                 alert.setContentText("check your values");
+                  alert.showAndWait();
+                  return;
+}
     }
 
     public void attributesFill(ActionEvent event) throws ClassNotFoundException, MalformedURLException {
