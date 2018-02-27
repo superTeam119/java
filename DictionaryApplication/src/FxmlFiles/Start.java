@@ -5,6 +5,7 @@
  */
 package FxmlFiles;
 
+import DictionaryApplication.ClassGenerator;
 import DictionaryApplication.Dictionary;
 import DictionaryApplication.Generator;
 import DictionaryApplication.SuperType;
@@ -45,8 +46,10 @@ public class Start extends Application {
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/css/simple.css");
-      
-                
+        Generator.deleteMedia("./media");
+        File f=new File("./media");
+        f.mkdir();
+        //ClassGenerator.copy(new File("./mediaSaved"),new File("./asda"));
         stage.setScene(scene);
        // stage.setTitle("Dictionary Generator Application ");
         stage.show();

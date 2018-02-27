@@ -11,10 +11,14 @@ import static FxmlFiles.FXMLNewObjectController.classMap;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
@@ -473,10 +477,38 @@ public static List<String> getFieldsType(Class c) {
         }
     }
 
-    private static void moveFile(String sourcePath, String targetPath) throws IOException {
+    public static void moveFile(String sourcePath, String targetPath) throws IOException {
         Path movefrom = FileSystems.getDefault().getPath(sourcePath);
         Path target = FileSystems.getDefault().getPath(targetPath);
         // Files.move(movefrom,target,  StandardCopyOption.COPY_ATTRIBUTES);
         Files.copy(movefrom, target, StandardCopyOption.REPLACE_EXISTING);
     }
+    private static void copyDirectory(File source,File target) throws IOException {
+        
+        if (!target.exists()) {
+        target.mkdir();
+    }
+
+    for (String f : source.list()) {
+        copy(new File(source, f), new File(target, f));
+    }
+}
+    private static void copyFile(File source, File target) throws IOException {        
+    try (
+            InputStream in = new FileInputStream(source);
+            OutputStream out = new FileOutputStream(target)
+    ) {
+        byte[] buf = new byte[1024];
+        int length;
+        while ((length = in.read(buf)) > 0) {
+            out.write(buf, 0, length);
+        }
+    }}
+    public static void copy(File sourceLocation, File targetLocation) throws IOException {
+    if (sourceLocation.isDirectory()) {
+        copyDirectory(sourceLocation, targetLocation);
+    } else {
+        copyFile(sourceLocation, targetLocation);
+    }
+}
 }

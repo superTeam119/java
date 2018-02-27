@@ -431,5 +431,33 @@ if (i >= 0) {
          return dictionaryObjects;
        
     }
-  }
+    public static void deleteMedia(String path){
+        File oldMedia=new File(path);
+        File[] classFolders= oldMedia.listFiles();
+        ArrayList<File> objectFolders=new ArrayList<>();
+        for(int i=0;i<classFolders.length;i++){
+            File[] objectFold=classFolders[i].listFiles();
+            for(int j=0;j<objectFold.length;j++)
+                objectFolders.add(objectFold[j]);
+        }
+        ArrayList<File> mediaObjectFolders=new ArrayList<File>();
+        for(int i=0;i<objectFolders.size();i++){
+            File[] objectFold=objectFolders.get(i).listFiles();
+            for(int j=0;j<objectFold.length;j++)
+                mediaObjectFolders.add(objectFold[j]);
+        }
+        for(int i=0;i<mediaObjectFolders.size();i++)
+        {File[] objectFold=mediaObjectFolders.get(i).listFiles();
+        for(int j=0;j<objectFold.length;j++)
+                objectFold[j].delete();
+        mediaObjectFolders.get(i).delete();
+        }
+        for(int i=0;i<objectFolders.size();i++)
+        objectFolders.get(i).delete();
+        for(int i=0;i<classFolders.length;i++)
+        classFolders[i].delete();
+        oldMedia.delete();
+        
+    }
+}
 

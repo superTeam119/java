@@ -42,6 +42,7 @@ public class FXMLDictionaryController implements Initializable {
         Set<String> all=new HashSet(Generator.getClassNames());
         all.removeAll(dictionaries.keySet());
         classNames.getItems().addAll(all);
+        
     }
 
     public void FriendsAndEnemies(ActionEvent event) throws IOException {

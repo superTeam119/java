@@ -5,7 +5,9 @@
  */
 package FxmlFiles;
 
+import DictionaryApplication.ClassGenerator;
 import DictionaryApplication.Dictionary;
+import DictionaryApplication.Generator;
 import static FxmlFiles.Start.*;
 import static FxmlFiles.Start.pool;
 import DictionaryApplication.SuperType;
@@ -71,6 +73,13 @@ public class FXMLMainController implements Initializable {
     dictionaries=(HashMap<String,Dictionary<SuperType>>)sss.readObject();
     sss.close();
     fff.close();//catch(Exception ex){System.out.println(ex.getMessage());}
+    Generator.deleteMedia("./media");
+    ClassGenerator.copy(new File("savedMeida"), new File("media"));
+    tmpPool=new HashMap<String,HashMap<String,SuperType>>();
+            tmpPool.putAll(pool);
+    tmpDictionaries=new HashMap<String,Dictionary<SuperType>>();
+            tmpDictionaries.putAll(dictionaries);
+    
     }
     public void save(ActionEvent event) throws FileNotFoundException, IOException{URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
     File f=new File(".\\xml\\pool.xml");
@@ -89,6 +98,8 @@ public class FXMLMainController implements Initializable {
             tmpDictionaries.putAll(dictionaries);
     //tmpPool=new HashMap<String,HashMap<String,SuperType>>(pool);
     //tmpDictionaries=new HashMap<String,Dictionary<SuperType>>(dictionaries);
+    Generator.deleteMedia("./savedMedia");
+    ClassGenerator.copy(new File("meida"), new File("savedMedia"));
     }
     
       public void AddMedia(ActionEvent event) throws IOException{
