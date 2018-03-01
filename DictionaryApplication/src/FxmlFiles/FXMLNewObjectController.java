@@ -266,7 +266,7 @@ try{
         try {
            URLClassLoader classLoader = new URLClassLoader(new URL[]{new File("./").toURI().toURL()});
 
-            c = classLoader.loadClass("UserClasses1." + s);
+            c = classLoader.loadClass("UserClasses1." + s);//or c=classMap.get("person");
 
             //c = Class.forName("UserClasses." + s);
             System.out.println(c.getSimpleName());

@@ -56,7 +56,7 @@ public class FXMLNewClassController implements Initializable {
     List<TextField> nameField = new ArrayList<TextField>();
     List<CheckBox> methods = new ArrayList<CheckBox>();
     List<Label> fieldStatus = new ArrayList<Label>();
-    ComboBox classKey = new ComboBox();
+   // ComboBox classKey = new ComboBox();
 
     @FXML
     private TextField numberOfAtt;
@@ -114,7 +114,7 @@ public class FXMLNewClassController implements Initializable {
         alert.showAndWait();
             return;
         }
-        classKey.getItems().clear();
+       // classKey.getItems().clear();
         gridPane.getChildren().clear();
         int n = Integer.parseInt(numberOfAtt.getText().trim());
 
@@ -124,7 +124,7 @@ public class FXMLNewClassController implements Initializable {
         for (int i = 0; i < n; i++) {
             index = i + 1;
             attribute = "attribute " + (i + 1);
-            classKey.getItems().add(attribute);
+            //classKey.getItems().add(attribute);
             Text nbAttributes = new Text(attribute);
             gridPane.add(nbAttributes, 0, (i + 1));//attribute i
             ComboBox dataTypeField = new ComboBox();

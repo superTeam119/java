@@ -438,39 +438,41 @@ if (i >= 0) {
        
     }
     public static void deleteMedia(String path){System.out.println("11");
-        File oldMedia=new File(path);
-        String[]entries = oldMedia.list();
-        System.out.println(entries.length);
-for(String s: entries){System.out.println(s);
-    File currentFile = new File(oldMedia.getPath(),s);
-    currentFile.delete();
-}
-//        File[] classFolders= oldMedia.listFiles();
-//        ArrayList<File> objectFolders=new ArrayList<>();
-//        for(int i=0;i<classFolders.length;i++){
-//            File[] objectFold=classFolders[i].listFiles();
-//            for(int j=0;j<objectFold.length;j++)
-//                objectFolders.add(objectFold[j]);
-//        }
-//        ArrayList<File> mediaObjectFolders=new ArrayList<File>();
-//        for(int i=0;i<objectFolders.size();i++){
-//            File[] objectFold=objectFolders.get(i).listFiles();
-//            for(int j=0;j<objectFold.length;j++)
-//                mediaObjectFolders.add(objectFold[j]);
-//        }
-//        for(int i=0;i<mediaObjectFolders.size();i++)
-//        {File[] objectFold=mediaObjectFolders.get(i).listFiles();
-//        for(int j=0;j<objectFold.length;j++)
-//                objectFold[j].delete();
-//        mediaObjectFolders.get(i).delete();
-//        }
-//        for(int i=0;i<objectFolders.size();i++)
-//        objectFolders.get(i).delete();
-//        for(int i=0;i<classFolders.length;i++)
-//        classFolders[i].delete();
-//        oldMedia.delete();
-//        
-//    }
+       File oldMedia=new File(path);
+//        String[]entries = oldMedia.list();
+//        System.out.println(entries.length);
+//for(String s: entries){System.out.println(s);
+//    File currentFile = new File(oldMedia.getPath(),s);
+//    currentFile.delete();
+//}
+        File[] classFolders= oldMedia.listFiles();
+        ArrayList<File> objectFolders=new ArrayList<>();
+        for(int i=0;i<classFolders.length;i++){
+            if(classFolders[i].list().length==0)
+            {classFolders[i].delete();continue;}
+            File[] objectFold=classFolders[i].listFiles();
+            for(int j=0;j<objectFold.length;j++)
+                objectFolders.add(objectFold[j]);
+        }
+        ArrayList<File> mediaObjectFolders=new ArrayList<File>();
+        for(int i=0;i<objectFolders.size();i++){
+            File[] objectFold=objectFolders.get(i).listFiles();
+            for(int j=0;j<objectFold.length;j++)
+                mediaObjectFolders.add(objectFold[j]);
+        }
+        for(int i=0;i<mediaObjectFolders.size();i++)
+        {File[] objectFold=mediaObjectFolders.get(i).listFiles();
+        for(int j=0;j<objectFold.length;j++)
+                objectFold[j].delete();
+        mediaObjectFolders.get(i).delete();
+        }
+        for(int i=0;i<objectFolders.size();i++)
+        objectFolders.get(i).delete();
+        for(int i=0;i<classFolders.length;i++)
+        classFolders[i].delete();
+        oldMedia.delete();
+        
+    
 }
         
     public static void deleteDirectory(File source) throws IOException {File[] files;

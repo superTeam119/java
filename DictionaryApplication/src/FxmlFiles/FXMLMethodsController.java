@@ -6,6 +6,7 @@
 package FxmlFiles;
 
 import DictionaryApplication.Generator;
+import DictionaryApplication.SuperType;
 import static FxmlFiles.Start.pool;
 import java.io.IOException;
 import java.net.URL;
@@ -90,13 +91,14 @@ public class FXMLMethodsController implements Initializable {
 
         try{
         String first = firstObjectComboBox.getValue().toString().trim();
-        
-        DictionaryApplication.SuperType a;
-        DictionaryApplication.SuperType b;
+        String firstClass=firstClassComboBox.getValue().toString().trim();
+        SuperType a;
+        SuperType b;
         String result;
         String Methodname = MethodComboBox.getValue().toString().trim();
         //a = pool.get(firstClassComboBox.getValue().toString().trim() + "." + firstObjectComboBox.getValue().toString().trim());
-        a = pool.get(firstClassComboBox.getValue().toString().trim()).get(firstObjectComboBox.getValue().toString().trim());
+        a = pool.get(firstClass).get(first);
+            System.out.println(a.toString());
         result = firstObjectComboBox.getValue().toString().trim();
         if (Methodname.equals("toString()")) {
 
@@ -157,15 +159,15 @@ public class FXMLMethodsController implements Initializable {
         //System.out.println(result);
     }
         catch(Exception e)
-        {
+        {//System.out.println(e.getMessage());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Warning");
         alert.setResizable(false);
         alert.getDialogPane().setPrefSize(250, 320);
         alert.setContentText("make sure you have assigned values to all variables!");
         alert.showAndWait();
-            
+        }    
         }
     }
 
-}
+

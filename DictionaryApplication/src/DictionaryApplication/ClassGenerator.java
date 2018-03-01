@@ -361,7 +361,7 @@ public class ClassGenerator {
         //File f=new File(source);
         // PrintWriter writer = new PrintWriter(f);
         String getClass = getClassText(classDetails);
-        System.out.println(getClass);
+       // System.out.println(getClass);
 
         File tempFile = new File(source);
 
@@ -428,14 +428,14 @@ public class ClassGenerator {
                    classMap.put(classDetails.getClassName(), c);
     }
 
-    public static String classKey(String path) throws FileNotFoundException, IOException {
-        File f = new File(path);
-        BufferedReader reader = new BufferedReader(new FileReader(f));
-        String line;
-        line = reader.readLine();
-        line = reader.readLine();
-        return line;
-    }
+//    public static String classKey(String path) throws FileNotFoundException, IOException {
+//        File f = new File(path);
+//        BufferedReader reader = new BufferedReader(new FileReader(f));
+//        String line;
+//        line = reader.readLine();
+//        line = reader.readLine();
+//        return line;
+//    }
 
     public static List<Field> getFields(Class c) {
         ArrayList<Field> finished = new ArrayList<Field>();
@@ -470,12 +470,12 @@ public static List<String> getFieldsType(Class c) {
         return b;
     }
 
-    public static void fillDictionary(Map<String, Dictionary> map) {
-        List<String> a = getClassNames();
-        for (int i = 0; i < a.size(); i++) {
-            map.put(a.get(i), new Dictionary<SuperType>());
-        }
-    }
+//    public static void fillDictionary(Map<String, Dictionary> map) {
+//        List<String> a = getClassNames();
+//        for (int i = 0; i < a.size(); i++) {
+//            map.put(a.get(i), new Dictionary<SuperType>());
+//        }
+//    }
 
     public static void moveFile(String sourcePath, String targetPath) throws IOException {
         Path movefrom = FileSystems.getDefault().getPath(sourcePath);

@@ -28,7 +28,7 @@ import static javafx.scene.input.KeyCode.T;
  */
 public class Dictionary<T extends Serializable> implements Serializable,Collection<T>{
      private Map<T,Pair<Set<T>,Set<T>>> elements;
-     private Set<String> keys;
+   //  private Set<String> keys;
     public Map<T, Pair<Set<T>, Set<T>>> getElements() {
         return elements;
     }

@@ -44,7 +44,7 @@ public class Fields {
         Object o;
         if (oTextField == null) {
             String key = field.getType().getSimpleName() + "." + oComboBox.getValue().toString().trim();
-            o=pool.get(key);
+            o=pool.get(field.getType().getSimpleName()).get(oComboBox.getValue().toString().trim());
         }else
         {   o=oTextField.getText().trim();
             String fieldtype = field.getType().getSimpleName();

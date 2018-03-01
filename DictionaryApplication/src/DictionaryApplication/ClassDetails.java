@@ -20,7 +20,7 @@ public class ClassDetails {
      private List<Attribute> attributes;
      public boolean subClass;
      public String superClass;
-     private String key;
+     //private String key;
      public ClassDetails() {attributes=new ArrayList<Attribute>();
     }
     public void addAttribute(String name,String type,boolean checked){
@@ -58,12 +58,12 @@ public class ClassDetails {
         this.superClass = superClass;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
+//    public String getKey() {
+//        return key;
+//    }
+//
+//    public void setKey(String key) {
+//        this.key = key;
+//    }
     
 }
