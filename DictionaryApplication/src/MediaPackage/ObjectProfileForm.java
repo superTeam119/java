@@ -7,6 +7,7 @@ package MediaPackage;
 
 import static FxmlFiles.FXMLMediaController.className;
 import static FxmlFiles.FXMLMediaController.objectName;
+import static MediaPackage.AudioFormController.audioMediaPlayer2;
 import static MediaPackage.VideoFormController.m;
 import java.io.File;
 import java.io.IOException;
@@ -81,7 +82,8 @@ public  static String videoPopUp;
     ArrayList<String> videoPaths;
     ArrayList<String> audioPaths;
     ArrayList<String> picturePaths;
-protected  String mediaPath;
+private  String mediaPath;
+private  String audioPlaying;
 List<String> MediaPaths;
 
 @FXML private ListView oListView;
@@ -106,6 +108,14 @@ picturePaths=(ArrayList<String>) listFiles(picFolderPath);
 audioFilteredListView.getItems().addAll(audioPaths);
 pictureFilteredListView.getItems().addAll(picturePaths);
 videoFilteredListView.getItems().addAll(videoPaths);
+if(picturePaths.size()!=0)
+    pictureFilteredListView.getSelectionModel().selectFirst();
+if(videoPaths.size()!=0)
+    videoFilteredListView.getSelectionModel().selectFirst();
+if(audioPaths.size()!=0)
+{audioFilteredListView.getSelectionModel().selectFirst();
+  audioPopUp=new File(audioFolderPath+audioFilteredListView.getSelectionModel().getSelectedItem()).getAbsolutePath();
+    System.out.println(audioPopUp);}
 //mediaPath=new File(videoPaths.get(videoIndex)).getAbsolutePath();
 if(videoPaths.size()>0)
 {
@@ -126,7 +136,6 @@ videoMediaView.setFitWidth(345);
 videoMediaView.setFitHeight(370);
 //audioMediaView
 }
-
 videoFilteredListView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
          if(newValue!=null){
@@ -144,7 +153,7 @@ videoFilteredListView.getSelectionModel().selectedItemProperty()
 
 if(audioPaths.size()>0)
 { 
-    audioPopUp=new File(audioFolderPath+audioPaths.get(audioIndex)).getAbsolutePath();
+   // audioPopUp=new File(audioFolderPath+audioFilteredListView.getSelectionModel().getSelectedItem()).getAbsolutePath();
     
     audioName.setText(audioPaths.get(audioIndex));
     
@@ -154,7 +163,8 @@ if(audioPaths.size()>0)
 audioFilteredListView.getSelectionModel().selectedItemProperty()
         .addListener((observable, oldValue, newValue) -> {
          if(newValue!=null){
-           audioPopUp=new File(audioFolderPath+newValue.toString()).getAbsolutePath();
+           audioPlaying=new File(audioFolderPath+newValue.toString()).getAbsolutePath();
+           audioPopUp=audioPlaying;
         }
          System.out.println(audioPopUp);
               
@@ -229,23 +239,28 @@ image=new Image(new File(mediaPath).toURI().toString());
                try {
                    
                    Parent home_page_parent;                 
-                   home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/AudioForm.fxml"));
+                   home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/VideoForm.fxml"));
                    Scene home_page_scene = new Scene(home_page_parent);
                    Stage app_stage = new Stage();
                    app_stage.setScene(home_page_scene);
                    //app_stage.setTitle("Methods");
-                   audioStage=app_stage;
+                 //  audioStage=app_stage;
        
-                     audioStage.setOnCloseRequest((WindowEvent event) -> {
+                     app_stage.setOnCloseRequest((WindowEvent event) -> {
             System.out.println("Closing......");
 //            audioMediaPlayer.pause();
 //            audioMediaPlayer=new MediaPlayer(new Media(new File("./src/images/tt.mp3").toURI().toString()));
 //            audioMediaPlayer.stop();
-            audioMediaPlayer.dispose();
-            audioMediaPlayer=null;
+//audioMediaPlayer=null;
+//           audioMediaPlayer2.dispose();
+//            audioMediaPlayer2=null;
+            videoMediaView=null;///////
+            m.dispose();
+            m=null;
             event.consume();
-            audioStage.close();
+          //  audioStage.close();
             app_stage.close();
+            //home_page_scene= new Scene();            
         });
                    app_stage.show();
                } catch (IOException ex) {
@@ -268,12 +283,12 @@ image=new Image(new File(mediaPath).toURI().toString());
      }
   //  }catch(Exception ex){
         //System.out.println(ex.getMessage());
-    Alert alert = new Alert(AlertType.ERROR);
-alert.setTitle("Media Information");
-alert.setHeaderText("Look, an Error Dialog");
-alert.setContentText("Ooops, there are no Videos please check your video!");
-
-alert.showAndWait();
+//    Alert alert = new Alert(AlertType.ERROR);
+//alert.setTitle("Media Information");
+//alert.setHeaderText("Look, an Error Dialog");
+//alert.setContentText("Ooops, there are no Videos please check your video!");
+//
+//alert.showAndWait();
 }
     
      public void pictureRemove() throws IOException{
@@ -282,11 +297,12 @@ alert.showAndWait();
         Path target = FileSystems.getDefault().getPath(targetPath);
        
           if(Files.deleteIfExists(target))
-             picturePaths.remove(pictureFilteredListView.getSelectionModel().getSelectedItem());
-         pictureFilteredListView.getItems().remove(pictureFilteredListView.getSelectionModel().getSelectedItem());
+            picturePaths.remove(pictureFilteredListView.getSelectionModel().getSelectedItem());
+            pictureFilteredListView.getItems().remove(pictureFilteredListView.getSelectionModel().getSelectedItem());
+            pictureFilteredListView.getSelectionModel().selectFirst();   
          nextPicture();
      }
-           catch(Exception ex){
+           catch(Exception ex){System.out.println(ex.getMessage());
     Alert alert = new Alert(AlertType.ERROR);
 alert.setTitle("Media Information");
 alert.setHeaderText("Look, an Error Dialog");
@@ -298,16 +314,16 @@ alert.showAndWait();
  
        public void audioRemove() throws IOException{
            try{
-         if(audioPaths.size()>0){
         String targetPath=audioFolderPath + audioFilteredListView.getSelectionModel().getSelectedItem();
-        Path target = FileSystems.getDefault().getPath(targetPath);
+        Path target = FileSystems.getDefault().getPath(targetPath);//targetPath
        
          if(Files.deleteIfExists(target))
         audioPaths.remove(audioFilteredListView.getSelectionModel().getSelectedItem());
          audioFilteredListView.getItems().remove(audioFilteredListView.getSelectionModel().getSelectedItem());
-
-         }
-           }    catch(Exception ex){
+         audioFilteredListView.getSelectionModel().selectFirst();
+        // nextAudio();
+         
+           }    catch(Exception ex){System.out.println(ex.getMessage());
     Alert alert = new Alert(AlertType.ERROR);
 alert.setTitle("Media Information");
 alert.setHeaderText("Look, an Error Dialog");
@@ -317,7 +333,8 @@ alert.showAndWait();
 }
     }
     public void nextPicture(){
-       
+        pictureIndex=pictureFilteredListView.getSelectionModel().getSelectedIndex();
+        pictureFilteredListView.getSelectionModel().selectNext();
         if(picturePaths.size()>0){
                    if(pictureIndex==(picturePaths.size()-1))
              pictureIndex=0;
@@ -343,6 +360,8 @@ alert.showAndWait();
           
     }
         public void previousPicture(){
+            pictureIndex=pictureFilteredListView.getSelectionModel().getSelectedIndex();
+            pictureFilteredListView.getSelectionModel().selectPrevious();
    if(picturePaths.size()>0){
                    if(pictureIndex==0)
              pictureIndex=picturePaths.size()-1;
@@ -368,54 +387,62 @@ alert.showAndWait();
         }
         
         
-            public void nextVideo() {
-                if(videoPaths.size()>0){
-        if(videoIndex==(videoPaths.size()-1))
-        videoIndex=0;
-        else
-        videoIndex=videoIndex+1;
-          mediaPath=videoFolderPath+videoPaths.get(videoIndex);
-        media=new Media(new File(mediaPath).toURI().toString());
-        videoMediaPlayer=new MediaPlayer(media);  
-  
-videoMediaView.setMediaPlayer(videoMediaPlayer);
-//videoMediaView.setFitWidth(345);
-//videoMediaView.setFitHeight(370);
- videoPopUp=mediaPath;
-                }
-                else{
+            public void nextVideo() {try{
+                videoIndex=videoFilteredListView.getSelectionModel().getSelectedIndex();
+            videoFilteredListView.getSelectionModel().selectNext();
+//                if(videoPaths.size()>0){
+//        if(videoIndex==(videoPaths.size()-1))
+//        videoIndex=0;
+//        else
+//        videoIndex=videoIndex+1;
+//          mediaPath=videoFolderPath+videoPaths.get(videoIndex);
+//        media=new Media(new File(mediaPath).toURI().toString());
+//        videoMediaPlayer=new MediaPlayer(media);  
+//  
+//videoMediaView.setMediaPlayer(videoMediaPlayer);
+////videoMediaView.setFitWidth(345);
+////videoMediaView.setFitHeight(370);
+// videoPopUp=mediaPath;
+               // }
+                //else{
+            }catch(Exception ex){
     Alert alert = new Alert(AlertType.ERROR);
 alert.setTitle("Media Information");
 alert.setHeaderText("Look, an Error Dialog");
 alert.setContentText("Ooops, there are no Videos please check your videos!");
 
 alert.showAndWait();
-}
-    }
-        public void previousVideo(){
-if(videoPaths.size()>0){
-                     if(videoIndex==0)
-             videoIndex=videoPaths.size()-1;
-         else
-        videoIndex=videoIndex-1;
-                         mediaPath=videoFolderPath+videoPaths.get(videoIndex);
-        media=new Media(new File(mediaPath).toURI().toString());
-        videoMediaPlayer=new MediaPlayer(media);  
-  
-videoMediaView.setMediaPlayer(videoMediaPlayer);
+//}
+    }}
+        public void previousVideo(){try{
+             videoIndex=videoFilteredListView.getSelectionModel().getSelectedIndex();
+            videoFilteredListView.getSelectionModel().selectPrevious();
+//if(videoPaths.size()>0){
+//                     if(videoIndex==0)
+//             videoIndex=videoPaths.size()-1;
+//         else
+//        videoIndex=videoIndex-1;
+//                         mediaPath=videoFolderPath+videoPaths.get(videoIndex);
+//        media=new Media(new File(mediaPath).toURI().toString());
+//        videoMediaPlayer=new MediaPlayer(media);  
+//  
+//videoMediaView.setMediaPlayer(videoMediaPlayer);
 //videoMediaView.setFitWidth(345);
 //videoMediaView.setFitHeight(370);
- videoPopUp=mediaPath;}
- else{
+// videoPopUp=mediaPath;}
+// else{
+        }catch(Exception ex){
     Alert alert = new Alert(AlertType.ERROR);
 alert.setTitle("Media Information");
 alert.setHeaderText("Look, an Error Dialog");
 alert.setContentText("Ooops, there are no Videos please check your videos!");
 
 alert.showAndWait();
-}
-    }
+//}
+    }}
                     public void nextAudio() {
+                        audioIndex=audioFilteredListView.getSelectionModel().getSelectedIndex();
+            audioFilteredListView.getSelectionModel().selectNext();
       if(audioPaths.size()>0){
           if(audioIndex==(audioPaths.size()-1))
         audioIndex=0;
@@ -439,25 +466,26 @@ alert.showAndWait();
 }
     }
                public void previousAudio(){
-                  
-                           if(audioPaths.size()>0){ 
-                     if(audioIndex==0)
-             audioIndex=picturePaths.size()-1;
-         else
-        audioIndex=audioIndex-1;
-   audioPopUp=mediaPath;
-   mediaPath=audioFolderPath+audioPaths.get(audioIndex);
-audioName.setText(audioPaths.get(audioIndex));
-                           }
-                           else{
-    Alert alert = new Alert(AlertType.ERROR);
-alert.setTitle("Media Information");
-alert.setHeaderText("Look, an Error Dialog");
-alert.setContentText("Ooops, there are no Audio please check your Audio!");
-
-alert.showAndWait();
+                   audioIndex=audioFilteredListView.getSelectionModel().getSelectedIndex();
+            audioFilteredListView.getSelectionModel().selectPrevious();
+//                           if(audioPaths.size()>0){ 
+//                     if(audioIndex==0)
+//             audioIndex=picturePaths.size()-1;
+//         else
+//        audioIndex=audioIndex-1;
+//   audioPopUp=mediaPath;
+//   mediaPath=audioFolderPath+audioPaths.get(audioIndex);
+audioName.setText(audioFilteredListView.getSelectionModel().getSelectedItem().toString());
+                           //}
+                        //   else{
+//    Alert alert = new Alert(AlertType.ERROR);
+//alert.setTitle("Media Information");
+//alert.setHeaderText("Look, an Error Dialog");
+//alert.setContentText("Ooops, there are no Audio please check your Audio!");
+//
+//alert.showAndWait();
 }
-    }
+    //}
                
   public List<String> listFiles(String directoryName){
         File directory = new File(directoryName);

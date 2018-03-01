@@ -136,7 +136,7 @@ public class FXMLMediaController implements Initializable {
             iv.setImage(image);
             mediaName.setEditable(true);
             mediaName.setText(file.getName().substring(0,file.getName().lastIndexOf(".")));
-        } catch (Exception e) {
+        } catch (Exception e) {System.out.println(e.getMessage());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
             alert.setResizable(false);
@@ -163,7 +163,7 @@ public class FXMLMediaController implements Initializable {
             mediaName.setEditable(true);
             mediaName.setText(file.getName().substring(0,file.getName().lastIndexOf(".")));
            
-        } catch (Exception e) {
+        } catch (Exception e) {System.out.println(e.getMessage());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
             alert.setResizable(false);
@@ -226,7 +226,7 @@ public class FXMLMediaController implements Initializable {
     public void AttachMedia(ActionEvent event) throws IOException {
           mediaFileName = mediaName.getText() + file.getName().substring(file.getName().lastIndexOf("."));
           System.out.println(mediaFileName);
-          if(mediaFileName.contains("mp4"))
+          if(mediaFileName.contains("mp4") || mediaFileName.contains("MP4"))
             targetPath = String.format(".\\media\\%s\\%s\\Video\\%s", classNames.getValue().toString(), objectNames.getValue().toString(), mediaFileName);
             if(mediaFileName.contains("mp3"))
             targetPath = String.format(".\\media\\%s\\%s\\Audio\\%s", classNames.getValue().toString(), objectNames.getValue().toString(), mediaFileName);
@@ -243,7 +243,7 @@ public class FXMLMediaController implements Initializable {
                 Files.copy(movefrom, target, StandardCopyOption.REPLACE_EXISTING);
 
             }
-        } catch (Exception e) {
+        } catch (Exception e) {System.out.println(e.getMessage());
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Warning");
             alert.setResizable(false);
@@ -255,7 +255,7 @@ public class FXMLMediaController implements Initializable {
     }
 
     public void showProfile(ActionEvent event) throws IOException {
-      try{
+    //  try{
         className = classNames.getValue().toString();
         objectName = objectNames.getValue().toString();
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/ObjectProfileForm.fxml"));
@@ -264,16 +264,16 @@ public class FXMLMediaController implements Initializable {
         stage.setScene(home_page_scene);
         //app_stage.setTitle("Methods");
         stage.show();
-      }
-     catch(Exception ex){
-              
-          Alert alert = new Alert(Alert.AlertType.ERROR);
-alert.setTitle("Media Information");
-alert.setHeaderText("Look, an Error Dialog");
-alert.setContentText("Please choose your class and object");
-
-alert.showAndWait();
-     }
+     // }
+//     catch(Exception ex){
+//              
+//          Alert alert = new Alert(Alert.AlertType.ERROR);
+//alert.setTitle("Media Information");
+//alert.setHeaderText("Look, an Error Dialog");
+//alert.setContentText("Please choose your class and object");
+//
+//alert.showAndWait();
+//     }
      
     }
 }
