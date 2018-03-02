@@ -32,7 +32,7 @@
                <children>
                   <Button layoutX="68.0" layoutY="364.0" mnemonicParsing="false" onAction="#previousAudio" text="Previous" />
                   <Button layoutX="371.0" layoutY="364.0" mnemonicParsing="false" onAction="#nextAudio" text="Next" />
-                  <Label fx:id="audioName" layoutX="163.0" layoutY="14.0" text="songName" />
+                  <Label fx:id="audioName" layoutX="31.0" layoutY="14.0" text="songName" />
                   <ImageView fx:id="audioMediaView" fitHeight="267.0" fitWidth="394.0" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../photos/audio.jpg" />
@@ -50,8 +50,6 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="417.0" prefWidth="623.0">
                <children>
-                  <Button layoutX="302.0" layoutY="344.0" mnemonicParsing="false" onAction="#nextVideo" prefHeight="0.0" prefWidth="61.0" text="Next" />
-                  <Button layoutX="66.0" layoutY="344.0" mnemonicParsing="false" onAction="#previousVideo" text="previous" />
                   <MediaView fx:id="videoMediaView" fitHeight="280.0" fitWidth="300.0" layoutX="21.0" layoutY="47.0" />
                   <Button layoutX="192.0" layoutY="344.0" mnemonicParsing="false" onAction="#videoRemove" text="Remove" />
                   <ListView fx:id="videoFilteredListView" layoutX="405.0" layoutY="109.0" prefHeight="200.0" prefWidth="200.0" />
@@ -62,6 +60,8 @@
                      <image>
                         <Image url="@../photos/images.jpg" />
                      </image></ImageView>
+                  <Button fx:id="nextBtn" layoutX="313.0" layoutY="344.0" mnemonicParsing="false" onAction="#nextVideo" prefHeight="25.0" prefWidth="63.0" text="Next" />
+                  <Button layoutX="83.0" layoutY="344.0" mnemonicParsing="false" onAction="#previousVideo" text="previous" />
                </children>
             </AnchorPane>
         </content>

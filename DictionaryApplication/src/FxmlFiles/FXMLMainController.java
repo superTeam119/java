@@ -58,7 +58,7 @@ public class FXMLMainController implements Initializable {
         if(tmpPool!=null){
             pool=new HashMap<String,HashMap<String,SuperType>>();
             pool.putAll(tmpPool);
-    dictionaries=new HashMap<String,Dictionary<SuperType>>();
+            dictionaries=new HashMap<String,Dictionary<SuperType>>();
             dictionaries.putAll(tmpDictionaries);
         return;
         }

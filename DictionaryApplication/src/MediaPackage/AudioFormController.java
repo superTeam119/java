@@ -23,7 +23,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import static MediaPackage.ObjectProfileForm.audioPopUp;
-import static MediaPackage.ObjectProfileForm.audioStage;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -65,7 +64,7 @@ public class AudioFormController implements Initializable {
        // mediaView.setMediaPlayer(new MediaPlayer(new Media(new File(path).toURI().toString())));
       Media media = new Media(new File(path).toURI().toString());
            audioMediaPlayer2 = new MediaPlayer(media);
-           // mediaView.setMediaPlayer(audioMediaPlayer2); 
+            mediaView.setMediaPlayer(audioMediaPlayer2); 
         playButton.setStyle("-fx-background-color: transparent;"); 
         playButton.setOnAction((ActionEvent e) -> {
             MediaPlayer.Status status = audioMediaPlayer2.getStatus();

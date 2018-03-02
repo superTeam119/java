@@ -30,6 +30,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -71,6 +72,7 @@ public  static String videoPopUp;
       @FXML private ListView audioFilteredListView; 
       @FXML private ListView videoFilteredListView; 
       @FXML private Label audioName;
+      @FXML private Button nextBtn;
      public   MediaPlayer videoMediaPlayer;
      public static  MediaPlayer audioMediaPlayer;
      public  static  Stage audioStage;
@@ -127,6 +129,7 @@ videoPopUp=mediaPath;
         for (int i = 0; i < videoPaths.size(); i++) 
             if(videoPaths.get(i).contains(filteredValue))
                videoFilteredListView.getItems().add(videoPaths.get(i));
+        videoFilteredListView.getSelectionModel().selectFirst();
           });
           
 //media = new Media(new File(videoPopUp).toURI().toString());
@@ -146,6 +149,7 @@ videoFilteredListView.getSelectionModel().selectedItemProperty()
 //           media = new Media(f.toURI().toString());
 //           videoMediaPlayer = new MediaPlayer(media);
 //           videoMediaView.setMediaPlayer(videoMediaPlayer);
+videoPopUp=mediaPath;
          }       
         });
 
@@ -239,7 +243,7 @@ image=new Image(new File(mediaPath).toURI().toString());
                try {
                    
                    Parent home_page_parent;                 
-                   home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/VideoForm.fxml"));
+                   home_page_parent = FXMLLoader.load(getClass().getResource("/MediaPackage/AudioForm.fxml"));
                    Scene home_page_scene = new Scene(home_page_parent);
                    Stage app_stage = new Stage();
                    app_stage.setScene(home_page_scene);
@@ -254,9 +258,9 @@ image=new Image(new File(mediaPath).toURI().toString());
 //audioMediaPlayer=null;
 //           audioMediaPlayer2.dispose();
 //            audioMediaPlayer2=null;
-            videoMediaView=null;///////
-            m.dispose();
-            m=null;
+          //audioMediaPlayer2=null;///////
+            audioMediaPlayer2.dispose();
+            audioMediaPlayer2=null;
             event.consume();
           //  audioStage.close();
             app_stage.close();
@@ -269,6 +273,7 @@ image=new Image(new File(mediaPath).toURI().toString());
            }
        }
 });
+     nextBtn.setDisable(false);
     }
     public void videoRemove() throws IOException{//try{
   
@@ -387,9 +392,11 @@ alert.showAndWait();
         }
         
         
-            public void nextVideo() {try{
-                videoIndex=videoFilteredListView.getSelectionModel().getSelectedIndex();
+            public void nextVideo() {try{System.out.println("asd");
+              //  videoIndex=videoFilteredListView.getSelectionModel().getSelectedIndex();
             videoFilteredListView.getSelectionModel().selectNext();
+                System.out.println("ss");
+                System.out.println(videoFilteredListView.getSelectionModel().getSelectedItem());
 //                if(videoPaths.size()>0){
 //        if(videoIndex==(videoPaths.size()-1))
 //        videoIndex=0;
@@ -405,7 +412,7 @@ alert.showAndWait();
 // videoPopUp=mediaPath;
                // }
                 //else{
-            }catch(Exception ex){
+            }catch(Exception ex){System.out.println(ex.getMessage());
     Alert alert = new Alert(AlertType.ERROR);
 alert.setTitle("Media Information");
 alert.setHeaderText("Look, an Error Dialog");
@@ -415,7 +422,7 @@ alert.showAndWait();
 //}
     }}
         public void previousVideo(){try{
-             videoIndex=videoFilteredListView.getSelectionModel().getSelectedIndex();
+          //   videoIndex=videoFilteredListView.getSelectionModel().getSelectedIndex();
             videoFilteredListView.getSelectionModel().selectPrevious();
 //if(videoPaths.size()>0){
 //                     if(videoIndex==0)
