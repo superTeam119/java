@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -53,7 +54,14 @@ public class FXMLMainController implements Initializable {
         Platform.exit();
         System.exit(0);
     }
-   
+   public void stack(Event event) throws IOException{
+       Parent home_page_parent = FXMLLoader.load(getClass().getResource("Stackfxml.fxml"));
+        Scene home_page_scene = new Scene(home_page_parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.setScene(home_page_scene);
+        app_stage.setTitle("Java Class");
+        app_stage.show();
+   }
     public void load(ActionEvent event) throws FileNotFoundException, IOException, ClassNotFoundException{
         if(tmpPool!=null){
             pool=new HashMap<String,HashMap<String,SuperType>>();

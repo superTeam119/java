@@ -105,6 +105,7 @@ public class FXMLNewClassController implements Initializable {
 
     public void fill(ActionEvent event) throws IOException, ClassNotFoundException {
         //System.out.println("");
+       
         if(classStatus.getText().equals("accepted")==false || attributesStatus.getText().equals("")==false)
         {Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Check your fields");
@@ -256,6 +257,11 @@ public class FXMLNewClassController implements Initializable {
         alert.getDialogPane().setPrefSize(200, 200);
         alert.setContentText("Class " + className.getText() + " is created");
         alert.showAndWait();
+         typeField.clear();
+    nameField.clear();
+    methods.clear();
+    fieldStatus.clear();
+    
     }
 
     public void handleButtonAction(ActionEvent event) throws IOException {

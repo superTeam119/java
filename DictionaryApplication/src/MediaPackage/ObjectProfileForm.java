@@ -260,7 +260,7 @@ image=new Image(new File(mediaPath).toURI().toString());
 //            audioMediaPlayer2=null;
           //audioMediaPlayer2=null;///////
             audioMediaPlayer2.dispose();
-            audioMediaPlayer2=null;
+            audioMediaPlayer2=null;                     
             event.consume();
           //  audioStage.close();
             app_stage.close();

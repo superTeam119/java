@@ -40,7 +40,7 @@ public class FXMLDictionaryController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         Set<String> all=new HashSet(Generator.getClassNames());
-        all.removeAll(dictionaries.keySet());
+        //all.removeAll(dictionaries.keySet());
         classNames.getItems().addAll(all);
         
     }
@@ -54,6 +54,11 @@ public class FXMLDictionaryController implements Initializable {
         app_stage.show();
     }
 
+        public void deleteDictionary(ActionEvent event) {
+         String className=classNames.getValue().toString();
+            dictionaries.remove(className);
+            System.out.println("deleted");
+        }
     public void Methods(ActionEvent event) throws IOException {
         Parent home_page_parent = FXMLLoader.load(getClass().getResource("FXMLCollectionMethods.fxml"));
 

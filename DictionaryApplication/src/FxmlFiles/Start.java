@@ -16,6 +16,7 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +28,7 @@ import javafx.stage.Stage;
  * @author Abo Ali
  */
 public class Start extends Application {
-    
+    public static HashMap<String,Stack> stacks=new HashMap<String,Stack>();
        public static Map<String,HashMap<String,SuperType>> pool = new HashMap<String, HashMap<String,SuperType>>();
    public static Map<String,Dictionary<SuperType>> dictionaries=new HashMap<String,Dictionary<SuperType>>();
 

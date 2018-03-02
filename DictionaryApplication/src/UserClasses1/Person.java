@@ -2,10 +2,10 @@ package UserClasses1;
 import DictionaryApplication.SuperType;
 public class Person extends SuperType{
     private final String name;
-    private final int age;
+    private final int birthyear;
 public Person(String S0,int S1){
 this.name=S0;
-this.age=S1;
+this.birthyear=S1;
 
 }
 @Override
@@ -13,18 +13,18 @@ public boolean equals(Object otherObj){
 if(!super.equals(otherObj))
 	return false;
 Person other = (Person) otherObj;
-return ((this.name==null && other.name==null)||(this.name!=null && this.name.equals(other.name))) && this.age==other.age ;}
+return this.birthyear==other.birthyear ;}
 @Override
-public String toString(){return super.toString() + "[" + "name=" + name.toString() + "," + "age=" + age + "]";
+public String toString(){return super.toString() + "[" + "name=" + name.toString() + "," + "birthyear=" + birthyear + "]";
 }
 @Override
 public int hashCode(){
-return super.hashCode() + 2*name.hashCode() + 3*Integer.valueOf(age).hashCode();}
+return super.hashCode() + 2*Integer.valueOf(birthyear).hashCode();}
 @Override
 public int compareTo(SuperType other){
  if(!(other.getClass()==getClass()))
 System.out.println("error types");
 Person others=(Person)other;
-if(super.compareTo(other)==0 && (name.compareTo(others.name))==0 && (Integer.valueOf(age) - Integer.valueOf(others.age))==0 )
+if(super.compareTo(other)==0 && (Integer.valueOf(birthyear) - Integer.valueOf(others.birthyear))==0 )
 	return 0;
-return (int)(super.compareTo(other) + name.compareTo(others.name) + (age - others.age));}}
+return (int)(super.compareTo(other) + (birthyear - others.birthyear));}}

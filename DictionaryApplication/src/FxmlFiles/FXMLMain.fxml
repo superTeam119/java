@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="283.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FxmlFiles.FXMLMainController">
+<AnchorPane id="AnchorPane" prefHeight="283.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FxmlFiles.FXMLMainController">
    <children>
       <ImageView fitHeight="395.0" fitWidth="488.0" layoutX="-2.0" pickOnBounds="true" preserveRatio="true">
           <image>
@@ -37,6 +42,7 @@
          </font>
       </Button>
       <Button layoutX="368.0" layoutY="234.0" mnemonicParsing="false" onAction="#AddMedia" text="Media" />
+      <Button layoutX="227.0" layoutY="66.0" mnemonicParsing="false" onAction="#stack" text="Button" />
       
    </children>
 </AnchorPane>
