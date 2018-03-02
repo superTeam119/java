@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FxmlFiles.StackfxmlController">
+   <children>
+      <ComboBox fx:id="classStacks" layoutX="179.0" layoutY="115.0" prefWidth="150.0" />
+      <ComboBox fx:id="classNames" layoutX="179.0" layoutY="172.0" onAction="#generate" prefWidth="150.0" />
+      <ComboBox fx:id="objectNames" layoutX="179.0" layoutY="216.0" prefWidth="150.0" />
+      <Button fx:id="create" layoutX="386.0" layoutY="106.0" mnemonicParsing="false" onAction="#create" text="Create" />
+      <Button fx:id="result" layoutX="449.0" layoutY="175.0" mnemonicParsing="false" onAction="#result" text="Result" />
+      <Button layoutX="411.0" layoutY="47.0" mnemonicParsing="false" onAction="#back" text="Button" />
+      <ComboBox fx:id="methods" layoutX="179.0" layoutY="272.0" prefWidth="150.0" />
+      <Label layoutX="93.0" layoutY="110.0" text="stack to add" />
+      <Label layoutX="93.0" layoutY="167.0" text="stack to test" />
+      <Label layoutX="29.0" layoutY="228.0" text="object" />
+      <Label layoutX="43.0" layoutY="309.0" text="methods" />
+   </children>
+</AnchorPane>
