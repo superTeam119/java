@@ -22,7 +22,7 @@
          <font>
             <Font name="Arial Bold Italic" size="12.0" />
          </font></Button>
-      <Button fx:id="closze" layoutX="177.0" layoutY="234.0" mnemonicParsing="false" onAction="#close" prefHeight="23.0" prefWidth="58.0" text="close">
+      <Button layoutX="177.0" layoutY="234.0" mnemonicParsing="false" onAction="#close" prefHeight="23.0" prefWidth="58.0" text="close">
          <font>
             <Font name="Arial Bold Italic" size="12.0" />
          </font></Button>
@@ -42,7 +42,7 @@
          </font>
       </Button>
       <Button layoutX="368.0" layoutY="234.0" mnemonicParsing="false" onAction="#AddMedia" text="Media" />
-      <Button layoutX="227.0" layoutY="66.0" mnemonicParsing="false" onAction="#stack" text="Button" />
+      <Button layoutX="227.0" layoutY="66.0" mnemonicParsing="false" onAction="#go" text="Button" />
       
    </children>
 </AnchorPane>

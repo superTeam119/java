@@ -47,7 +47,7 @@ public class Start extends Application {
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/css/simple.css");
-   Generator.deleteMedia("./media");
+   //Generator.deleteMedia("./media");
         File f=new File("./media");
         f.mkdir();
         //ClassGenerator.copy(new File("./mediaSaved"),new File("./asda"));

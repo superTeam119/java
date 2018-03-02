@@ -54,7 +54,7 @@ public class FXMLMainController implements Initializable {
         Platform.exit();
         System.exit(0);
     }
-   public void stack(Event event) throws IOException{
+   public void go(Event event) throws IOException{
        Parent home_page_parent = FXMLLoader.load(getClass().getResource("Stackfxml.fxml"));
         Scene home_page_scene = new Scene(home_page_parent);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
